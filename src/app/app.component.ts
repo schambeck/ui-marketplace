@@ -14,15 +14,15 @@ export class AppComponent implements OnInit {
 
   constructor(private titleService: Title, private router: Router) {
     this.router.events
-      .pipe(filter((e: Event): e is RouterEvent => e instanceof RouterEvent))
-      .subscribe((e: RouterEvent) => this.navigationInterceptor(e));
+      .pipe(filter((e: Event) => e instanceof RouterEvent))
+      .subscribe((e: Event) => this.navigationInterceptor(e));
   }
 
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
   }
 
-  navigationInterceptor(event: RouterEvent): void {
+  navigationInterceptor(event: Event): void {
     if (event instanceof NavigationStart) {
       this.loading = true
     }
