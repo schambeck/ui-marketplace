@@ -68,11 +68,11 @@ export class ListUserComponent implements OnInit, OnDestroy {
   }
 
   navigateToDetail(user: User): void {
-    this.router.navigate(['edit-user', user.id]);
+    this.router.navigate(['user', user.id]);
   }
 
   newUser(): void {
-    this.router.navigate(['edit-user']);
+    this.router.navigate(['user']);
   }
 
   remove(id: string): void {

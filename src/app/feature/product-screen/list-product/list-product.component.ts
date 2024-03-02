@@ -68,11 +68,11 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   navigateToDetail(product: Product): void {
-    this.router.navigate(['edit-product', product.id]);
+    this.router.navigate(['product', product.id]);
   }
 
   newProduct(): void {
-    this.router.navigate(['edit-product']);
+    this.router.navigate(['product']);
   }
 
   remove(id: string): void {
