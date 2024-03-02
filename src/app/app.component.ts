@@ -9,7 +9,7 @@ import { filter } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'UI Template';
+  title = 'Marketplace';
   loading: boolean = false;
 
   constructor(private titleService: Title, private router: Router) {

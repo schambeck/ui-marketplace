@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoggedUserComponent } from './logged-user.component';
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('LoggedUserComponent', () => {
   let component: LoggedUserComponent;
@@ -7,7 +8,8 @@ describe('LoggedUserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoggedUserComponent ]
+      declarations: [ LoggedUserComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
