@@ -1,0 +1,35 @@
+{
+  "packageName": "com.schambeck.marketplace.usecase",
+  "entities": [
+    {
+      "name": "User",
+      "resource": "users",
+      "ui": "user",
+      "fields": [
+        {"nameField": "id", "typeField": "number", "disabled": true},
+        {"nameField": "username", "typeField": "string"},
+        {"nameField": "email", "typeField": "string"},
+        {"nameField": "fullName", "typeField": "string"},
+        {"nameField": "version", "typeField": "number", "disabled": true},
+        {"nameField": "createdAt", "typeField": "string", "subtype": "date", "disabled": true},
+        {"nameField": "modifiedAt", "typeField": "string", "subtype": "date", "disabled": true}
+      ]
+    },
+    {
+      "name": "Product",
+      "resource": "products",
+      "ui": "product",
+      "fields": [
+        {"nameField": "id", "typeField": "number", "disabled": true},
+        {"nameField": "name", "typeField": "string"},
+        {"nameField": "description", "typeField": "string"},
+        {"nameField": "unitPrice", "typeField": "number", "fractionDigits": 2},
+        {"nameField": "stockQuantity", "typeField": "number", "fractionDigits": 2},
+        {"nameField": "user", "typeField": "User", "subtype": "entity"},
+        {"nameField": "version", "typeField": "number", "disabled": true},
+        {"nameField": "createdAt", "typeField": "string", "subtype": "date", "disabled": true},
+        {"nameField": "modifiedAt", "typeField": "string", "subtype": "date", "disabled": true}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+<p-panel header="Users">
+  <p-card class="p-0">
+    <ng-template pTemplate="header">
+      <p-toolbar>
+        <div class="p-toolbar-group-start">
+          <p-button label="New" icon="pi pi-plus" (onClick)="newUser()" [loading]="loading" pTooltip="New User" styleClass="p-button-success"></p-button>
+        </div>
+        <div class="p-toolbar-group-end">
+          <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input type="text" pInputText placeholder="Search" (keyup)="search(getValue($event))" />
+          </span>
+          <p-button label="Refresh" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading" pTooltip="Refresh" tooltipPosition="left"></p-button>
+        </div>
+      </p-toolbar>
+    </ng-template>
+
+    <div *ngIf="page$ | async as page; else skeleton">
+      <p-table styleClass="p-datatable-sm" [value]="page.content" responsiveLayout="scroll" class="pt-4" selectionMode="single" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+
+
+            <th class="number">Id</th>
+
+
+
+            <th>Username</th>
+
+
+
+            <th>Email</th>
+
+
+
+            <th>FullName</th>
+
+
+
+            <th class="number">Version</th>
+
+
+
+            <th>CreatedAt</th>
+
+
+
+            <th>ModifiedAt</th>
+
+
+            <th><div style="text-align: center">Actions</div></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-user>
+          <tr [pSelectableRow]="user" style="font-family: 'Courier New', Courier, monospace;">
+
+
+            <td (click)="navigateToDetail(user)" class="number">{{user.id | number}}</td>
+
+            <td (click)="navigateToDetail(user)">{{user.username}}</td>
+            <td (click)="navigateToDetail(user)">{{user.email}}</td>
+            <td (click)="navigateToDetail(user)">{{user.fullName}}</td>
+
+            <td (click)="navigateToDetail(user)" class="number">{{user.version | number}}</td>
+
+
+            <td (click)="navigateToDetail(user)">{{user.createdAt | date:'dd/MM/yyyy'}}</td>
+
+
+            <td (click)="navigateToDetail(user)">{{user.modifiedAt | date:'dd/MM/yyyy'}}</td>
+
+            <td><div style="text-align: center"><i class="pi pi-trash" (click)="remove(user.id)" style="color: red"></i></div></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <ng-template #skeleton>
+      <p-table styleClass="p-datatable-sm" [value]="fake" responsiveLayout="scroll" class="pt-4" selectionMode="single" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+
+
+            <th class="number">Id</th>
+
+
+
+            <th>Username</th>
+
+
+
+            <th>Email</th>
+
+
+
+            <th>FullName</th>
+
+
+
+            <th class="number">Version</th>
+
+
+
+            <th>CreatedAt</th>
+
+
+
+            <th>ModifiedAt</th>
+
+            <th><div style="text-align: center">Actions</div></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item>
+          <tr [pSelectableRow]="item" style="font-family: 'Courier New', Courier, monospace;">
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-paginator [rows]="rows" [totalRecords]="totalElements" class="hidden lg:block"
+                   [rowsPerPageOptions]="[5,10,25,50]" (onPageChange)="paginate($event)" [showCurrentPageReport]="true"
+                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+      </p-paginator>
+
+      <p-paginator [rows]="rows" [totalRecords]="totalElements" class="lg:hidden block"
+                   (onPageChange)="paginate($event)" [pageLinkSize]="2">
+      </p-paginator>
+    </ng-template>
+  </p-card>
+</p-panel>

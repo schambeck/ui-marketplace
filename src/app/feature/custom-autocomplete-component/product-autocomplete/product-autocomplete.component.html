@@ -1,0 +1,8 @@
+<p-autoComplete [(ngModel)]="selectedItem"
+                [showEmptyMessage]="true"
+                (completeMethod)="filter($event)"
+                (onSelect)="onSelect($event)"
+                [suggestions]="filteredItems"
+                [minLength]="1"
+                field="name">
+</p-autoComplete>

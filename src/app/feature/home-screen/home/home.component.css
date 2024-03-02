@@ -1,0 +1,3 @@
+:host ::ng-deep .p-panel {
+    box-shadow: var(--shadow-4);
+}

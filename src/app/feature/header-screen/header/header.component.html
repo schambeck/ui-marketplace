@@ -1,0 +1,13 @@
+<p-sidebar [(visible)]="display">
+    <app-sidebar [(display)]="display"></app-sidebar>
+</p-sidebar>
+
+<p-toolbar>
+    <div class="p-toolbar-group-left">
+        <img ngSrc="assets/logo-angular.svg" (click)="display = true" alt="Swap" class="cursor-pointer" height="33" width="116" priority="true">
+    </div>
+    <div class="p-toolbar-group-right">
+<!--        <app-notification-panel></app-notification-panel>-->
+        <app-logged-user></app-logged-user>
+    </div>
+</p-toolbar>

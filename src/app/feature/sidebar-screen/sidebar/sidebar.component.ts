@@ -1,0 +1,69 @@
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {MenuItem} from 'primeng/api';
+
+@Component({
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.css']
+})
+export class SidebarComponent {
+
+  @Input()
+  display?: boolean;
+
+  @Output()
+  displayChange = new EventEmitter<boolean>();
+
+  items: MenuItem[];
+
+  constructor() {
+    this.items = [
+      {
+        label: 'General',
+        items: [
+          {
+            label: 'Home',
+            icon: 'pi pi-fw pi-home',
+            routerLink: ["/home"]
+          },
+          {
+            label: 'Profile',
+            icon: 'pi pi-fw pi-user',
+            routerLink: ["/profile"]
+          },
+        ]
+      },
+      {
+        label: 'Admin',
+        items: [
+          {
+            label: 'User',
+            icon: 'pi pi-fw pi-clock',
+            routerLink: ["/user"]
+          },
+          {
+            label: 'Product',
+            icon: 'pi pi-fw pi-cog',
+            routerLink: ["/product"]
+          },
+        ]
+      },
+      {
+        label: 'Store',
+        items: [
+          {
+            label: 'Catalog',
+            icon: 'pi pi-fw pi-cog',
+            routerLink: ["/catalog"]
+          }
+        ]
+      }
+    ];
+  }
+
+  toggleDisplay(): void {
+    this.display = !this.display;
+    this.displayChange.emit(this.display);
+  }
+
+}

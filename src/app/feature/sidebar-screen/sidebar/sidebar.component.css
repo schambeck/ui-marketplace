@@ -1,0 +1,4 @@
+:host ::ng-deep .p-menu {
+    box-shadow: var(--shadow-4);
+    width: 15rem;
+}

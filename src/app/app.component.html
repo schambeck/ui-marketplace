@@ -1,0 +1,19 @@
+<div class="grid">
+  <div class="col-12 p-0 shadow-4">
+    <app-header></app-header>
+  </div>
+  <div class="col-12 lg:p-4">
+    <div class="flex">
+      <div class="flex-none hidden lg:inline-flex lg:pr-4">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="flex-grow-1">
+        <router-outlet></router-outlet>
+        <div *ngIf="loading" class="flex-grow-1">
+          <p-progressSpinner class="flex align-items-center"></p-progressSpinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast position="top-center"></p-toast>

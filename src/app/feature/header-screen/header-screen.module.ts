@@ -1,0 +1,37 @@
+import { NgModule } from '@angular/core';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
+import { HeaderComponent } from './header/header.component';
+import { ButtonModule } from 'primeng/button';
+import {MenubarModule} from 'primeng/menubar';
+import {ToolbarModule} from 'primeng/toolbar';
+import {MenuModule} from 'primeng/menu';
+import {SidebarModule} from 'primeng/sidebar';
+import {BadgeModule} from 'primeng/badge';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {TooltipModule} from 'primeng/tooltip';
+import {SidebarScreenModule} from "../sidebar-screen/sidebar-screen.module";
+import {LoggedUserComponent} from "./logged-user/logged-user.component";
+
+@NgModule({
+  declarations: [
+    HeaderComponent,
+    LoggedUserComponent
+  ],
+  imports: [
+    CommonModule,
+    MenubarModule,
+    ToolbarModule,
+    ButtonModule,
+    MenuModule,
+    SidebarModule,
+    SidebarScreenModule,
+    BadgeModule,
+    ProgressSpinnerModule,
+    TooltipModule,
+    NgOptimizedImage
+  ],
+  exports: [
+    HeaderComponent
+  ]
+})
+export class HeaderScreenModule { }
