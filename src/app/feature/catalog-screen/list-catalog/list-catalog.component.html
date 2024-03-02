@@ -16,7 +16,7 @@
       </p-toolbar>
     </ng-template>
     <div *ngIf="page$ | async as page; else skeleton">
-      <p-dataView #dv [value]="page.content" [layout]="layout">
+      <p-dataView #dv [value]="page.content" [layout]="'grid'">
         <ng-template pTemplate="header">
           <p-toolbar>
             <div class="p-toolbar-group-start">
