@@ -33,11 +33,11 @@
 
 
 
-            <th class="number">UnitPrice</th>
+            <th class="number">Price</th>
 
 
 
-            <th class="number">StockQuantity</th>
+            <th class="number">Quantity</th>
 
 
 
@@ -69,10 +69,10 @@
             <td (click)="navigateToDetail(product)">{{product.name}}</td>
             <td (click)="navigateToDetail(product)">{{product.description}}</td>
 
-            <td (click)="navigateToDetail(product)" class="number">{{product.unitPrice | currency: 'USD'}}</td>
+            <td (click)="navigateToDetail(product)" class="number">{{product.price | currency: 'USD'}}</td>
 
 
-            <td (click)="navigateToDetail(product)" class="number">{{product.stockQuantity | currency: 'USD'}}</td>
+            <td (click)="navigateToDetail(product)" class="number">{{product.quantity | currency: 'USD'}}</td>
 
 
             <td (click)="navigateToDetail(product)">{{product.user.description}}</td>
@@ -110,11 +110,11 @@
 
 
 
-            <th class="number">UnitPrice</th>
+            <th class="number">Price</th>
 
 
 
-            <th class="number">StockQuantity</th>
+            <th class="number">Quantity</th>
 
 
 

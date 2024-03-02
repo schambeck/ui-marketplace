@@ -24,18 +24,18 @@
         <input id="description" type="text" class="w-full" [(ngModel)]="product.description" pInputText >
       </div>
       <div class="field col-6">
-        <label for="unitPrice" class="block font-bold">UnitPrice</label>
-        <p-inputNumber id="unitPrice" [size]="25" [(ngModel)]="product.unitPrice" [minFractionDigits]="2" [maxFractionDigits]="2" inputId="currency-us" mode="currency" currency="USD" locale="en-US" ></p-inputNumber>
+        <label for="price" class="block font-bold">Price</label>
+        <p-inputNumber id="price" [size]="25" [(ngModel)]="product.price" [minFractionDigits]="2" [maxFractionDigits]="2" inputId="currency-us" mode="currency" currency="USD" locale="en-US" ></p-inputNumber>
       </div>
 
       <div class="field col-6">
-        <label for="stockQuantity" class="block font-bold">StockQuantity</label>
-        <p-inputNumber id="stockQuantity" [size]="25" [(ngModel)]="product.stockQuantity" [minFractionDigits]="2" [maxFractionDigits]="2" inputId="currency-us" mode="currency" currency="USD" locale="en-US" ></p-inputNumber>
+        <label for="quantity" class="block font-bold">Quantity</label>
+        <p-inputNumber id="quantity" [size]="25" [(ngModel)]="product.quantity" [minFractionDigits]="2" [maxFractionDigits]="2" inputId="currency-us" mode="currency" currency="USD" locale="en-US" ></p-inputNumber>
       </div>
 
       <div class="field col-6">
         <label for="user" class="block font-bold">User</label>
-        <app-user-autocomplete id="user" [(selectedItem)]="product.user"></app-user-autocomplete >
+        <app-user-autocomplete id="user" [(selectedItem)]="product.user"></app-user-autocomplete>
       </div>
 
       <div class="field col-6">
@@ -59,8 +59,8 @@
         <div class="field col-6"><label for="id" class="block font-bold">Id</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="field col-6"><label for="name" class="block font-bold">Name</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="field col-6"><label for="description" class="block font-bold">Description</label><p-skeleton height="2.75rem"></p-skeleton></div>
-        <div class="field col-6"><label for="unitPrice" class="block font-bold">UnitPrice</label><p-skeleton height="2.75rem"></p-skeleton></div>
-        <div class="field col-6"><label for="stockQuantity" class="block font-bold">StockQuantity</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="price" class="block font-bold">Price</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="quantity" class="block font-bold">Quantity</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="field col-6"><label for="user" class="block font-bold">User</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="field col-6"><label for="version" class="block font-bold">Version</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="field col-6"><label for="createdAt" class="block font-bold">CreatedAt</label><p-skeleton height="2.75rem"></p-skeleton></div>

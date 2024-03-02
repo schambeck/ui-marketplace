@@ -24,8 +24,8 @@ export interface Product {
     id: number;
     name: string;
     description: string;
-    unitPrice: number;
-    stockQuantity: number;
+    price: number;
+    quantity: number;
     user: User;
     version: number;
     createdAt: string;
