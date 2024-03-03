@@ -23,10 +23,12 @@ import {DataViewModule} from "primeng/dataview";
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {ListCatalogComponent} from "./list-catalog/list-catalog.component";
+import {ViewProductComponent} from "./view-product/view-product.component";
 
 @NgModule({
   declarations: [
-    ListCatalogComponent
+    ListCatalogComponent,
+    ViewProductComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,8 @@ import {ListCatalogComponent} from "./list-catalog/list-catalog.component";
     TagModule
   ],
   exports: [
-    ListCatalogComponent
+    ListCatalogComponent,
+    ViewProductComponent
   ]
 })
 export class CatalogScreenModule {

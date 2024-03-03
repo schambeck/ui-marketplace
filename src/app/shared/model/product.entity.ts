@@ -27,6 +27,10 @@ export interface Product {
     price: number;
     quantity: number;
     user: User;
+    category: string;
+    inventoryStatus: string;
+    rating: number;
+    image: string;
     version: number;
     createdAt: string;
     modifiedAt: string;

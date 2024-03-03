@@ -1,0 +1,58 @@
+<p-panel header="Product">
+  <p-card class="p-0 shadow-8">
+    <ng-template pTemplate="header">
+      <p-toolbar>
+        <div class="p-toolbar-group-start">
+          <p-button label="Back" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2"></p-button>
+          <p-button label="Add to Cart" (onClick)="addToCart()" icon="pi pi-shopping-cart" [loading]="saving"></p-button>
+        </div>
+      </p-toolbar>
+    </ng-template>
+    <div *ngIf="product$ | async as product else loading" class="grid nested-grid">
+      <div class="col-4 flex justify-content-center align-items-center">
+        <img id="image" class="shadow-2 block xl:block mx-auto border-round w-full" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" />
+      </div>
+      <div class="col-8 pl-4">
+        <div class="grid">
+          <div class="col-6 pl-0">
+            <div id="name" class="font-bold text-2xl">{{ product.name }}</div>
+          </div>
+          <div class="col-6 flex justify-content-end align-items-end">
+            <div id="price" class="font-bold">{{ product.price | currency }}</div>
+          </div>
+          <div class="col-12 pl-0 pt-4">
+            <p-rating id="rating" [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+            <label class="font-bold pl-4">20</label>
+            <label class="pl-2">Reviews</label>
+          </div>
+          <div class="col-12 pl-0 pt-4">
+            <label class="text-justify">{{ product.description }}</label>
+          </div>
+          <div class="col-12 pl-0 pt-4">
+            <label for="quantity" class="block font-bold">Quantity</label>
+            <p-inputNumber id="quantity"
+                           [(ngModel)]="quantity"
+                           [showButtons]="true"
+                           buttonLayout="horizontal"
+                           inputId="horizontal"
+                           [step]="1"
+                           decrementButtonClass="p-button-danger"
+                           incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus"
+                           decrementButtonIcon="pi pi-minus"
+                           class="pt-2"/>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <ng-template #loading>
+      <div class="grid">
+        <div class="col-6"><label for="image" class="block font-bold">Image</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="col-6"><label for="name" class="block font-bold">Name</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="col-6"><label for="price" class="block font-bold">Price</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="col-6"><label for="rating" class="block font-bold">Rating</label><p-skeleton height="2.75rem"></p-skeleton></div>
+      </div>
+    </ng-template>
+  </p-card>
+</p-panel>

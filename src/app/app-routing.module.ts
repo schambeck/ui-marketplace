@@ -7,6 +7,7 @@ import {ListUserComponent} from "./feature/user-screen/list-user/list-user.compo
 import {ListCatalogComponent} from "./feature/catalog-screen/list-catalog/list-catalog.component";
 import {EditProductComponent} from "./feature/product-screen/edit-product/edit-product.component";
 import {EditUserComponent} from "./feature/user-screen/edit-user/edit-user.component";
+import {ViewProductComponent} from "./feature/catalog-screen/view-product/view-product.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'product', component: ListProductComponent},
   {path: 'product/:id', component: EditProductComponent},
   {path: 'catalog', component: ListCatalogComponent},
+  {path: 'catalog/:id', component: ViewProductComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];

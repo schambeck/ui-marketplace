@@ -32,10 +32,10 @@
           <div class="grid grid-nogutter">
             <div class="col-12" *ngFor="let product of products; let first = first">
               <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{ 'border-top-1 surface-border': !first }">
-                <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" />
+                <img (click)="navigateToDetail(product)" class="cursor-pointer w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" />
                 <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                   <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                    <div class="text-2xl font-bold text-900">{{ product.name }}</div>
+                    <div (click)="navigateToDetail(product)" class="cursor-pointer text-2xl font-bold text-900">{{ product.name }}</div>
                     <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                     <div class="flex align-items-center gap-3">
                                 <span class="flex align-items-center gap-2">
@@ -65,7 +65,7 @@
                         </span>
                   <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"></p-tag>
                 </div>
-                <div class="flex flex-column align-items-center gap-3 py-5">
+                <div (click)="navigateToDetail(product)" class="cursor-pointer flex flex-column align-items-center gap-3 py-5">
                   <img class="w-9 shadow-2 border-round" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" />
                   <div class="text-2xl font-bold">{{ product.name }}</div>
                   <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>

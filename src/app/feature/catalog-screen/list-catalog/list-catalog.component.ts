@@ -4,7 +4,6 @@ import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, t
 import {Page} from 'src/app/shared/model/page';
 import {Router} from '@angular/router';
 import {Product} from "../../../shared/model/product.entity";
-import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-list-catalog',
@@ -18,15 +17,12 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   page$ = this.load();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
-  removing = false;
   totalElements = 0;
   currentPage = 0;
   currentText = '';
-  layout: string = 'grid';
 
   constructor(private service: ProductService,
-              private router: Router,
-              private messageService: MessageService) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -69,38 +65,19 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   }
 
   navigateToDetail(product: Product): void {
-    this.router.navigate(['edit-product', product.id]);
-  }
-
-  newProduct(): void {
-    this.router.navigate(['edit-product']);
-  }
-
-  remove(id: string): void {
-    this.removing = true;
-    this.service.delete(id).subscribe({
-      next: () => {
-        this.messageService.add({severity: 'success', summary: 'Product Deleted', detail: `Id: ${id}`});
-        this.refresh();
-      },
-      error: () => this.removing = false,
-      complete: () => this.removing = false
-    });
+    this.router.navigate(['catalog', product.id]);
   }
 
   getSeverity(product: Product) {
-    // switch (product.inventoryStatus) {
-    //   case 'INSTOCK':
+    switch (product.inventoryStatus) {
+      case 'INSTOCK':
         return 'success';
-
-      // case 'LOWSTOCK':
-      //   return 'warning';
-      //
-      // case 'OUTOFSTOCK':
-      //   return 'danger';
-      //
-      // default:
-      //   return null;
-    // }
+      case 'LOWSTOCK':
+        return 'warning';
+      case 'OUTOFSTOCK':
+        return 'danger';
+      default:
+        return 'danger';
+    }
   };
 }
