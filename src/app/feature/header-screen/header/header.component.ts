@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   display = false;
+  menuDisplay = true;
+
+  toggleMenuDisplay() {
+    this.menuDisplay = !this.menuDisplay;
+  }
 }

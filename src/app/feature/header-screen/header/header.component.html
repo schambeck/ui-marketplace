@@ -4,6 +4,7 @@
 
 <p-toolbar>
     <div class="p-toolbar-group-left">
+        <p-button icon="pi pi-bars" [text]="true" (click)="toggleMenuDisplay()" pTooltip="Toggle Menu Display" tooltipPosition="bottom" [showDelay]="1000"></p-button>
         <img ngSrc="assets/logo-angular.svg" (click)="display = true" alt="Swap" class="cursor-pointer" height="33" width="116" priority="true">
     </div>
     <div class="p-toolbar-group-right">
