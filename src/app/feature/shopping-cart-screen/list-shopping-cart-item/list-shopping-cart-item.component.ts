@@ -9,6 +9,7 @@ import {Location} from "@angular/common";
 import {CartService} from "../../../shared/service/cart.service";
 import {Cart} from "../../../shared/model/cart.entity";
 import {MessageService} from "primeng/api";
+import {CartItemQuantity} from "./cart-item-quantity.entity";
 
 @Component({
   selector: 'app-list-shopping-cart-item',
@@ -30,6 +31,8 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   cartId?: number;
   cartSubject$ = new BehaviorSubject<Cart>({} as Cart);
   cart$?: Observable<Cart>;
+  quantity$ = new Subject<CartItemQuantity>();
+  quantitySubscription?: Subscription;
 
   constructor(private route: ActivatedRoute,
               private cartService: CartService,
@@ -69,10 +72,16 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
       debounceTime(500),
       distinctUntilChanged(),
     ).subscribe(text => this.refresh(text))
+
+    this.quantitySubscription = this.quantity$.pipe(
+      debounceTime(500),
+      distinctUntilChanged((prev, curr) => prev.id === curr.id && prev.quantity === curr.quantity),
+    ).subscribe(cartItemQuantity => this.updateQuantity(cartItemQuantity))
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.quantitySubscription?.unsubscribe();
   }
 
   getValue(event: Event): string {
@@ -137,6 +146,29 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
       },
       error: () => this.removing = false,
       complete: () => this.removing = false
+    });
+  }
+
+  onModelChange(cartItemId: number, quantity: any) {
+    let cartItemQuantity = {
+      id: cartItemId,
+      quantity: Number(quantity)
+    };
+    this.quantity$.next(cartItemQuantity);
+  }
+
+  updateQuantity(cartItemQuantity: CartItemQuantity) {
+    this.saving = true;
+    let payload = {
+      quantity: cartItemQuantity.quantity
+    }
+    this.service.update(cartItemQuantity.id, payload).subscribe({
+      next: cartItem => {
+        this.refreshCart();
+        this.messageService.add({severity: 'success', summary: 'Quantity updated', detail: `Id: ${cartItem.id} Quantity: ${cartItem.quantity}`})
+      },
+      error: () => this.saving = false,
+      complete: () => this.saving = false
     });
   }
 }

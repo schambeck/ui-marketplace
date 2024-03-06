@@ -7,6 +7,7 @@ import {Page} from '../model/page';
 import {CartItem} from "../model/cart-item.entity"
 import {CustomAutoCompleteService} from "./custom-auto-complete.service";
 import {CreateShoppingCartItemRequest} from "../model/create-shopping-cart-item.request";
+import {UpdateShoppingCartItemRequest} from "../model/update-shopping-cart-item.request";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -27,9 +28,9 @@ export class ShoppingCartService implements CustomAutoCompleteService<CartItem> 
     return this.http.post<CartItem>(url, request, httpOptions)
   }
 
-  update(id: number | string, cartItem: CartItem): Observable<CartItem> {
+  update(id: number | string, request: UpdateShoppingCartItemRequest): Observable<CartItem> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
-    return this.http.put<CartItem>(url, cartItem, httpOptions)
+    return this.http.put<CartItem>(url, request, httpOptions)
   }
 
   list(page = 0, size = 5, search = ""): Observable<Page<CartItem>> {
