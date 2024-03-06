@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {Product} from "../../../shared/model/product.entity";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
 import {MessageService} from "primeng/api";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-catalog',
@@ -27,10 +28,12 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   constructor(private service: ProductService,
               private shoppingCartService: ShoppingCartService,
               private messageService: MessageService,
-              private router: Router) {
+              private router: Router,
+              private titleService: Title) {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("Catalog");
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged(),

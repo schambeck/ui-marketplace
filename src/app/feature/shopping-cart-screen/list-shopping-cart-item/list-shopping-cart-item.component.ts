@@ -10,6 +10,7 @@ import {CartService} from "../../../shared/service/cart.service";
 import {Cart} from "../../../shared/model/cart.entity";
 import {MessageService} from "primeng/api";
 import {CartItemQuantity} from "./cart-item-quantity.entity";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-shopping-cart-item',
@@ -39,7 +40,8 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
               private service: ShoppingCartService,
               private location: Location,
               private messageService: MessageService,
-              private router: Router) {
+              private router: Router,
+              private titleService: Title) {
     let cartId = this.route.snapshot.paramMap.get('id');
     if (cartId) {
       this.cartId = Number(cartId);
@@ -68,6 +70,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("Cart");
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged(),

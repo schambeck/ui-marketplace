@@ -1,17 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {ProductService} from 'src/app/shared/service/product.service';
 import {Location} from '@angular/common';
 import {Product} from "../../../shared/model/product.entity";
 import {MessageService} from "primeng/api";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
   styleUrls: ['./edit-product.component.css']
 })
-export class EditProductComponent {
+export class EditProductComponent implements OnInit {
   productSubject$ = new BehaviorSubject<Product>({} as Product);
   product$?: Observable<Product>;
   saving = false;
@@ -19,7 +20,8 @@ export class EditProductComponent {
   constructor(private route: ActivatedRoute,
               private location: Location,
               private service: ProductService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private titleService: Title) {
     let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.get(id).subscribe(value => {
@@ -29,6 +31,10 @@ export class EditProductComponent {
     } else {
       this.product$ = this.productSubject$.asObservable();
     }
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle("Product");
   }
 
   back(): void {

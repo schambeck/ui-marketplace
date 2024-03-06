@@ -5,6 +5,7 @@ import {Page} from 'src/app/shared/model/page';
 import {Router} from '@angular/router';
 import {User} from "../../../shared/model/user.entity";
 import {MessageService} from "primeng/api";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-user',
@@ -25,10 +26,12 @@ export class ListUserComponent implements OnInit, OnDestroy {
 
   constructor(private service: UserService,
               private router: Router,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private titleService: Title) {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("Users");
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged(),

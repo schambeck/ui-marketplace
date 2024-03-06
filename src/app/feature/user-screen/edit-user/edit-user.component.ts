@@ -1,17 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {UserService} from 'src/app/shared/service/user.service';
 import {Location} from '@angular/common';
 import {User} from "../../../shared/model/user.entity";
 import {MessageService} from "primeng/api";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.css']
 })
-export class EditUserComponent {
+export class EditUserComponent implements OnInit {
   userSubject$ = new BehaviorSubject<User>({} as User);
   user$?: Observable<User>;
   saving = false;
@@ -19,7 +20,8 @@ export class EditUserComponent {
   constructor(private route: ActivatedRoute,
               private location: Location,
               private service: UserService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private titleService: Title) {
     let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.get(id).subscribe(value => {
@@ -29,6 +31,10 @@ export class EditUserComponent {
     } else {
       this.user$ = this.userSubject$.asObservable();
     }
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle("User");
   }
 
   back(): void {

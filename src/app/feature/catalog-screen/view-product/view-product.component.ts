@@ -1,17 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {ProductService} from 'src/app/shared/service/product.service';
 import {Location} from '@angular/common';
 import {Product} from "../../../shared/model/product.entity";
 import {MessageService} from "primeng/api";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-view-product',
   templateUrl: './view-product.component.html',
   styleUrls: ['./view-product.component.css']
 })
-export class ViewProductComponent {
+export class ViewProductComponent implements OnInit {
   productSubject$ = new BehaviorSubject<Product>({} as Product);
   product$?: Observable<Product>;
   saving = false;
@@ -20,7 +21,8 @@ export class ViewProductComponent {
   constructor(private route: ActivatedRoute,
               private location: Location,
               private service: ProductService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private titleService: Title) {
     let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.get(id).subscribe(value => {
@@ -30,6 +32,10 @@ export class ViewProductComponent {
     } else {
       this.product$ = this.productSubject$.asObservable();
     }
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle("Product");
   }
 
   back(): void {
