@@ -77,7 +77,6 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     ).subscribe(text => this.refresh(text))
 
     this.quantitySubscription = this.quantity$.pipe(
-      debounceTime(500),
       distinctUntilChanged((prev, curr) => prev.id === curr.id && prev.quantity === curr.quantity),
     ).subscribe(cartItemQuantity => this.updateQuantity(cartItemQuantity))
   }
