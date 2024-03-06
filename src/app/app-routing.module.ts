@@ -8,6 +8,7 @@ import {ListCatalogComponent} from "./feature/catalog-screen/list-catalog/list-c
 import {EditProductComponent} from "./feature/product-screen/edit-product/edit-product.component";
 import {EditUserComponent} from "./feature/user-screen/edit-user/edit-user.component";
 import {ViewProductComponent} from "./feature/catalog-screen/view-product/view-product.component";
+import {ListShoppingCartItemComponent} from "./feature/shopping-cart-screen/list-shopping-cart-item/list-shopping-cart-item.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'product/:id', component: EditProductComponent},
   {path: 'catalog', component: ListCatalogComponent},
   {path: 'catalog/:id', component: ViewProductComponent},
+  {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];

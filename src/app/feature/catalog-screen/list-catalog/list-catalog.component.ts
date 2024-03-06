@@ -4,6 +4,8 @@ import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, t
 import {Page} from 'src/app/shared/model/page';
 import {Router} from '@angular/router';
 import {Product} from "../../../shared/model/product.entity";
+import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-list-catalog',
@@ -17,11 +19,14 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   page$ = this.load();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
+  saving = false;
   totalElements = 0;
   currentPage = 0;
   currentText = '';
 
   constructor(private service: ProductService,
+              private shoppingCartService: ShoppingCartService,
+              private messageService: MessageService,
               private router: Router) {
   }
 
@@ -80,4 +85,24 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
         return 'danger';
     }
   };
+
+  addCartItem(product: Product) {
+    this.saving = true;
+    let payload = {
+      productId: product.id,
+      quantity: 1,
+      username: "mschambeck@gmail.com"
+    };
+    this.shoppingCartService.create(payload).subscribe({
+      next: cartItem => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Product added to cart',
+          detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
+        this.router.navigate(['shopping-cart', cartItem.cart.id]);
+      },
+      error: () => this.saving = false,
+      complete: () => this.saving = false
+    });
+  }
 }

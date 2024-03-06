@@ -18,6 +18,7 @@ import {HomeScreenModule} from "./feature/home-screen/home-screen.module";
 import {UserScreenModule} from "./feature/user-screen/user-screen.module";
 import {ProductScreenModule} from "./feature/product-screen/product-screen.module";
 import {CatalogScreenModule} from "./feature/catalog-screen/catalog-screen.module";
+import {ShoppingCartScreenModule} from "./feature/shopping-cart-screen/shopping-cart-screen.module";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {CatalogScreenModule} from "./feature/catalog-screen/catalog-screen.modul
     CustomAutocompleteModule,
     UserScreenModule,
     ProductScreenModule,
-    CatalogScreenModule
+    CatalogScreenModule,
+    ShoppingCartScreenModule
   ],
   providers: [
     {

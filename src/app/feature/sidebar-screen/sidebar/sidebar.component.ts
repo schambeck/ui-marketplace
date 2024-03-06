@@ -38,7 +38,7 @@ export class SidebarComponent {
         items: [
           {
             label: 'User',
-            icon: 'pi pi-fw pi-clock',
+            icon: 'pi pi-fw pi-users',
             routerLink: ["/user"]
           },
           {
@@ -53,7 +53,7 @@ export class SidebarComponent {
         items: [
           {
             label: 'Catalog',
-            icon: 'pi pi-fw pi-cog',
+            icon: 'pi pi-fw pi-shopping-bag',
             routerLink: ["/catalog"]
           }
         ]
