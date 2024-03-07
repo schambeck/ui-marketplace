@@ -1,12 +1,7 @@
 <!--<ng-container *ngIf="authService.isAuthenticated$ | async; else checking">-->
 <ng-container>
   <p-menu [popup]="true" [model]="items"></p-menu>
-  <img
-    src="assets/user-avatar.png"
-    alt="Profile picture"
-    class="border-circle shadow-4 cursor-pointer"
-    style="width: 44px;"
-  />
+  <p-button icon="pi pi-user" [text]="true" pTooltip="User Profile" tooltipPosition="bottom" [showDelay]="1000"></p-button>
 </ng-container>
 
 <!--<ng-template #checking>-->
