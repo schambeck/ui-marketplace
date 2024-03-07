@@ -102,7 +102,7 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
           severity: 'success',
           summary: 'Product added to cart',
           detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
-        this.router.navigate(['shopping-cart', cartItem.cart.id]);
+        this.router.navigate(['shopping-cart']);
       },
       error: () => this.saving = false,
       complete: () => this.saving = false

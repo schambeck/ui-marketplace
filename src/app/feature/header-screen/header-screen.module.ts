@@ -11,11 +11,13 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {TooltipModule} from 'primeng/tooltip';
 import {SidebarScreenModule} from "../sidebar-screen/sidebar-screen.module";
 import {LoggedUserComponent} from "./logged-user/logged-user.component";
+import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    LoggedUserComponent
+    LoggedUserComponent,
+    ShoppingCartComponent
   ],
   imports: [
     CommonModule,

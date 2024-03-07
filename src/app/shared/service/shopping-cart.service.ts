@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject, tap} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {Page} from '../model/page';
@@ -8,6 +8,7 @@ import {CartItem} from "../model/cart-item.entity"
 import {CustomAutoCompleteService} from "./custom-auto-complete.service";
 import {CreateShoppingCartItemRequest} from "../model/create-shopping-cart-item.request";
 import {UpdateShoppingCartItemRequest} from "../model/update-shopping-cart-item.request";
+import {CountShoppingCartItemResponse} from "../model/count-shopping-cart-item.response";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -19,13 +20,16 @@ const httpOptions = {
 export class ShoppingCartService implements CustomAutoCompleteService<CartItem> {
 
   private url = `${environment.baseUrl}/shopping-cart`;
+  public count$ = new Subject<number>();
 
   constructor(private http: HttpClient) {
   }
 
   create(request: CreateShoppingCartItemRequest): Observable<CartItem> {
     const url = `${this.url}`;
-    return this.http.post<CartItem>(url, request, httpOptions)
+    return this.http.post<CartItem>(url, request, httpOptions).pipe(tap({
+      next: () => this.count()
+    }));
   }
 
   update(id: number | string, request: UpdateShoppingCartItemRequest): Observable<CartItem> {
@@ -38,9 +42,9 @@ export class ShoppingCartService implements CustomAutoCompleteService<CartItem> 
     return this.http.get<Page<CartItem>>(this.url, { params: params });
   }
 
-  search(cartId: number, page = 0, size = 5, search = ""): Observable<Page<CartItem>> {
+  search(username: string, page = 0, size = 5, search = ""): Observable<Page<CartItem>> {
     let params = new HttpParams().set('page', page).set('size', size).set("search", search);
-    const url = `${this.url}/${encodeURIComponent(cartId)}`;
+    const url = `${this.url}/${encodeURIComponent(username)}`;
     return this.http.get<Page<CartItem>>(url, { params: params });
   }
 
@@ -51,7 +55,16 @@ export class ShoppingCartService implements CustomAutoCompleteService<CartItem> 
 
   delete(id: string): Observable<void> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url).pipe(tap({
+      next: () => this.count()
+    }));
+  }
+
+  count() {
+    const url = `${this.url}/${encodeURIComponent("mschambeck@gmail.com")}/count`;
+    this.http.get<CountShoppingCartItemResponse>(url).subscribe({
+      next: response => this.count$.next(response.quantity)
+    });
   }
 
 }

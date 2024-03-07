@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, debounceTime, distinctUntilChanged, Observable, Subject, Subscription, tap} from "rxjs";
 import {Page} from 'src/app/shared/model/page';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {Product} from "../../../shared/model/product.entity";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
 import {CartItem} from "../../../shared/model/cart-item.entity";
@@ -29,22 +29,19 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   totalElements = 0;
   currentPage = 0;
   currentText = '';
-  cartId?: number;
+  username? = "mschambeck@gmail.com";
   cartSubject$ = new BehaviorSubject<Cart>({} as Cart);
   cart$?: Observable<Cart>;
   quantity$ = new Subject<CartItemQuantity>();
   quantitySubscription?: Subscription;
 
-  constructor(private route: ActivatedRoute,
-              private cartService: CartService,
+  constructor(private cartService: CartService,
               private service: ShoppingCartService,
               private location: Location,
               private messageService: MessageService,
               private router: Router,
               private titleService: Title) {
-    let cartId = this.route.snapshot.paramMap.get('id');
-    if (cartId) {
-      this.cartId = Number(cartId);
+    if (this.username) {
       this.refreshCart();
       this.refresh();
     } else {
@@ -53,9 +50,9 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   }
 
   private refreshCart() {
-    if (this.cartId) {
+    if (this.username) {
       this.loading = true;
-      this.cartService.get(this.cartId).subscribe({
+      this.cartService.getByUsername(this.username).subscribe({
         next: cart => {
           this.cartSubject$.next(cart);
           this.cart$ = this.cartSubject$.asObservable();
@@ -95,13 +92,13 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   }
 
   load(page = 0, text = ''): Observable<Page<CartItem>> {
-    if (!this.cartId) {
+    if (!this.username) {
       return new Observable<Page<CartItem>>();
     }
     this.loading = true;
     this.currentPage = page;
     this.currentText = text;
-    return this.service.search(this.cartId, page, 5, text).pipe(tap({
+    return this.service.search(this.username, page, 5, text).pipe(tap({
       next: page => this.totalElements = page.totalElements,
       error: () => this.loading = false,
       complete: () => this.loading = false

@@ -41,6 +41,11 @@ export class CartService implements CustomAutoCompleteService<Cart> {
     return this.http.get<Cart>(url);
   }
 
+  getByUsername(username: string): Observable<Cart> {
+    const url = `${this.url}/${encodeURIComponent(username)}`;
+    return this.http.get<Cart>(url);
+  }
+
   delete(id: string): Observable<void> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
     return this.http.delete<void>(url);

@@ -18,7 +18,7 @@ const routes: Routes = [
   {path: 'product/:id', component: EditProductComponent},
   {path: 'catalog', component: ListCatalogComponent},
   {path: 'catalog/:id', component: ViewProductComponent},
-  {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent},
+  {path: 'shopping-cart', component: ListShoppingCartItemComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];
