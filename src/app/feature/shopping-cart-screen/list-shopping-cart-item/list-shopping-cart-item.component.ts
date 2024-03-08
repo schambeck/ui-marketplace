@@ -29,7 +29,6 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   totalElements = 0;
   currentPage = 0;
   currentText = '';
-  username? = "mschambeck@gmail.com";
   cartSubject$ = new BehaviorSubject<Cart>({} as Cart);
   cart$?: Observable<Cart>;
   quantity$ = new Subject<CartItemQuantity>();
@@ -41,29 +40,23 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
               private messageService: MessageService,
               private router: Router,
               private titleService: Title) {
-    if (this.username) {
-      this.refreshCart();
-      this.refresh();
-    } else {
-      this.cart$ = this.cartSubject$.asObservable();
-    }
+    this.refreshCart();
+    this.refresh();
   }
 
   private refreshCart() {
-    if (this.username) {
-      this.loading = true;
-      this.cartService.getByUsername(this.username).subscribe({
-        next: cart => {
-          this.cartSubject$.next(cart);
-          this.cart$ = this.cartSubject$.asObservable();
-        },
-        error: () => {
-          this.loading = false;
-          this.back();
-        },
-        complete: () => this.loading = false
-      });
-    }
+    this.loading = true;
+    this.cartService.getByUser().subscribe({
+      next: cart => {
+        this.cartSubject$.next(cart);
+        this.cart$ = this.cartSubject$.asObservable();
+      },
+      error: () => {
+        this.loading = false;
+        this.back();
+      },
+      complete: () => this.loading = false
+    });
   }
 
   ngOnInit(): void {
@@ -92,13 +85,10 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   }
 
   load(page = 0, text = ''): Observable<Page<CartItem>> {
-    if (!this.username) {
-      return new Observable<Page<CartItem>>();
-    }
     this.loading = true;
     this.currentPage = page;
     this.currentText = text;
-    return this.service.search(this.username, page, 5, text).pipe(tap({
+    return this.service.search(page, 5, text).pipe(tap({
       next: page => this.totalElements = page.totalElements,
       error: () => this.loading = false,
       complete: () => this.loading = false

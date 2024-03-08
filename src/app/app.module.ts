@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -19,6 +19,35 @@ import {UserScreenModule} from "./feature/user-screen/user-screen.module";
 import {ProductScreenModule} from "./feature/product-screen/product-screen.module";
 import {CatalogScreenModule} from "./feature/catalog-screen/catalog-screen.module";
 import {ShoppingCartScreenModule} from "./feature/shopping-cart-screen/shopping-cart-screen.module";
+import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
+import {ProfileScreenModule} from "./feature/profile-screen/profile-screen.module";
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        url: 'http://keycloak.localhost:9000',
+        realm: 'marketplace',
+        clientId: 'ui-marketplace'
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
+      },
+      shouldAddToken: (request) => {
+        const { method, url } = request;
+
+        const isGetRequest = 'GET' === method.toUpperCase();
+        const acceptablePaths = ['/assets'];
+        const isAcceptablePathMatch = acceptablePaths.some((path) =>
+          url.includes(path)
+        );
+
+        return !(isGetRequest && isAcceptablePathMatch);
+      }
+    });
+}
 
 @NgModule({
   declarations: [
@@ -29,6 +58,7 @@ import {ShoppingCartScreenModule} from "./feature/shopping-cart-screen/shopping-
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    KeycloakAngularModule,
     SharedModule,
     HeaderScreenModule,
     SidebarScreenModule,
@@ -40,9 +70,16 @@ import {ShoppingCartScreenModule} from "./feature/shopping-cart-screen/shopping-
     UserScreenModule,
     ProductScreenModule,
     CatalogScreenModule,
-    ShoppingCartScreenModule
+    ShoppingCartScreenModule,
+    ProfileScreenModule
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHttpInterceptorService,

@@ -1,0 +1,7 @@
+:host ::ng-deep .p-panel {
+  box-shadow: var(--shadow-4);
+}
+
+:host ::ng-deep .p-panel .p-panel-content {
+  background-color: var(--background-color);
+}

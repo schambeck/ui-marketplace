@@ -16,10 +16,12 @@ export class ErrorHttpInterceptorService implements HttpInterceptor {
       .pipe(
         catchError((response: HttpErrorResponse) => {
           let message: string;
-          if (response?.error?.message) {
-            message = `${response.error.message}`;
-          } else {
+          if (response?.error?.error) {
             message = response.error.error;
+          } else if (response?.error?.message) {
+            message = response.error.message;
+          } else {
+            message = response.message;
           }
           this.messageService.add({severity: 'error', summary: 'Error', detail: message})
           return throwError(() => new Error(message));

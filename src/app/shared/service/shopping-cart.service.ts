@@ -42,10 +42,9 @@ export class ShoppingCartService implements CustomAutoCompleteService<CartItem> 
     return this.http.get<Page<CartItem>>(this.url, { params: params });
   }
 
-  search(username: string, page = 0, size = 5, search = ""): Observable<Page<CartItem>> {
+  search(page = 0, size = 5, search = ""): Observable<Page<CartItem>> {
     let params = new HttpParams().set('page', page).set('size', size).set("search", search);
-    const url = `${this.url}/${encodeURIComponent(username)}`;
-    return this.http.get<Page<CartItem>>(url, { params: params });
+    return this.http.get<Page<CartItem>>(this.url, { params: params });
   }
 
   get(id: string): Observable<CartItem> {
@@ -61,7 +60,7 @@ export class ShoppingCartService implements CustomAutoCompleteService<CartItem> 
   }
 
   count() {
-    const url = `${this.url}/${encodeURIComponent("mschambeck@gmail.com")}/count`;
+    const url = `${this.url}/count`;
     this.http.get<CountShoppingCartItemResponse>(url).subscribe({
       next: response => this.count$.next(response.quantity)
     });

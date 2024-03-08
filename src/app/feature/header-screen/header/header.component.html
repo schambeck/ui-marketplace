@@ -8,8 +8,9 @@
         <img ngSrc="assets/logo-angular.svg" (click)="display = true" alt="Swap" class="cursor-pointer" height="33" width="116" priority="true">
     </div>
     <div class="p-toolbar-group-right">
-<!--        <app-notification-panel></app-notification-panel>-->
-        <app-shopping-cart></app-shopping-cart>
+        <div *ngIf="authService.isLoggedIn()">
+          <app-shopping-cart></app-shopping-cart>
+        </div>
         <app-logged-user></app-logged-user>
     </div>
 </p-toolbar>

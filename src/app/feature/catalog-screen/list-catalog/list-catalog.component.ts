@@ -93,8 +93,7 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
     this.saving = true;
     let payload = {
       productId: product.id,
-      quantity: 1,
-      username: "mschambeck@gmail.com"
+      quantity: 1
     };
     this.shoppingCartService.create(payload).subscribe({
       next: cartItem => {
