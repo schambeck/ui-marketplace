@@ -11,8 +11,8 @@ export class AuthService {
     this.loggedIn = this.keycloak.isLoggedIn();
   }
 
-  public login() {
-    this.keycloak.login();
+  public login(options?: Keycloak.KeycloakLoginOptions) {
+    this.keycloak.login(options);
   }
 
   public logout() {

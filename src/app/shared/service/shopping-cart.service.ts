@@ -9,6 +9,7 @@ import {CustomAutoCompleteService} from "./custom-auto-complete.service";
 import {CreateShoppingCartItemRequest} from "../model/create-shopping-cart-item.request";
 import {UpdateShoppingCartItemRequest} from "../model/update-shopping-cart-item.request";
 import {CountShoppingCartItemResponse} from "../model/count-shopping-cart-item.response";
+import {CreateIfAbsentShoppingCartItemResponse} from "../model/create-if-absent-shopping-cart-item.response";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -28,6 +29,13 @@ export class ShoppingCartService implements CustomAutoCompleteService<CartItem> 
   create(request: CreateShoppingCartItemRequest): Observable<CartItem> {
     const url = `${this.url}`;
     return this.http.post<CartItem>(url, request, httpOptions).pipe(tap({
+      next: () => this.count()
+    }));
+  }
+
+  createIfAbsent(request: CreateShoppingCartItemRequest): Observable<CreateIfAbsentShoppingCartItemResponse> {
+    const url = `${this.url}/createIfAbsent`;
+    return this.http.post<CreateIfAbsentShoppingCartItemResponse>(url, request, httpOptions).pipe(tap({
       next: () => this.count()
     }));
   }

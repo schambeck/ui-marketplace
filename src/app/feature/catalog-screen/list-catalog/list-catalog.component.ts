@@ -7,6 +7,7 @@ import {Product} from "../../../shared/model/product.entity";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
 import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
+import {AuthService} from "../../../shared/service/auth.service";
 
 @Component({
   selector: 'app-list-catalog',
@@ -29,7 +30,8 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
               private shoppingCartService: ShoppingCartService,
               private messageService: MessageService,
               private router: Router,
-              private titleService: Title) {
+              private titleService: Title,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -90,6 +92,11 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   };
 
   addCartItem(product: Product) {
+    if (!this.authService.isLoggedIn()) {
+      let redirectUri = `${window.location.origin}/shopping-cart/${product.id}`;
+      this.authService.login({redirectUri: redirectUri});
+      return;
+    }
     this.saving = true;
     let payload = {
       productId: product.id,

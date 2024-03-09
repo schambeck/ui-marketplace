@@ -22,7 +22,8 @@ const routes: Routes = [
   {path: 'catalog', component: ListCatalogComponent},
   {path: 'catalog/:id', component: ViewProductComponent},
   {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
+  {path: '', redirectTo: '/catalog', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];
 

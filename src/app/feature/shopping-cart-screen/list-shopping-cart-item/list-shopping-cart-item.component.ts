@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, debounceTime, distinctUntilChanged, Observable, Subject, Subscription, tap} from "rxjs";
 import {Page} from 'src/app/shared/model/page';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Product} from "../../../shared/model/product.entity";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
 import {CartItem} from "../../../shared/model/cart-item.entity";
-import {Location} from "@angular/common";
 import {CartService} from "../../../shared/service/cart.service";
 import {Cart} from "../../../shared/model/cart.entity";
 import {MessageService} from "primeng/api";
@@ -21,10 +20,11 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   rows = 25;
   searchText$ = new Subject<string>();
   subscription?: Subscription;
-  page$ = this.load();
+  page$ = new Observable<Page<CartItem>>();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
-  saving = false;
+  creating = false;
+  updating = false;
   removing = false;
   totalElements = 0;
   currentPage = 0;
@@ -33,15 +33,19 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   cart$?: Observable<Cart>;
   quantity$ = new Subject<CartItemQuantity>();
   quantitySubscription?: Subscription;
+  productId?: string | null;
 
   constructor(private cartService: CartService,
               private service: ShoppingCartService,
-              private location: Location,
               private messageService: MessageService,
               private router: Router,
-              private titleService: Title) {
-    this.refreshCart();
-    this.refresh();
+              private titleService: Title,
+              private route: ActivatedRoute) {
+    this.productId = this.route.snapshot.paramMap.get('id');
+    if (!this.productId) {
+      this.refreshCart();
+      this.refresh();
+    }
   }
 
   private refreshCart() {
@@ -69,6 +73,32 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     this.quantitySubscription = this.quantity$.pipe(
       distinctUntilChanged((prev, curr) => prev.id === curr.id && prev.quantity === curr.quantity),
     ).subscribe(cartItemQuantity => this.updateQuantity(cartItemQuantity))
+
+    if (this.productId) {
+      this.addCartItemIfAbsent(Number(this.productId));
+    }
+  }
+
+  addCartItemIfAbsent(productId: number) {
+    this.creating = true;
+    let payload = {
+      productId: productId,
+      quantity: 1
+    };
+    this.service.createIfAbsent(payload).subscribe({
+      next: response => {
+        if (response.created) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Product added to cart',
+            detail: `Cart: ${response.cartItem.cart.id} - Item: ${response.cartItem.id}`});
+        }
+        this.refreshCart();
+        this.refresh();
+      },
+      error: () => this.creating = false,
+      complete: () => this.creating = false
+    });
   }
 
   ngOnDestroy(): void {
@@ -147,7 +177,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   }
 
   updateQuantity(cartItemQuantity: CartItemQuantity) {
-    this.saving = true;
+    this.updating = true;
     let payload = {
       quantity: cartItemQuantity.quantity
     }
@@ -156,8 +186,8 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
         this.refreshCart();
         this.messageService.add({severity: 'success', summary: 'Quantity updated', detail: `Id: ${cartItem.id} Quantity: ${cartItem.quantity}`})
       },
-      error: () => this.saving = false,
-      complete: () => this.saving = false
+      error: () => this.updating = false,
+      complete: () => this.updating = false
     });
   }
 }
