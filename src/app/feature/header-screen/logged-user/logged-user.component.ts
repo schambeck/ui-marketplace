@@ -15,11 +15,13 @@ export class LoggedUserComponent {
 
   constructor(public authService: AuthService,
               private readonly keycloak: KeycloakService) {
-    this.keycloak.getKeycloakInstance().loadUserInfo().then(value => {
-      let prop = "preferred_username" as keyof typeof value;
-      this.username = value[prop];
-      this.buildMenu();
-    });
+    if (this.keycloak.isLoggedIn()) {
+      this.keycloak.getKeycloakInstance().loadUserInfo().then(value => {
+        let prop = "preferred_username" as keyof typeof value;
+        this.username = value[prop];
+        this.buildMenu();
+      });
+    }
   }
 
   buildMenu(): void {
