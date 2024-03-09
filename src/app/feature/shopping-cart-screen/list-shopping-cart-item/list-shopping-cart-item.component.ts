@@ -122,7 +122,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   };
 
   back(): void {
-    this.location.back();
+    this.router.navigate(['catalog']);
   }
 
   remove(id: string): void {

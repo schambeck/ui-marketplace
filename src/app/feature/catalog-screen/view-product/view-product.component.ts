@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {ProductService} from 'src/app/shared/service/product.service';
 import {Location} from '@angular/common';
@@ -22,7 +22,8 @@ export class ViewProductComponent implements OnInit {
               private location: Location,
               private service: ProductService,
               private messageService: MessageService,
-              private titleService: Title) {
+              private titleService: Title,
+              private router: Router) {
     let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.get(id).subscribe(value => {
@@ -39,7 +40,7 @@ export class ViewProductComponent implements OnInit {
   }
 
   back(): void {
-    this.location.back();
+    this.router.navigate(['catalog']);
   }
 
   addToCart(): void {
