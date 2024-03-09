@@ -19,8 +19,8 @@ const routes: Routes = [
   {path: 'user/:id', component: EditUserComponent, canActivate: [AuthGuard]},
   {path: 'product', component: ListProductComponent, canActivate: [AuthGuard]},
   {path: 'product/:id', component: EditProductComponent, canActivate: [AuthGuard]},
-  {path: 'catalog', component: ListCatalogComponent, canActivate: [AuthGuard]},
-  {path: 'catalog/:id', component: ViewProductComponent, canActivate: [AuthGuard]},
+  {path: 'catalog', component: ListCatalogComponent},
+  {path: 'catalog/:id', component: ViewProductComponent},
   {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
