@@ -2,42 +2,44 @@
   <div class="grid flex justify-content-center">
     <p-card>
       <div *ngIf="userProfile" class="p-4">
-        <div class="flex justify-content-center" style=" width: 40vw;">
-          <img
-            src="assets/user-avatar.png"
-            class="border-circle mr-4 shadow-4"
-            alt="Profile picture"
-          />
-          <div>
-              <h3 class="flex">{{ userProfile.name }}</h3>
+        <div class="p-4">
+          <div class="flex justify-content-center" style=" width: 40vw;">
+            <img
+              src="assets/user-avatar.png"
+              class="border-circle mr-4 shadow-4"
+              alt="Profile picture"
+            />
+            <div>
+                <h3 class="flex">{{ userProfile.name }}</h3>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flex grid align-items-center" style="width: 40vw;">
-        <div class="col-3">
-          <label for="sub" class="font-bold">Sub</label>
-        </div>
-        <div class="col-9">
-          <input id="sub" type="text" class="w-full" [(ngModel)]="userProfile.sub" [disabled]="true" pInputText>
-        </div>
-        <div class="col-3">
-          <label for="username" class="font-bold">Username</label>
-        </div>
-        <div class="col-9">
-          <input id="username" type="text" class="w-full" [(ngModel)]="userProfile.preferred_username" [disabled]="true" pInputText>
-        </div>
-        <div class="col-3">
-          <label for="email" class="font-bold">Email</label>
-        </div>
-        <div class="col-9">
-          <input id="email" type="text" class="w-full" [(ngModel)]="userProfile.email" [disabled]="true" pInputText>
-        </div>
-        <div class="col-3">
-          <label for="fullName" class="font-bold">E-mail verified</label>
-        </div>
-        <div class="col-9">
-          <input id="fullName" type="text" class="w-full" [(ngModel)]="userProfile.email_verified" [disabled]="true" pInputText>
+        <div class="flex grid align-items-center" style="width: 40vw;">
+          <div class="col-3">
+            <label for="sub" class="font-bold">Sub</label>
+          </div>
+          <div class="col-9">
+            <input id="sub" type="text" class="w-full" [(ngModel)]="userProfile.sub" [disabled]="true" pInputText>
+          </div>
+          <div class="col-3">
+            <label for="username" class="font-bold">Username</label>
+          </div>
+          <div class="col-9">
+            <input id="username" type="text" class="w-full" [(ngModel)]="userProfile.preferred_username" [disabled]="true" pInputText>
+          </div>
+          <div class="col-3">
+            <label for="email" class="font-bold">Email</label>
+          </div>
+          <div class="col-9">
+            <input id="email" type="text" class="w-full" [(ngModel)]="userProfile.email" [disabled]="true" pInputText>
+          </div>
+          <div class="col-3">
+            <label for="fullName" class="font-bold">E-mail verified</label>
+          </div>
+          <div class="col-9">
+            <input id="fullName" type="text" class="w-full" [(ngModel)]="userProfile.email_verified" [disabled]="true" pInputText>
+          </div>
         </div>
       </div>
     </p-card>
