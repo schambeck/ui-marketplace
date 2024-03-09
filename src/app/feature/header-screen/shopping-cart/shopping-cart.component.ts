@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
-import {AuthService} from "../../../shared/service/auth.service";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -12,17 +11,14 @@ export class ShoppingCartComponent implements OnInit {
   quantity: string | undefined;
 
   constructor(private router: Router,
-              private service: ShoppingCartService,
-              private authService: AuthService) {
+              private service: ShoppingCartService) {
   }
 
   ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.service.count$.subscribe({
-        next: count => this.quantity = count.toString()
-      });
-      this.service.count();
-    }
+    this.service.count$.subscribe({
+      next: count => this.quantity = count.toString()
+    });
+    this.service.count();
   }
 
   navigateToCart() {
