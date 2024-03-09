@@ -39,7 +39,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
         const { method, url } = request;
 
         const isGetRequest = 'GET' === method.toUpperCase();
-        const acceptablePaths = ['/assets'];
+        const acceptablePaths = ['/products'];
         const isAcceptablePathMatch = acceptablePaths.some((path) =>
           url.includes(path)
         );
