@@ -73,4 +73,7 @@ export class ViewProductComponent implements OnInit {
     });
   }
 
+  getImageUrl(objectId: string) {
+    return this.service.getImage(objectId)
+  }
 }

@@ -24,6 +24,7 @@ import {CalendarModule} from "primeng/calendar";
 import {DataViewModule} from "primeng/dataview";
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
+import {FileUploadModule} from "primeng/fileupload";
 
 @NgModule({
   declarations: [
@@ -53,8 +54,9 @@ import {TagModule} from "primeng/tag";
     CustomAutocompleteModule,
     DataViewModule,
     RatingModule,
-    TagModule
-  ],
+    TagModule,
+    FileUploadModule
+],
   exports: [
     ListProductComponent,
     EditProductComponent

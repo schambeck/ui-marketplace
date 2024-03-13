@@ -44,7 +44,7 @@ export class SidebarComponent {
           {
             label: 'Product',
             icon: 'pi pi-fw pi-cog',
-            routerLink: ["/product"]
+            routerLink: ["/list-product"]
           },
         ]
       },

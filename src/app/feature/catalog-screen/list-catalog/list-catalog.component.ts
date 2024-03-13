@@ -114,4 +114,8 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
       complete: () => this.saving = false
     });
   }
+
+  getImageUrl(objectId: string) {
+    return this.service.getImage(objectId)
+  }
 }

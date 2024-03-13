@@ -39,6 +39,41 @@
       </div>
 
       <div class="field col-6">
+        <label for="category" class="block font-bold">Category</label>
+        <input id="category" type="text" class="w-full" [(ngModel)]="product.category" pInputText>
+      </div>
+
+      <div class="field col-6">
+        <label for="inventoryStatus" class="block font-bold">Inventory Status</label>
+        <input id="inventoryStatus" type="text" class="w-full" [(ngModel)]="product.inventoryStatus" pInputText>
+      </div>
+
+      <div class="field col-6">
+        <label for="rating" class="block font-bold">Rating</label>
+        <p-rating id="rating" [(ngModel)]="product.rating"></p-rating>
+      </div>
+
+      <div class="field col-6">
+        <label for="objectId" class="block font-bold">Image</label>
+        <p-fileUpload id="objectId"
+                      name="file"
+                      url="http://localhost:8080/products/upload"
+                      (onUpload)="onUpload($event, product)"
+                      accept="image/*"
+                      [maxFileSize]="1000000">
+          <ng-template pTemplate="content">
+            <div *ngIf="uploadedFile.size">
+              <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="uploadedFile.objectURL" [alt]="product.name" />
+            </div>
+            <div *ngIf="!uploadedFile.size">
+              <div class="text-center pb-2">Current Image</div>
+              <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="getImageUrl(product.objectId)" [alt]="product.name" />
+            </div>
+          </ng-template>
+        </p-fileUpload>
+      </div>
+
+      <div class="field col-6">
         <label for="version" class="block font-bold">Version</label>
         <p-inputNumber id="version" [size]="25" [(ngModel)]="product.version" [disabled]="true"></p-inputNumber>
       </div>

@@ -31,6 +31,7 @@ export interface Product {
     inventoryStatus: string;
     rating: number;
     image: string;
+    objectId: string;
     version: number;
     createdAt: string;
     modifiedAt: string;

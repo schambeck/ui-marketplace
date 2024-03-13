@@ -10,6 +10,7 @@ import {Cart} from "../../../shared/model/cart.entity";
 import {MessageService} from "primeng/api";
 import {CartItemQuantity} from "./cart-item-quantity.entity";
 import {Title} from "@angular/platform-browser";
+import {ProductService} from "../../../shared/service/product.service";
 
 @Component({
   selector: 'app-list-shopping-cart-item',
@@ -37,6 +38,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
 
   constructor(private cartService: CartService,
               private service: ShoppingCartService,
+              private productService: ProductService,
               private messageService: MessageService,
               private router: Router,
               private titleService: Title,
@@ -189,5 +191,9 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
       error: () => this.updating = false,
       complete: () => this.updating = false
     });
+  }
+
+  getImageUrl(objectId: string) {
+    return this.productService.getImage(objectId)
   }
 }

@@ -46,4 +46,14 @@ export class ProductService implements CustomAutoCompleteService<Product> {
     return this.http.delete<void>(url);
   }
 
+  listByUser(page = 0, size = 5, search = ""): Observable<Page<Product>> {
+    let params = new HttpParams().set('page', page).set('size', size).set("search", search);
+    let url = `${this.url}/user`;
+    return this.http.get<Page<Product>>(url, { params: params });
+  }
+
+  getImage(objectId: string): string {
+    return `${this.url}/download/${encodeURIComponent(objectId)}`;
+  }
+
 }

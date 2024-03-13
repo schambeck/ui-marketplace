@@ -54,7 +54,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.currentPage = page;
     this.currentText = text;
-    return this.service.list(page, this.rows, text).pipe(tap({
+    return this.service.listByUser(page, this.rows, text).pipe(tap({
       next: page => this.totalElements = page.totalElements,
       error: () => this.loading = false,
       complete: () => this.loading = false
@@ -71,11 +71,11 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   navigateToDetail(product: Product): void {
-    this.router.navigate(['product', product.id]);
+    this.router.navigate(['edit-product', product.id]);
   }
 
   newProduct(): void {
-    this.router.navigate(['product']);
+    this.router.navigate(['edit-product']);
   }
 
   remove(id: string): void {
