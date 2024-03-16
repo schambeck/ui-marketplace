@@ -57,7 +57,7 @@
         <label for="objectId" class="block font-bold">Image</label>
         <p-fileUpload id="objectId"
                       name="file"
-                      url="http://localhost:8080/products/upload"
+                      [url]="environment.baseUrl + '/products/upload'"
                       (onUpload)="onUpload($event, product)"
                       accept="image/*"
                       [maxFileSize]="1000000">

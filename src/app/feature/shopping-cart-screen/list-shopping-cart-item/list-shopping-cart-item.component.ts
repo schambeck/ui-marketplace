@@ -11,6 +11,7 @@ import {MessageService} from "primeng/api";
 import {CartItemQuantity} from "./cart-item-quantity.entity";
 import {Title} from "@angular/platform-browser";
 import {ProductService} from "../../../shared/service/product.service";
+import {PreferenceService} from "../../../shared/service/preference.service";
 
 @Component({
   selector: 'app-list-shopping-cart-item',
@@ -35,6 +36,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   quantity$ = new Subject<CartItemQuantity>();
   quantitySubscription?: Subscription;
   productId?: string | null;
+  checkingOut = false;
 
   constructor(private cartService: CartService,
               private service: ShoppingCartService,
@@ -42,7 +44,8 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
               private messageService: MessageService,
               private router: Router,
               private titleService: Title,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private preferenceService: PreferenceService) {
     this.productId = this.route.snapshot.paramMap.get('id');
     if (!this.productId) {
       this.refreshCart();
@@ -65,7 +68,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.titleService.setTitle("Cart");
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
@@ -195,5 +198,14 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
 
   getImageUrl(objectId: string) {
     return this.productService.getImage(objectId)
+  }
+
+  checkout() {
+    this.checkingOut = true;
+    this.preferenceService.create().subscribe({
+      next: preference => this.router.navigate(['checkout', preference.id]),
+      error: () => this.checkingOut = false,
+      complete: () => this.checkingOut = false
+    });
   }
 }

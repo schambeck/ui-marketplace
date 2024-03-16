@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
 import {FileUploadEvent} from "primeng/fileupload";
 import {HttpResponse} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-edit-product',
@@ -79,4 +80,6 @@ export class EditProductComponent implements OnInit {
   getImageUrl(objectId: string) {
     return this.service.getImage(objectId)
   }
+
+  protected readonly environment = environment;
 }

@@ -1,0 +1,36 @@
+:host ::ng-deep .p-panel {
+  box-shadow: var(--shadow-4);
+}
+
+:host ::ng-deep .p-card .p-card-body {
+  padding: 0;
+}
+
+:host ::ng-deep .p-card .p-card-body .p-card-content {
+  padding: 0;
+}
+
+:host ::ng-deep .p-card .p-card-body .p-card-footer {
+  padding: 0;
+}
+
+:host ::ng-deep .p-card .p-card-body .p-card-footer .p-paginator {
+  padding: 0;
+}
+
+.number {
+  text-align: right !important;
+}
+
+.datetime {
+  text-align: center !important;
+}
+
+:host ::ng-deep .p-inputnumber-input {
+  text-align: center;
+  width: 5rem;
+}
+
+:host ::ng-deep .cart-total {
+  color: var(--surface-900);
+}

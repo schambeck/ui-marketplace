@@ -1,9 +1,11 @@
 <p-panel header="Cart">
   <p-progressSpinner *ngIf="creating" class="flex align-items-center"></p-progressSpinner>
+  <span id="wallet_container">
+  </span>
   <div *ngIf="cart$ | async as cart; else skeletonCart" class="pt-4 pb-4 flex flex-column justify-content-center flex-wrap">
     <div class="flex align-items-center justify-content-center text-3xl cart-total">
       Your cart total is {{ cart.total | currency }}
-      <p-button label="Checkout" (onClick)="back()" icon="pi pi-shopping-cart" class="pl-2"></p-button>
+      <p-button label="Checkout" (onClick)="checkout()" icon="pi pi-shopping-cart" class="pl-2" [loading]="checkingOut"></p-button>
     </div>
   </div>
   <ng-template #skeletonCart>

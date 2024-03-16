@@ -11,6 +11,8 @@ import {ViewProductComponent} from "./feature/catalog-screen/view-product/view-p
 import {ListShoppingCartItemComponent} from "./feature/shopping-cart-screen/list-shopping-cart-item/list-shopping-cart-item.component";
 import {AuthGuard} from "./shared/service/auth-guard";
 import {ProfileComponent} from "./feature/profile-screen/profile/profile.component";
+import {CheckoutComponent} from "./feature/checkout-screen/checkout/checkout.component";
+import {PaymentComponent} from "./feature/payment-screen/payment/payment.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -24,6 +26,8 @@ const routes: Routes = [
   {path: 'catalog/:id', component: ViewProductComponent},
   {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
   {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
+  {path: 'checkout/:id', component: CheckoutComponent, canActivate: [AuthGuard]},
+  {path: 'payment', component: PaymentComponent},
   {path: '', redirectTo: '/catalog', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];

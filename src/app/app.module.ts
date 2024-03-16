@@ -21,14 +21,17 @@ import {CatalogScreenModule} from "./feature/catalog-screen/catalog-screen.modul
 import {ShoppingCartScreenModule} from "./feature/shopping-cart-screen/shopping-cart-screen.module";
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {ProfileScreenModule} from "./feature/profile-screen/profile-screen.module";
+import {CheckoutScreenModule} from "./feature/checkout-screen/checkout-screen.module";
+import {PaymentScreenModule} from "./feature/payment-screen/payment-screen.module";
+import {environment} from "../environments/environment";
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://keycloak.localhost:9000',
-        realm: 'marketplace',
-        clientId: 'ui-marketplace'
+        url: `${environment.keycloakUrl}`,
+        realm: `${environment.keycloakRealm}`,
+        clientId: `${environment.keycloakClientId}`
       },
       initOptions: {
         onLoad: 'check-sso',
@@ -71,7 +74,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ProductScreenModule,
     CatalogScreenModule,
     ShoppingCartScreenModule,
-    ProfileScreenModule
+    ProfileScreenModule,
+    CheckoutScreenModule,
+    PaymentScreenModule
   ],
   providers: [
     {

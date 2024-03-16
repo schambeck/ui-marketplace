@@ -28,7 +28,7 @@
           <div class="col-12 pl-0 pt-4">
             <label class="text-justify">{{ product.description }}</label>
           </div>
-          <div class="col-12 pl-0 pt-4">
+          <div class="col-6 pl-0 pt-4">
             <label for="quantity" class="block font-bold">Quantity</label>
             <p-inputNumber id="quantity"
                            [(ngModel)]="quantity"
@@ -41,6 +41,11 @@
                            incrementButtonIcon="pi pi-plus"
                            decrementButtonIcon="pi pi-minus"
                            class="pt-2"/>
+          </div>
+          <div class="col-6 flex justify-content-end align-items-end">
+            <div id="username" class="font-bold text-lg">{{ product.user.username }}</div>
+          </div>
+          <div class="col-6 pl-0">
           </div>
         </div>
 

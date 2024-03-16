@@ -1,0 +1,32 @@
+<p-panel header="Payment">
+  <p-progressSpinner *ngIf="saving" class="flex align-items-center"></p-progressSpinner>
+  <div *ngIf="payment$ | async as payment else skeletonCart" class="grid">
+    <div class="field col-12">
+      <label for="transactionId" class="block font-bold">Payment Id</label>
+      <input id="transactionId" type="text" class="w-full" [(ngModel)]="payment.paymentId" [disabled]="true" pInputText>
+    </div>
+
+    <div class="field col-12">
+      <label for="status" class="block font-bold">Status</label>
+      <input id="status" type="text" class="w-full" [(ngModel)]="payment.status" [disabled]="true" pInputText>
+    </div>
+
+    <div class="field col-12">
+      <label for="externalReference" class="block font-bold">External Reference</label>
+      <input id="externalReference" type="text" class="w-full" [(ngModel)]="payment.externalReference" [disabled]="true" pInputText>
+    </div>
+
+    <div class="field col-12">
+      <label for="merchantOrderId" class="block font-bold">Merchant Order Id</label>
+      <input id="merchantOrderId" type="text" class="w-full" [(ngModel)]="payment.merchantOrderId" [disabled]="true" pInputText>
+    </div>
+  </div>
+
+  <ng-template #skeletonCart>
+  </ng-template>
+  <div class="grid justify-content-center">
+    <div class="col-6">
+      <p-button label="Cart" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2" severity="secondary"></p-button>
+    </div>
+  </div>
+</p-panel>

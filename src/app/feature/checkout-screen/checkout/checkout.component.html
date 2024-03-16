@@ -1,0 +1,108 @@
+<p-panel header="Checkout">
+  <p-progressSpinner *ngIf="creating" class="flex align-items-center"></p-progressSpinner>
+  <div *ngIf="cart$ | async as cart; else skeletonCart" class="pt-4 pb-2 flex flex-column justify-content-center flex-wrap">
+    <div class="flex align-items-center justify-content-center text-3xl cart-total">
+      Your cart total is {{ cart.total | currency }}
+    </div>
+  </div>
+  <ng-template #skeletonCart>
+  </ng-template>
+  <div class="grid justify-content-center">
+    <div class="col-6">
+      <span id="wallet_container">
+      </span>
+    </div>
+  </div>
+  <p-card class="p-0">
+    <ng-template pTemplate="header">
+      <p-toolbar>
+        <div class="p-toolbar-group-start">
+        </div>
+        <div class="p-toolbar-group-center">
+          <p-button label="Cart" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2" severity="secondary"></p-button>
+        </div>
+        <div class="p-toolbar-group-end">
+        </div>
+      </p-toolbar>
+    </ng-template>
+    <div *ngIf="page$ | async as page; else skeleton">
+      <p-dataView #dv [value]="page.content" [layout]="'list'">
+        <ng-template let-item pTemplate="list" let-items>
+          <div class="grid grid-nogutter">
+            <div class="col-12" *ngFor="let item of items; let first = first">
+              <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{ 'border-top-1 surface-border': !first }">
+                <img (click)="navigateToDetail(item.product)" class="cursor-pointer w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="getImageUrl(item.product.objectId)" [alt]="item.product.name" />
+                <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                  <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                    <div (click)="navigateToDetail(item.product)" class="cursor-pointer text-2xl font-bold text-900">{{ item.product.name }}</div>
+                    <p-rating [ngModel]="item.product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                    <div class="flex align-items-center gap-3">
+                                <span class="flex align-items-center gap-2">
+                                    <i class="pi pi-tag"></i>
+                                    <span class="font-semibold">{{ item.product.category }}</span>
+                                </span>
+                      <p-tag [value]="item.product.inventoryStatus" [severity]="getSeverity(item.product)"></p-tag>
+                    </div>
+                  </div>
+                  <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                    <span class="text-2xl font-semibold">{{ (item.price * item.quantity) | currency }}</span>
+                    <p-inputNumber id="quantity"
+                                   [(ngModel)]="item.quantity"
+                                   [disabled]="true"
+                                   class="pt-2" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-dataView>
+    </div>
+
+    <ng-template #skeleton>
+      <p-table styleClass="p-datatable-sm" [value]="fake" responsiveLayout="scroll" class="pt-4" selectionMode="single" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="number">Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th class="number">Price</th>
+            <th class="number">Quantity</th>
+            <th>User</th>
+            <th class="number">Version</th>
+            <th>CreatedAt</th>
+            <th>ModifiedAt</th>
+
+            <th><div style="text-align: center">Actions</div></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item>
+          <tr [pSelectableRow]="item" style="font-family: 'Courier New', Courier, monospace;">
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+            <td><p-skeleton></p-skeleton></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-paginator [rows]="rows" [totalRecords]="totalElements" class="hidden lg:block"
+                   [rowsPerPageOptions]="[5,10,25,50]" (onPageChange)="paginate($event)" [showCurrentPageReport]="true"
+                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+      </p-paginator>
+
+      <p-paginator [rows]="rows" [totalRecords]="totalElements" class="lg:hidden block"
+                   (onPageChange)="paginate($event)" [pageLinkSize]="2">
+      </p-paginator>
+    </ng-template>
+  </p-card>
+</p-panel>
