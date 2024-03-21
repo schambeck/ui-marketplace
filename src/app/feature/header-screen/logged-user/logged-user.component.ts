@@ -1,30 +1,44 @@
-import { Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import {AuthService} from "../../../shared/service/auth.service";
-import {KeycloakService} from "keycloak-angular";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MenuItem} from 'primeng/api';
+import {AuthorizationService} from "../../../shared/service/authorization.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-logged-user',
   templateUrl: './logged-user.component.html',
   styles: [],
 })
-export class LoggedUserComponent {
-
+export class LoggedUserComponent implements OnInit, OnDestroy {
   items!: MenuItem[];
   username?: string;
+  loggedInSubscription?: Subscription;
 
-  constructor(public authService: AuthService,
-              private readonly keycloak: KeycloakService) {
-    if (this.keycloak.isLoggedIn()) {
-      this.keycloak.getKeycloakInstance().loadUserInfo().then(value => {
-        let prop = "preferred_username" as keyof typeof value;
-        this.username = value[prop];
-        this.buildMenu();
-      });
-    }
+  constructor(public authService: AuthorizationService) {
   }
 
-  buildMenu(): void {
+  ngOnInit(): void {
+    this.loggedInSubscription = this.authService.loggedInSubject.subscribe(loggedIn => {
+      if (loggedIn) {
+        this.authService.auth.user$.subscribe(profile => {
+          if (profile) {
+            let prop = "nickname" as keyof typeof profile;
+            this.username = profile[prop];
+            this.buildMenuLoggedIn();
+          } else {
+            this.buildMenuLoggedOut();
+          }
+        })
+      } else {
+        this.buildMenuLoggedOut();
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.loggedInSubscription?.unsubscribe();
+  }
+
+  buildMenuLoggedIn(): void {
     this.items = [
       {
         label: this.username,
@@ -36,4 +50,14 @@ export class LoggedUserComponent {
     ];
   }
 
+  buildMenuLoggedOut(): void {
+    this.items = [
+      {
+        label: 'Auth',
+        items: [
+          {label: 'Log in', icon: 'pi pi-fw pi-power-on', command: () => this.authService.login()}
+        ]
+      }
+    ];
+  }
 }

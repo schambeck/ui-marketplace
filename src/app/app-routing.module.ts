@@ -9,24 +9,24 @@ import {EditProductComponent} from "./feature/product-screen/edit-product/edit-p
 import {EditUserComponent} from "./feature/user-screen/edit-user/edit-user.component";
 import {ViewProductComponent} from "./feature/catalog-screen/view-product/view-product.component";
 import {ListShoppingCartItemComponent} from "./feature/shopping-cart-screen/list-shopping-cart-item/list-shopping-cart-item.component";
-import {AuthGuard} from "./shared/service/auth-guard";
+import {authGuardFn} from "@auth0/auth0-angular";
 import {ProfileComponent} from "./feature/profile-screen/profile/profile.component";
 import {CheckoutComponent} from "./feature/checkout-screen/checkout/checkout.component";
 import {PaymentComponent} from "./feature/payment-screen/payment/payment.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'user', component: ListUserComponent, canActivate: [AuthGuard]},
-  {path: 'user/:id', component: EditUserComponent, canActivate: [AuthGuard]},
-  {path: 'list-product', component: ListProductComponent, canActivate: [AuthGuard]},
-  {path: 'edit-product', component: EditProductComponent, canActivate: [AuthGuard]},
-  {path: 'edit-product/:id', component: EditProductComponent, canActivate: [AuthGuard]},
+  {path: 'profile', component: ProfileComponent, canActivate: [authGuardFn]},
+  {path: 'user', component: ListUserComponent, canActivate: [authGuardFn]},
+  {path: 'user/:id', component: EditUserComponent, canActivate: [authGuardFn]},
+  {path: 'list-product', component: ListProductComponent, canActivate: [authGuardFn]},
+  {path: 'edit-product', component: EditProductComponent, canActivate: [authGuardFn]},
+  {path: 'edit-product/:id', component: EditProductComponent, canActivate: [authGuardFn]},
   {path: 'catalog', component: ListCatalogComponent},
   {path: 'catalog/:id', component: ViewProductComponent},
-  {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
-  {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
-  {path: 'checkout/:id', component: CheckoutComponent, canActivate: [AuthGuard]},
+  {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [authGuardFn]},
+  {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent, canActivate: [authGuardFn]},
+  {path: 'checkout/:id', component: CheckoutComponent, canActivate: [authGuardFn]},
   {path: 'payment', component: PaymentComponent},
   {path: '', redirectTo: '/catalog', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}

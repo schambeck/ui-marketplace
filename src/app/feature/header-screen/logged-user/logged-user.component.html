@@ -1,11 +1,16 @@
-<ng-container *ngIf="authService.isLoggedIn(); else checking">
-  <p-menu [popup]="true" [model]="items" #menu></p-menu>
-  <p-button icon="pi pi-user" [text]="true" pTooltip="User Profile" tooltipPosition="bottom" [showDelay]="1000" (click)="menu.toggle($event)"></p-button>
+<ng-container *ngIf="authService.loggedInSubject | async as loggedIn; else checking">
+  <ng-container *ngIf="loggedIn; else spinner">
+    <p-menu [popup]="true" [model]="items" #menu></p-menu>
+    <p-button icon="pi pi-user" [text]="true" pTooltip="User Profile" tooltipPosition="bottom" [showDelay]="1000" (click)="menu.toggle($event)"></p-button>
+  </ng-container>
+  <ng-template #spinner>
+    <p-button *ngIf="(authService.loggedInSubject | async) === false; else spinner" (click)="authService.login()" icon="pi pi-sign-in" [text]="true" pTooltip="Log in" tooltipPosition="bottom" [showDelay]="1000"></p-button>
+  </ng-template>
 </ng-container>
 
 <ng-template #checking>
-  <p-button *ngIf="!authService.isLoggedIn(); else spinner" (click)="authService.login()" icon="pi pi-sign-in" [text]="true" pTooltip="Log in" tooltipPosition="bottom" [showDelay]="1000"></p-button>
+  <p-button *ngIf="(authService.loggedInSubject | async) === false; else spinner" (click)="authService.login()" icon="pi pi-sign-in" [text]="true" pTooltip="Log in" tooltipPosition="bottom" [showDelay]="1000"></p-button>
   <ng-template #spinner>
-    <p-progressSpinner [style]="{width: '44px', height: '44px'}"></p-progressSpinner>
+    <p-progressSpinner [style]="{width: '22px', height: '22px'}"></p-progressSpinner>
   </ng-template>
 </ng-template>

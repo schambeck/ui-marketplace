@@ -8,13 +8,13 @@ import {CartItem} from "../../../shared/model/cart-item.entity";
 import {CartService} from "../../../shared/service/cart.service";
 import {Cart} from "../../../shared/model/cart.entity";
 import {Title} from "@angular/platform-browser";
-import {ProductService} from "../../../shared/service/product.service";
+import {CatalogService} from "../../../shared/service/catalog.service";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 
 let mp: any;
 loadMercadoPago().then(() => {
   // @ts-ignore
-  mp = new window.MercadoPago("", {
+  mp = new window.MercadoPago("APP_USR-b2f8308d-afed-4c39-b8eb-0cc009e743c1", {
     locale: "pt-BR",
   });
 });
@@ -42,7 +42,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   constructor(private cartService: CartService,
               private service: ShoppingCartService,
-              private productService: ProductService,
+              private catalogService: CatalogService,
               private router: Router,
               private titleService: Title,
               private route: ActivatedRoute) {
@@ -139,6 +139,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   getImageUrl(objectId: string) {
-    return this.productService.getImage(objectId)
+    return this.catalogService.getImage(objectId)
   }
 }

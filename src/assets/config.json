@@ -1,0 +1,25 @@
+{
+  "clientId": "hwhLd6DvDj9796iWXU8WZCZEVy3iBdH6",
+  "domain": "dev-lug9ug4n.us.auth0.com",
+  "authorizationParams": {
+    "audience": "api-marketplace-id",
+    "redirect_uri": "http://localhost:4200"
+  },
+  "errorPath": "/error",
+  "httpInterceptor": {
+    "allowedList": [
+      {
+        "uri": "http://localhost:8080/users*"
+      },
+      {
+        "uri": "http://localhost:8080/products*"
+      },
+      {
+        "uri": "http://localhost:8080/shopping-cart*"
+      },
+      {
+        "uri": "http://localhost:8080/carts*"
+      }
+    ]
+  }
+}
