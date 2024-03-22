@@ -33,6 +33,9 @@ export const environment = {
       },
       {
         uri: "http://localhost:8080/carts*"
+      },
+      {
+        uri: "http://localhost:8080/mercado-pago*"
       }
     ]
   },
