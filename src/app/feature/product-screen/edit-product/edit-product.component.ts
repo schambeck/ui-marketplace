@@ -9,6 +9,7 @@ import {Title} from "@angular/platform-browser";
 import {FileUploadEvent} from "primeng/fileupload";
 import {HttpResponse} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
+import {CatalogService} from "../../../shared/service/catalog.service";
 
 @Component({
   selector: 'app-edit-product',
@@ -24,6 +25,7 @@ export class EditProductComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private location: Location,
               private service: ProductService,
+              private catalogService: CatalogService,
               private messageService: MessageService,
               private titleService: Title) {
     let id = this.route.snapshot.paramMap.get('id');
@@ -78,7 +80,7 @@ export class EditProductComponent implements OnInit {
   }
 
   getImageUrl(objectId: string) {
-    return this.service.getImage(objectId)
+    return this.catalogService.getImage(objectId)
   }
 
   protected readonly environment = environment;

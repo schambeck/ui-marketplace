@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from "../../../shared/service/auth.service";
+import {AuthorizationService} from "../../../shared/service/authorization.service";
 
 @Component({
   selector: 'app-header',
@@ -10,7 +10,7 @@ export class HeaderComponent {
   display = false;
   menuDisplay = true;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthorizationService) {
   }
 
   toggleMenuDisplay() {

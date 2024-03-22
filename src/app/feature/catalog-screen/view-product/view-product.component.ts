@@ -6,7 +6,8 @@ import {Product} from "../../../shared/model/product.entity";
 import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
-import {AuthService} from "../../../shared/service/auth.service";
+import {AuthorizationService} from "../../../shared/service/authorization.service";
+import {CatalogService} from "../../../shared/service/catalog.service";
 
 @Component({
   selector: 'app-view-product',
@@ -21,11 +22,12 @@ export class ViewProductComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private service: ProductService,
+              private catalogService: CatalogService,
               private messageService: MessageService,
               private titleService: Title,
               private router: Router,
               private shoppingCartService: ShoppingCartService,
-              private authService: AuthService) {
+              private authService: AuthorizationService) {
     let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.get(id).subscribe(value => {
@@ -51,8 +53,8 @@ export class ViewProductComponent implements OnInit {
 
   addCartProduct(product: Product) {
     if (!this.authService.isLoggedIn()) {
-      let redirectUri = `${window.location.origin}/shopping-cart/${product.id}`;
-      this.authService.login({redirectUri: redirectUri});
+      // let redirectUri = `${window.location.origin}/shopping-cart/${product.id}`;
+      this.authService.login();
       return;
     }
     this.saving = true;
@@ -74,6 +76,6 @@ export class ViewProductComponent implements OnInit {
   }
 
   getImageUrl(objectId: string) {
-    return this.service.getImage(objectId)
+    return this.catalogService.getImage(objectId)
   }
 }
