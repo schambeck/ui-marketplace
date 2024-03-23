@@ -1,0 +1,29 @@
+{
+  "clientId": "hwhLd6DvDj9796iWXU8WZCZEVy3iBdH6",
+  "domain": "dev-lug9ug4n.us.auth0.com",
+  "authorizationParams": {
+    "audience": "api-marketplace-id",
+    "redirect_uri": "https://104.196.130.21:4443"
+  },
+  "apiUri": "https://104.196.130.21:8443",
+  "errorPath": "/error",
+  "httpInterceptor": {
+    "allowedList": [
+      {
+        "uri": "https://104.196.130.21:8443/users*"
+      },
+      {
+        "uri": "https://104.196.130.21:8443/products*"
+      },
+      {
+        "uri": "https://104.196.130.21:8443/shopping-cart*"
+      },
+      {
+        "uri": "https://104.196.130.21:8443/carts*"
+      },
+      {
+        "uri": "https://104.196.130.21:8443/mercado-pago*"
+      }
+    ]
+  }
+}

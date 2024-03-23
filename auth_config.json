@@ -5,6 +5,7 @@
     "audience": "api-marketplace-id",
     "redirect_uri": "http://localhost:4200"
   },
+  "apiUri": "http://localhost:8080",
   "errorPath": "/error",
   "httpInterceptor": {
     "allowedList": [

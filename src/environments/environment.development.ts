@@ -1,7 +1,7 @@
 // @ts-ignore
 import config from '../../auth_config.json';
 
-const { domain, clientId, authorizationParams: { audience, redirect_uri }} = config as {
+const { domain, clientId, authorizationParams: { audience, redirect_uri }, apiUri} = config as {
   domain: string;
   clientId: string;
   authorizationParams: {
@@ -13,7 +13,11 @@ const { domain, clientId, authorizationParams: { audience, redirect_uri }} = con
 };
 
 export const environment = {
-  baseUrl: 'http://localhost:8080',
+  baseUrl: apiUri,
+  mercadoPago: {
+    publicKey: 'APP_USR-b2f8308d-afed-4c39-b8eb-0cc009e743c1',
+    locale: 'pt-BR'
+  },
   auth: {
     domain,
     clientId,
@@ -23,19 +27,19 @@ export const environment = {
   httpInterceptor: {
     allowedList: [
       {
-        uri: "http://localhost:8080/users*"
+        uri: `${apiUri}/users*`
       },
       {
-        uri: "http://localhost:8080/products*"
+        uri: `${apiUri}/products*`
       },
       {
-        uri: "http://localhost:8080/shopping-cart*"
+        uri: `${apiUri}/shopping-cart*`
       },
       {
-        uri: "http://localhost:8080/carts*"
+        uri: `${apiUri}/carts*`
       },
       {
-        uri: "http://localhost:8080/mercado-pago*"
+        uri: `${apiUri}/mercado-pago*`
       }
     ]
   },

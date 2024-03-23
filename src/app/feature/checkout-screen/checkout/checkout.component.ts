@@ -10,12 +10,13 @@ import {Cart} from "../../../shared/model/cart.entity";
 import {Title} from "@angular/platform-browser";
 import {CatalogService} from "../../../shared/service/catalog.service";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
+import {environment} from "../../../../environments/environment";
 
 let mp: any;
 loadMercadoPago().then(() => {
   // @ts-ignore
-  mp = new window.MercadoPago("APP_USR-b2f8308d-afed-4c39-b8eb-0cc009e743c1", {
-    locale: "pt-BR",
+  mp = new window.MercadoPago(environment.mercadoPago.publicKey, {
+    locale: environment.mercadoPago.locale,
   });
 });
 
