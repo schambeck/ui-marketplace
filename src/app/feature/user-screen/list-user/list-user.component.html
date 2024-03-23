@@ -37,14 +37,6 @@
 
 
 
-            <th class="number">Version</th>
-
-
-
-            <th>CreatedAt</th>
-
-
-
             <th>ModifiedAt</th>
 
 
@@ -61,12 +53,6 @@
             <td (click)="navigateToDetail(user)">{{user.username}}</td>
             <td (click)="navigateToDetail(user)">{{user.email}}</td>
             <td (click)="navigateToDetail(user)">{{user.fullName}}</td>
-
-            <td (click)="navigateToDetail(user)" class="number">{{user.version | number}}</td>
-
-
-            <td (click)="navigateToDetail(user)">{{user.createdAt | date:'dd/MM/yyyy'}}</td>
-
 
             <td (click)="navigateToDetail(user)">{{user.modifiedAt | date:'dd/MM/yyyy'}}</td>
 
@@ -98,14 +84,6 @@
 
 
 
-            <th class="number">Version</th>
-
-
-
-            <th>CreatedAt</th>
-
-
-
             <th>ModifiedAt</th>
 
             <th><div style="text-align: center">Actions</div></th>
@@ -114,8 +92,6 @@
 
         <ng-template pTemplate="body" let-item>
           <tr [pSelectableRow]="item" style="font-family: 'Courier New', Courier, monospace;">
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
             <td><p-skeleton></p-skeleton></td>
             <td><p-skeleton></p-skeleton></td>
             <td><p-skeleton></p-skeleton></td>
