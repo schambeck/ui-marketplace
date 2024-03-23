@@ -10,7 +10,7 @@
     </ng-template>
     <div *ngIf="product$ | async as product else loading" class="grid nested-grid">
       <div class="col-4 flex justify-content-center align-items-center">
-        <img id="image" class="shadow-2 block xl:block mx-auto border-round w-full" [src]="getImageUrl(product.objectId)" [alt]="product.name" />
+        <p-image id="image" class="shadow-2 block xl:block mx-auto border-round w-full" [src]="getImageUrl(product.objectId)" [alt]="product.name" [preview]="true"></p-image>
       </div>
       <div class="col-8 pl-4">
         <div class="grid">

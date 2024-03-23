@@ -63,11 +63,11 @@
                       [maxFileSize]="1000000">
           <ng-template pTemplate="content">
             <div *ngIf="uploadedFile.size">
-              <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="uploadedFile.objectURL" [alt]="product.name" />
+              <p-image class="shadow-2 block xl:block mx-auto border-round" [src]="uploadedFile.objectURL" [alt]="product.name" />
             </div>
-            <div *ngIf="!uploadedFile.size">
-              <div class="text-center pb-2">Current Image</div>
-              <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="getImageUrl(product.objectId)" [alt]="product.name" />
+            <div *ngIf="!uploadedFile.size" class="text-center">
+              <div class="pb-2">Current Image</div>
+              <p-image class="shadow-2 block xl:block mx-auto border-round" [src]="getImageUrl(product.objectId)" [alt]="product.name" [preview]="true" />
             </div>
           </ng-template>
         </p-fileUpload>

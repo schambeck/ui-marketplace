@@ -25,6 +25,7 @@ import {DataViewModule} from "primeng/dataview";
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {FileUploadModule} from "primeng/fileupload";
+import {ImageModule} from "primeng/image";
 
 @NgModule({
   declarations: [
@@ -55,8 +56,9 @@ import {FileUploadModule} from "primeng/fileupload";
     DataViewModule,
     RatingModule,
     TagModule,
-    FileUploadModule
-],
+    FileUploadModule,
+    ImageModule
+  ],
   exports: [
     ListProductComponent,
     EditProductComponent

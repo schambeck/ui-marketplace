@@ -12,6 +12,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import {SidebarScreenModule} from "../sidebar-screen/sidebar-screen.module";
 import {LoggedUserComponent} from "./logged-user/logged-user.component";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
+import {ImageModule} from "primeng/image";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
     BadgeModule,
     ProgressSpinnerModule,
     TooltipModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ImageModule
   ],
   exports: [
     HeaderComponent

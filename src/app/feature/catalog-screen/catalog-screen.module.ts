@@ -24,6 +24,7 @@ import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {ListCatalogComponent} from "./list-catalog/list-catalog.component";
 import {ViewProductComponent} from "./view-product/view-product.component";
+import {ImageModule} from "primeng/image";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {ViewProductComponent} from "./view-product/view-product.component";
     CustomAutocompleteModule,
     DataViewModule,
     RatingModule,
-    TagModule
+    TagModule,
+    ImageModule
   ],
   exports: [
     ListCatalogComponent,

@@ -23,6 +23,7 @@ import {DataViewModule} from "primeng/dataview";
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {CheckoutComponent} from "./checkout/checkout.component";
+import {ImageModule} from "primeng/image";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {CheckoutComponent} from "./checkout/checkout.component";
     CustomAutocompleteModule,
     DataViewModule,
     RatingModule,
-    TagModule
+    TagModule,
+    ImageModule
   ],
   exports: [
     CheckoutComponent

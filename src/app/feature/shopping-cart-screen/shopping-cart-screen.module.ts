@@ -23,6 +23,7 @@ import {DataViewModule} from "primeng/dataview";
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {ListShoppingCartItemComponent} from "./list-shopping-cart-item/list-shopping-cart-item.component";
+import {ImageModule} from "primeng/image";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {ListShoppingCartItemComponent} from "./list-shopping-cart-item/list-shop
     CustomAutocompleteModule,
     DataViewModule,
     RatingModule,
-    TagModule
+    TagModule,
+    ImageModule
   ],
   exports: [
     ListShoppingCartItemComponent
