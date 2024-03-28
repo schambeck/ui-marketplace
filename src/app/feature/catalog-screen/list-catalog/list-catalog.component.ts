@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
 import {AuthorizationService} from "../../../shared/service/authorization.service";
 import {CatalogService} from "../../../shared/service/catalog.service";
+import {ObjectStorageService} from "../../../shared/service/object-storage.service";
 
 @Component({
   selector: 'app-list-catalog',
@@ -31,7 +32,8 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
               private messageService: MessageService,
               private router: Router,
               private titleService: Title,
-              private authService: AuthorizationService) {
+              private authService: AuthorizationService,
+              private objectStorageService: ObjectStorageService) {
   }
 
   ngOnInit(): void {
@@ -116,6 +118,6 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   }
 
   getImageUrl(objectId: string) {
-    return this.service.getImage(objectId)
+    return this.objectStorageService.getImageUrl(objectId)
   }
 }

@@ -8,7 +8,7 @@ import {CartItem} from "../../../shared/model/cart-item.entity";
 import {CartService} from "../../../shared/service/cart.service";
 import {Cart} from "../../../shared/model/cart.entity";
 import {Title} from "@angular/platform-browser";
-import {CatalogService} from "../../../shared/service/catalog.service";
+import {ObjectStorageService} from "../../../shared/service/object-storage.service";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import {environment} from "../../../../environments/environment";
 
@@ -43,7 +43,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   constructor(private cartService: CartService,
               private service: ShoppingCartService,
-              private catalogService: CatalogService,
+              private objectStorageService: ObjectStorageService,
               private router: Router,
               private titleService: Title,
               private route: ActivatedRoute) {
@@ -140,6 +140,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   getImageUrl(objectId: string) {
-    return this.catalogService.getImage(objectId)
+    return this.objectStorageService.getImageUrl(objectId)
   }
 }

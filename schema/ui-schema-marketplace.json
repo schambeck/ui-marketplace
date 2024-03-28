@@ -26,6 +26,24 @@
         {"nameField": "price", "typeField": "number", "fractionDigits": 2},
         {"nameField": "quantity", "typeField": "number", "fractionDigits": 2},
         {"nameField": "user", "typeField": "User", "subtype": "entity"},
+        {"nameField": "image", "typeField": "string"},
+        {"nameField": "objectId", "typeField": "string"},
+        {"nameField": "version", "typeField": "number", "disabled": true},
+        {"nameField": "createdAt", "typeField": "string", "subtype": "date", "disabled": true},
+        {"nameField": "modifiedAt", "typeField": "string", "subtype": "date", "disabled": true}
+      ]
+    },
+    {
+      "name": "Image",
+      "resource": "images",
+      "ui": "image",
+      "fields": [
+        {"nameField": "id", "typeField": "number", "disabled": true},
+        {"nameField": "product", "typeField": "Product", "subtype": "entity"},
+        {"nameField": "objectId", "typeField": "string"},
+        {"nameField": "fileName", "typeField": "string"},
+        {"nameField": "contentType", "typeField": "string"},
+        {"nameField": "size", "typeField": "number"},
         {"nameField": "version", "typeField": "number", "disabled": true},
         {"nameField": "createdAt", "typeField": "string", "subtype": "date", "disabled": true},
         {"nameField": "modifiedAt", "typeField": "string", "subtype": "date", "disabled": true}

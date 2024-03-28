@@ -26,6 +26,7 @@ import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {FileUploadModule} from "primeng/fileupload";
 import {ImageModule} from "primeng/image";
+import {GalleriaModule} from "primeng/galleria";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {ImageModule} from "primeng/image";
     RatingModule,
     TagModule,
     FileUploadModule,
-    ImageModule
+    ImageModule,
+    GalleriaModule
   ],
   exports: [
     ListProductComponent,

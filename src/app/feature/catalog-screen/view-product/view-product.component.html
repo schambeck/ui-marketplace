@@ -10,7 +10,21 @@
     </ng-template>
     <div *ngIf="product$ | async as product else loading" class="grid nested-grid">
       <div class="col-4 flex justify-content-center align-items-center">
-        <p-image id="image" class="shadow-2 block xl:block mx-auto border-round w-full" [src]="getImageUrl(product.objectId)" [alt]="product.name" [preview]="true"></p-image>
+        <div *ngIf="images$ | async as images else loadingGalleria">
+          <p-galleria [value]="images" [showItemNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="true" [numVisible]="5" [containerStyle]="{ 'max-width': '400px' }">
+            <ng-template pTemplate="item" let-item>
+              <img [src]="getImageUrl(item.objectId)" style="width: 100%; display: block;" />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+              <div class="grid grid-nogutter justify-content-center">
+                <img [src]="getImageUrl(item.objectId)" style="display: block; width: 80px; height: 60px;" />
+              </div>
+            </ng-template>
+          </p-galleria>
+        </div>
+        <ng-template #loadingGalleria>
+          <p-progressSpinner></p-progressSpinner>
+        </ng-template>
       </div>
       <div class="col-8 pl-4">
         <div class="grid">
@@ -53,7 +67,6 @@
     </div>
     <ng-template #loading>
       <div class="grid">
-        <div class="col-6"><label for="image" class="block font-bold">Image</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="col-6"><label for="name" class="block font-bold">Name</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="col-6"><label for="price" class="block font-bold">Price</label><p-skeleton height="2.75rem"></p-skeleton></div>
         <div class="col-6"><label for="rating" class="block font-bold">Rating</label><p-skeleton height="2.75rem"></p-skeleton></div>

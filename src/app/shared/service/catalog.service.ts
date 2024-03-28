@@ -26,8 +26,4 @@ export class CatalogService implements CustomAutoCompleteService<Product> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
     return this.http.get<Product>(url);
   }
-
-  getImage(objectId: string): string {
-    return `${this.url}/download/${encodeURIComponent(objectId)}`;
-  }
 }

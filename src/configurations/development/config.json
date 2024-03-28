@@ -23,6 +23,12 @@
       },
       {
         "uri": "http://localhost:8080/mercado-pago*"
+      },
+      {
+        "uri": "http://localhost:8080/images*"
+      },
+      {
+        "uri": "http://localhost:8080/object-storage*"
       }
     ]
   }

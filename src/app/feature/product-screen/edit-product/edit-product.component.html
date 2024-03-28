@@ -54,26 +54,6 @@
       </div>
 
       <div class="field col-6">
-        <label for="objectId" class="block font-bold">Image</label>
-        <p-fileUpload id="objectId"
-                      name="file"
-                      [url]="environment.baseUrl + '/products/upload'"
-                      (onUpload)="onUpload($event, product)"
-                      accept="image/*"
-                      [maxFileSize]="1000000">
-          <ng-template pTemplate="content">
-            <div *ngIf="uploadedFile.size">
-              <p-image class="shadow-2 block xl:block mx-auto border-round" [src]="uploadedFile.objectURL" [alt]="product.name" />
-            </div>
-            <div *ngIf="!uploadedFile.size" class="text-center">
-              <div class="pb-2">Current Image</div>
-              <p-image class="shadow-2 block xl:block mx-auto border-round" [src]="getImageUrl(product.objectId)" [alt]="product.name" [preview]="true" />
-            </div>
-          </ng-template>
-        </p-fileUpload>
-      </div>
-
-      <div class="field col-6">
         <label for="version" class="block font-bold">Version</label>
         <p-inputNumber id="version" [size]="25" [(ngModel)]="product.version" [disabled]="true"></p-inputNumber>
       </div>
@@ -88,6 +68,32 @@
         <p-calendar id="modifiedAt" dateFormat="yy-mm-dd" [(ngModel)]="product.modifiedAt" [showIcon]="true" dataType="string" [disabled]="true"/>
       </div>
 
+      <div class="field col-6">
+        <label class="block font-bold">Images</label>
+        <p-fileUpload mode="basic"
+                      name="file"
+                      [url]="environment.baseUrl + '/object-storage/upload-file'"
+                      (onUpload)="onUpload($event, product)"
+                      accept="image/*"
+                      [maxFileSize]="1000000"
+                      [auto]="true">
+        </p-fileUpload>
+        <div *ngIf="images$ | async as images else loadingGalleria">
+          <p-galleria [value]="images" [showItemNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="true" [numVisible]="5" [containerStyle]="{ 'max-width': '400px' }">
+            <ng-template pTemplate="item" let-item>
+              <img [src]="getImageUrl(item.objectId)" style="width: 100%; display: block;" />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+              <div class="grid grid-nogutter justify-content-center">
+                <img [src]="getImageUrl(item.objectId)" style="display: block; width: 80px; height: 60px;" />
+              </div>
+            </ng-template>
+          </p-galleria>
+        </div>
+        <ng-template #loadingGalleria>
+          <p-progressSpinner></p-progressSpinner>
+        </ng-template>
+      </div>
     </div>
     <ng-template #loading>
       <div class="grid">

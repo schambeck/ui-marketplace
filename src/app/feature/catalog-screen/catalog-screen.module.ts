@@ -25,6 +25,7 @@ import {TagModule} from "primeng/tag";
 import {ListCatalogComponent} from "./list-catalog/list-catalog.component";
 import {ViewProductComponent} from "./view-product/view-product.component";
 import {ImageModule} from "primeng/image";
+import {GalleriaModule} from "primeng/galleria";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {ImageModule} from "primeng/image";
     DataViewModule,
     RatingModule,
     TagModule,
-    ImageModule
+    ImageModule,
+    GalleriaModule
   ],
   exports: [
     ListCatalogComponent,

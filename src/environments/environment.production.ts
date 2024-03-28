@@ -40,6 +40,12 @@ export const environment = {
       },
       {
         uri: `${apiUri}/mercado-pago*`
+      },
+      {
+        uri: `${apiUri}/images*`
+      },
+      {
+        uri: `${apiUri}/object-storage*`
       }
     ]
   },

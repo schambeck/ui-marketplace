@@ -23,6 +23,12 @@
       },
       {
         "uri": "https://104.196.130.21:8443/mercado-pago*"
+      },
+      {
+        "uri": "https://104.196.130.21:8443/images*"
+      },
+      {
+        "uri": "https://104.196.130.21:8443/object-storage*"
       }
     ]
   }

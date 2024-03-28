@@ -51,9 +51,4 @@ export class ProductService implements CustomAutoCompleteService<Product> {
     let url = `${this.url}/user`;
     return this.http.get<Page<Product>>(url, { params: params });
   }
-
-  getImage(objectId: string): string {
-    return `${this.url}/download/${encodeURIComponent(objectId)}`;
-  }
-
 }
