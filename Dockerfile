@@ -1,4 +1,5 @@
 FROM nginx:latest
 COPY dist/ui-marketplace/ /usr/share/nginx/html
-COPY cert/*.pem /etc/nginx/cert/
+COPY zerossl/D29AC8241592C0278DDD11C4B34E3436.txt /usr/share/nginx/html/.well-known/pki-validation/
+COPY zerossl/* /etc/nginx/cert/
 COPY nginx.conf /etc/nginx/conf.d/default.conf

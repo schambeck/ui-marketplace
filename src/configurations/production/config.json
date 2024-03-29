@@ -3,32 +3,32 @@
   "domain": "dev-lug9ug4n.us.auth0.com",
   "authorizationParams": {
     "audience": "api-marketplace-id",
-    "redirect_uri": "https://104.196.130.21:4443"
+    "redirect_uri": "https://marketplace.servebeer.com"
   },
-  "apiUri": "https://104.196.130.21:8443",
+  "apiUri": "https://marketplace.servebeer.com:8443",
   "errorPath": "/error",
   "httpInterceptor": {
     "allowedList": [
       {
-        "uri": "https://104.196.130.21:8443/users*"
+        "uri": "https://marketplace.servebeer.com:8443/users*"
       },
       {
-        "uri": "https://104.196.130.21:8443/products*"
+        "uri": "https://marketplace.servebeer.com:8443/products*"
       },
       {
-        "uri": "https://104.196.130.21:8443/shopping-cart*"
+        "uri": "https://marketplace.servebeer.com:8443/shopping-cart*"
       },
       {
-        "uri": "https://104.196.130.21:8443/carts*"
+        "uri": "https://marketplace.servebeer.com:8443/carts*"
       },
       {
-        "uri": "https://104.196.130.21:8443/mercado-pago*"
+        "uri": "https://marketplace.servebeer.com:8443/mercado-pago*"
       },
       {
-        "uri": "https://104.196.130.21:8443/images*"
+        "uri": "https://marketplace.servebeer.com:8443/images*"
       },
       {
-        "uri": "https://104.196.130.21:8443/object-storage*"
+        "uri": "https://marketplace.servebeer.com:8443/object-storage*"
       }
     ]
   }
