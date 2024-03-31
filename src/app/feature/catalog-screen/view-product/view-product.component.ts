@@ -6,7 +6,7 @@ import {Product} from "../../../shared/model/product.entity";
 import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
-import {AuthorizationService} from "../../../shared/service/authorization.service";
+import {AuthService} from "../../../shared/service/auth.service";
 import {ObjectStorageService} from "../../../shared/service/object-storage.service";
 import {Image} from "../../../shared/model/image.entity";
 import {ImageService} from "../../../shared/service/image.service";
@@ -33,7 +33,7 @@ export class ViewProductComponent implements OnInit {
               private titleService: Title,
               private router: Router,
               private shoppingCartService: ShoppingCartService,
-              private authService: AuthorizationService,
+              private authService: AuthService,
               private imageService: ImageService) {
     let id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -67,8 +67,8 @@ export class ViewProductComponent implements OnInit {
 
   addCartProduct(product: Product) {
     if (!this.authService.isLoggedIn()) {
-      // let redirectUri = `${window.location.origin}/shopping-cart/${product.id}`;
-      this.authService.login();
+      let redirectUri = `${window.location.origin}/shopping-cart/${product.id}`;
+      this.authService.login({redirectUri: redirectUri});
       return;
     }
     this.saving = true;

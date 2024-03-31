@@ -1,7 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MenuItem} from 'primeng/api';
-import {AuthorizationService} from "../../../shared/service/authorization.service";
-import {Subscription} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { AuthService } from "../../../shared/service/auth.service";
+import { KeycloakService } from "keycloak-angular";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-logged-user',
@@ -9,36 +10,26 @@ import {Subscription} from "rxjs";
   styles: [],
 })
 export class LoggedUserComponent implements OnInit, OnDestroy {
+
   items!: MenuItem[];
   username?: string;
   loggedInSubscription?: Subscription;
 
-  constructor(public authService: AuthorizationService) {
+  constructor(public authService: AuthService,
+              private readonly keycloak: KeycloakService) {
   }
 
   ngOnInit(): void {
-    this.loggedInSubscription = this.authService.loggedInSubject.subscribe(loggedIn => {
-      if (loggedIn) {
-        this.authService.auth.user$.subscribe(profile => {
-          if (profile) {
-            let prop = "nickname" as keyof typeof profile;
-            this.username = profile[prop];
-            this.buildMenuLoggedIn();
-          } else {
-            this.buildMenuLoggedOut();
-          }
-        })
-      } else {
-        this.buildMenuLoggedOut();
-      }
-    })
+    if (this.keycloak.isLoggedIn()) {
+      this.keycloak.getKeycloakInstance().loadUserInfo().then(value => {
+        let prop = "preferred_username" as keyof typeof value;
+        this.username = value[prop];
+        this.buildMenu();
+      });
+    }
   }
 
-  ngOnDestroy(): void {
-    this.loggedInSubscription?.unsubscribe();
-  }
-
-  buildMenuLoggedIn(): void {
+  buildMenu(): void {
     this.items = [
       {
         label: this.username,
@@ -50,14 +41,7 @@ export class LoggedUserComponent implements OnInit, OnDestroy {
     ];
   }
 
-  buildMenuLoggedOut(): void {
-    this.items = [
-      {
-        label: 'Auth',
-        items: [
-          {label: 'Log in', icon: 'pi pi-fw pi-power-on', command: () => this.authService.login()}
-        ]
-      }
-    ];
+  ngOnDestroy(): void {
+    this.loggedInSubscription?.unsubscribe();
   }
 }

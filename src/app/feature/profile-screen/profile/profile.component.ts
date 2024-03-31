@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {AuthorizationService} from "../../../shared/service/authorization.service";
+import {KeycloakService} from "keycloak-angular";
 
 @Component({
   selector: 'app-profile',
@@ -11,10 +11,10 @@ export class ProfileComponent implements OnInit {
   userProfile: any;
 
   constructor(private titleService: Title,
-              private authService: AuthorizationService) {}
+              private readonly keycloak: KeycloakService) {}
 
   ngOnInit() {
     this.titleService.setTitle("Profile");
-    this.authService.auth.user$.subscribe(profile => (this.userProfile = profile));
+    this.keycloak.getKeycloakInstance().loadUserInfo().then(value => this.userProfile = value);
   }
 }

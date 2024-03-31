@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SharedModule} from "./shared/shared-module";
-import {HTTP_INTERCEPTORS, HttpBackend, HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MessageService} from "primeng/api";
 import {HeaderScreenModule} from "./feature/header-screen/header-screen.module";
 import {SidebarScreenModule} from "./feature/sidebar-screen/sidebar-screen.module";
@@ -22,17 +22,35 @@ import {ShoppingCartScreenModule} from "./feature/shopping-cart-screen/shopping-
 import {ProfileScreenModule} from "./feature/profile-screen/profile-screen.module";
 import {CheckoutScreenModule} from "./feature/checkout-screen/checkout-screen.module";
 import {PaymentScreenModule} from "./feature/payment-screen/payment-screen.module";
-import {AuthClientConfig, AuthHttpInterceptor, AuthModule} from "@auth0/auth0-angular";
+import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {environment} from "../environments/environment";
 
-const configInitializer = (
-  handler: HttpBackend,
-  config: AuthClientConfig
-): (() => Promise<any>) => () =>
-  new HttpClient(handler)
-    .get('/assets/config.json')
-    .toPromise()
-    .then((loadedConfig: any) => config.set(loadedConfig)); // Set the config that was loaded asynchronously here
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        url: `${environment.keycloakUrl}`,
+        realm: `${environment.keycloakRealm}`,
+        clientId: `${environment.keycloakClientId}`
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
+      },
+      shouldAddToken: (request) => {
+        const { method, url } = request;
+
+        const isGetRequest = 'GET' === method.toUpperCase();
+        const acceptablePaths = ['/assets'];
+        const isAcceptablePathMatch = acceptablePaths.some((path) =>
+          url.includes(path)
+        );
+
+        return !(isGetRequest && isAcceptablePathMatch);
+      }
+    });
+}
 
 @NgModule({
   declarations: [
@@ -43,13 +61,7 @@ const configInitializer = (
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    AuthModule.forRoot({
-      domain: environment.auth.domain,
-      clientId: environment.auth.clientId,
-      authorizationParams: {
-        redirect_uri: window.location.origin,
-      },
-    }),
+    KeycloakAngularModule,
     SharedModule,
     HeaderScreenModule,
     SidebarScreenModule,
@@ -69,14 +81,9 @@ const configInitializer = (
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: configInitializer,
-      deps: [HttpBackend, AuthClientConfig],
+      useFactory: initializeKeycloak,
       multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthHttpInterceptor,
-      multi: true,
+      deps: [KeycloakService]
     },
     {
       provide: HTTP_INTERCEPTORS,
