@@ -18,7 +18,7 @@ export const environment = {
     publicKey: 'APP_USR-b2f8308d-afed-4c39-b8eb-0cc009e743c1',
     locale: 'pt-BR'
   },
-  keycloakUrl: 'https://srv-keycloak.servebeer.com:8443',
+  keycloakUrl: 'https://gamebazaar.duckdns.org:9443',
   keycloakRealm: 'marketplace',
   keycloakClientId: 'ui-marketplace',
   auth: {
