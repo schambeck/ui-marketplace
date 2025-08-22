@@ -6,6 +6,9 @@
           <p-button label="Back" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2"></p-button>
           <p-button label="Save" (onClick)="save()" icon="pi pi-save" [loading]="saving"></p-button>
         </div>
+        <div class="p-toolbar-group-end">
+          <p-button label="Start Flow" (onClick)="startFlow()" icon="pi pi-file-export" styleClass="p-button-secondary"></p-button>
+        </div>
       </p-toolbar>
     </ng-template>
     <div *ngIf="user$ | async as user else loading" class="grid">
@@ -27,6 +30,15 @@
         <label for="fullName" class="block font-bold">FullName</label>
         <input id="fullName" type="text" class="w-full" [(ngModel)]="user.fullName" pInputText >
       </div>
+      <div class="field col-6">
+        <label for="publicKey" class="block font-bold">Public Key</label>
+        <input id="publicKey" type="text" class="w-full" [(ngModel)]="user.publicKey" [disabled]="true" pInputText >
+      </div>
+      <div class="field col-6">
+        <label for="publicKeyModifiedAt" class="block font-bold">Public Key ModifiedAt</label>
+        <p-calendar id="publicKeyModifiedAt" dateFormat="yy-mm-dd" [(ngModel)]="user.publicKeyModifiedAt" [showIcon]="true" dataType="string" [disabled]="true"/>
+      </div>
+
       <div class="field col-6">
         <label for="version" class="block font-bold">Version</label>
         <p-inputNumber id="version" [size]="25" [(ngModel)]="user.version" [disabled]="true"></p-inputNumber>

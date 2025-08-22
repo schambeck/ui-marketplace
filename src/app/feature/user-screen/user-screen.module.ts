@@ -21,11 +21,13 @@ import {ToolbarModule} from "primeng/toolbar";
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {CustomAutocompleteModule} from "../custom-autocomplete-component/custom-autocomplete.module";
 import {CalendarModule} from "primeng/calendar";
+import {ViewLoggedUserComponent} from "./view-logged-user/view-logged-user.component";
 
 @NgModule({
   declarations: [
     ListUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    ViewLoggedUserComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ import {CalendarModule} from "primeng/calendar";
   ],
   exports: [
     ListUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    ViewLoggedUserComponent
   ]
 })
 export class UserScreenModule {

@@ -6,6 +6,7 @@ import {Location} from '@angular/common';
 import {User} from "../../../shared/model/user.entity";
 import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
+import {OAuthService} from "../../../shared/service/oauth.service";
 
 @Component({
   selector: 'app-edit-user',
@@ -21,12 +22,17 @@ export class EditUserComponent implements OnInit {
               private location: Location,
               private service: UserService,
               private messageService: MessageService,
-              private titleService: Title) {
+              private titleService: Title,
+              private oAuthService: OAuthService) {
     let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.get(id).subscribe(value => {
         this.userSubject$.next(value);
         this.user$ = this.userSubject$.asObservable();
+        let tokenGenerated = Boolean(this.route.snapshot.queryParamMap.get('tokenGenerated'));
+        if (tokenGenerated) {
+          this.messageService.add({severity: 'success', summary: 'Token Generated', detail: 'Token Generated'});
+        }
       });
     } else {
       this.user$ = this.userSubject$.asObservable();
@@ -54,4 +60,18 @@ export class EditUserComponent implements OnInit {
     });
   }
 
+  startFlow(): void {
+    this.oAuthService.startFlow().subscribe((response: any) => {
+      console.log(`Started flow: ${JSON.stringify(response)}`);
+      window.location.href = response.redirectUrl;
+    });
+  }
+
+  // requestSellerPermission(): void {
+  //   window.location.href = 'https://auth.mercadopago.com.br/authorization?' +
+  //     `client_id=${environment.mercadoPago.clientId}` +
+  //     '&response_type=code' +
+  //     '&platform_id=mp' +
+  //     `&redirect_uri=${environment.baseUrl}/oauth`;
+  // }
 }

@@ -24,6 +24,7 @@ import {CheckoutScreenModule} from "./feature/checkout-screen/checkout-screen.mo
 import {PaymentScreenModule} from "./feature/payment-screen/payment-screen.module";
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {environment} from "../environments/environment";
+import {NgrokHttpInterceptorService} from "./shared/service/ngrok-http-interceptor.service";
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -90,6 +91,11 @@ function initializeKeycloak(keycloak: KeycloakService) {
       useClass: ErrorHttpInterceptorService,
       multi: true
     },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: NgrokHttpInterceptorService,
+    //   multi: true
+    // },
     MessageService
   ],
   bootstrap: [AppComponent]

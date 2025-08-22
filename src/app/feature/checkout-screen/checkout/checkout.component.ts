@@ -9,16 +9,9 @@ import {CartService} from "../../../shared/service/cart.service";
 import {Cart} from "../../../shared/model/cart.entity";
 import {Title} from "@angular/platform-browser";
 import {ObjectStorageService} from "../../../shared/service/object-storage.service";
-import { loadMercadoPago } from "@mercadopago/sdk-js";
+import {loadMercadoPago} from "@mercadopago/sdk-js";
 import {environment} from "../../../../environments/environment";
-
-let mp: any;
-loadMercadoPago().then(() => {
-  // @ts-ignore
-  mp = new window.MercadoPago(environment.mercadoPago.publicKey, {
-    locale: environment.mercadoPago.locale,
-  });
-});
+import {OAuthTokenService} from "../../../shared/service/oauth-token.service";
 
 @Component({
   selector: 'app-checkout',
@@ -32,21 +25,25 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   page$ = new Observable<Page<CartItem>>();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
-  creating = false;
+  loadingToken = false;
   totalElements = 0;
   currentPage = 0;
   currentText = '';
   cartSubject$ = new BehaviorSubject<Cart>({} as Cart);
   cart$?: Observable<Cart>;
+  tokenSubject$ = new BehaviorSubject<any>({} as any);
+  token$?: Observable<any>;
   quantitySubscription?: Subscription;
   preferenceId?: string | null;
+  mp: any;
 
   constructor(private cartService: CartService,
               private service: ShoppingCartService,
               private objectStorageService: ObjectStorageService,
               private router: Router,
               private titleService: Title,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private oAuthTokenService: OAuthTokenService) {
     this.preferenceId = this.route.snapshot.paramMap.get('id');
     this.refreshCart();
     this.refresh();
@@ -76,20 +73,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     if (this.preferenceId) {
       console.log(`PreferenceId: ${this.preferenceId}`);
-      mp.bricks().create("wallet", "wallet_container", {
-        initialization: {
-          preferenceId: this.preferenceId
-        },
-        customization: {
-          texts: {
-            valueProp: 'smart_option'
-          }
-        },
-        callbacks: {
-          onReady: () => console.log('onReady'),
-          onSubmit: () => console.log('onSubmit')
-        },
-      });
     }
   }
 
@@ -98,12 +81,60 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.quantitySubscription?.unsubscribe();
   }
 
+  loadToken(userId: number) {
+    this.loadingToken = true;
+    this.tokenSubject$?.subscribe((token: any) => this.createWalletContainer(token));
+    this.oAuthTokenService.getByUser(userId).subscribe({
+      next: token => {
+        console.log(`Token: ${token.accessToken}`);
+        this.tokenSubject$.next(token);
+        this.token$ = this.tokenSubject$.asObservable();
+      },
+      error: () => {
+        this.loadingToken = false;
+        this.back();
+      },
+      complete: () => this.loadingToken = false
+    });
+  }
+
+  createWalletContainer(token: any) {
+    if (token?.publicKey) {
+      loadMercadoPago().then(() => {
+        console.log(`Loading Mercado Pago for Public Key: ${token.publicKey}`);
+        // @ts-ignore
+        this.mp = new window.MercadoPago(token.publicKey, {
+          locale: environment.mercadoPago.locale,
+        });
+        this.mp.bricks().create("wallet", "wallet_container", {
+          initialization: {
+            preferenceId: this.preferenceId
+          },
+          customization: {
+            texts: {
+              valueProp: 'smart_option'
+            }
+          },
+          callbacks: {
+            onReady: () => console.log('onReady'),
+            onSubmit: () => console.log('onSubmit')
+          },
+        });
+      });
+    }
+  }
+
   load(page = 0, text = ''): Observable<Page<CartItem>> {
     this.loading = true;
     this.currentPage = page;
     this.currentText = text;
     return this.service.search(page, 5, text).pipe(tap({
-      next: page => this.totalElements = page.totalElements,
+      next: page => {
+        if (page.content.length > 0) {
+          this.loadToken(page.content[0].product.user.id);
+        }
+        return this.totalElements = page.totalElements;
+      },
       error: () => this.loading = false,
       complete: () => this.loading = false
     }));
@@ -128,7 +159,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         return 'success';
       case 'LOWSTOCK':
         return 'warning';
-      case 'OUTOFSTOCK':
+      case 'NOSTOCK':
         return 'danger';
       default:
         return 'danger';

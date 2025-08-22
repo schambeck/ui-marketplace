@@ -18,7 +18,7 @@ export class CartItemService implements CustomAutoCompleteService<CartItem> {
 
   private url = `${environment.baseUrl}/cart-items`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }
 
   create(cartItem: CartItem): Observable<CartItem> {

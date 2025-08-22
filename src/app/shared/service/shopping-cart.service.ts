@@ -10,20 +10,20 @@ import {CreateShoppingCartItemRequest} from "../model/create-shopping-cart-item.
 import {UpdateShoppingCartItemRequest} from "../model/update-shopping-cart-item.request";
 import {CountShoppingCartItemResponse} from "../model/count-shopping-cart-item.response";
 import {CreateIfAbsentShoppingCartItemResponse} from "../model/create-if-absent-shopping-cart-item.response";
+import {HttpUtil} from "../util/http.util";
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({'Content-Type': 'application/json', 'ngrok-skip-browser-warning': '69420'})
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingCartService implements CustomAutoCompleteService<CartItem> {
-
   private url = `${environment.baseUrl}/shopping-cart`;
   public count$ = new Subject<number>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }
 
   create(request: CreateShoppingCartItemRequest): Observable<CartItem> {
@@ -47,29 +47,27 @@ export class ShoppingCartService implements CustomAutoCompleteService<CartItem> 
 
   list(page = 0, size = 5, search = ""): Observable<Page<CartItem>> {
     let params = new HttpParams().set('page', page).set('size', size).set("search", search);
-    return this.http.get<Page<CartItem>>(this.url, { params: params });
+    return this.http.get<Page<CartItem>>(this.url, { params: params, headers: this.httpUtil.getHeaders() });
   }
 
   search(page = 0, size = 5, search = ""): Observable<Page<CartItem>> {
     let params = new HttpParams().set('page', page).set('size', size).set("search", search);
-    return this.http.get<Page<CartItem>>(this.url, { params: params });
+    return this.http.get<Page<CartItem>>(this.url, { params: params, headers: this.httpUtil.getHeaders() });
   }
 
   get(id: string): Observable<CartItem> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
-    return this.http.get<CartItem>(url);
+    return this.http.get<CartItem>(url, {headers: this.httpUtil.getHeaders()});
   }
 
   delete(id: string): Observable<void> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
-    return this.http.delete<void>(url).pipe(tap({
-      next: () => this.count()
-    }));
+    return this.http.delete<void>(url, {headers: this.httpUtil.getHeaders()}).pipe(tap({next: () => this.count()}));
   }
 
   count() {
     const url = `${this.url}/count`;
-    this.http.get<CountShoppingCartItemResponse>(url).subscribe({
+    this.http.get<CountShoppingCartItemResponse>(url, {headers: this.httpUtil.getHeaders()}).subscribe({
       next: response => this.count$.next(response.quantity)
     });
   }

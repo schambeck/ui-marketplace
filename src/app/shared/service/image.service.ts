@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment';
 import {Page} from '../model/page';
 import {Image} from "../model/image.entity"
 import {CustomAutoCompleteService} from "./custom-auto-complete.service";
+import {HttpUtil} from "../util/http.util";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -15,10 +16,9 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ImageService implements CustomAutoCompleteService<Image> {
-
   private url = `${environment.baseUrl}/images`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }
 
   create(image: Image): Observable<Image> {
@@ -33,7 +33,7 @@ export class ImageService implements CustomAutoCompleteService<Image> {
 
   list(page = 0, size = 5, search = ""): Observable<Page<Image>> {
     let params = new HttpParams().set('page', page).set('size', size).set("search", search);
-    return this.http.get<Page<Image>>(this.url, { params: params });
+    return this.http.get<Page<Image>>(this.url, { params: params, headers: this.httpUtil.getHeaders() });
   }
 
   listByProduct(productId: number): Observable<Image[]> {

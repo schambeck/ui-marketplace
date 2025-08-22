@@ -8,10 +8,10 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ErrorHttpInterceptorService implements HttpInterceptor {
-
   constructor(private messageService: MessageService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log(`URL: ${request.url}`);
     return next.handle(request)
       .pipe(
         catchError((response: HttpErrorResponse) => {

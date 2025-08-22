@@ -6,19 +6,19 @@ import {environment} from '../../../environments/environment';
 import {Page} from '../model/page';
 import {Product} from "../model/product.entity"
 import {CustomAutoCompleteService} from "./custom-auto-complete.service";
+import {HttpUtil} from "../util/http.util";
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({'Content-Type': 'application/json', 'ngrok-skip-browser-warning': '69420'})
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService implements CustomAutoCompleteService<Product> {
-
   private url = `${environment.baseUrl}/products`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }
 
   create(product: Product): Observable<Product> {
@@ -33,22 +33,22 @@ export class ProductService implements CustomAutoCompleteService<Product> {
 
   list(page = 0, size = 5, search = ""): Observable<Page<Product>> {
     let params = new HttpParams().set('page', page).set('size', size).set("search", search);
-    return this.http.get<Page<Product>>(this.url, { params: params });
+    return this.http.get<Page<Product>>(this.url, { params: params, headers: this.httpUtil.getHeaders() });
   }
 
   get(id: string): Observable<Product> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
-    return this.http.get<Product>(url);
+    return this.http.get<Product>(url, {headers: this.httpUtil.getHeaders()});
   }
 
   delete(id: string): Observable<void> {
     const url = `${this.url}/${encodeURIComponent(id)}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url, {headers: this.httpUtil.getHeaders()});
   }
 
   listByUser(page = 0, size = 5, search = ""): Observable<Page<Product>> {
     let params = new HttpParams().set('page', page).set('size', size).set("search", search);
     let url = `${this.url}/user`;
-    return this.http.get<Page<Product>>(url, { params: params });
+    return this.http.get<Page<Product>>(url, { params: params, headers: this.httpUtil.getHeaders() });
   }
 }

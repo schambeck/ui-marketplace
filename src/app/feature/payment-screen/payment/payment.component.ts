@@ -20,11 +20,11 @@ export class PaymentComponent implements OnInit, OnDestroy {
               private titleService: Title,
               private route: ActivatedRoute,
               private paymentService: PaymentService) {
-    this.savePayment(this.createPayment());
   }
 
   ngOnInit() {
     this.titleService.setTitle("Payment");
+    this.savePayment(this.createPayment());
   }
 
   createPayment() {

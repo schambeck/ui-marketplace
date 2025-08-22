@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./feature/home-screen/home/home.component";
 import {PageNotFoundComponent} from "./feature/page-not-found-screen/page-not-found/page-not-found.component";
 import {ListProductComponent} from "./feature/product-screen/list-product/list-product.component";
@@ -13,12 +13,14 @@ import {AuthGuard} from "./shared/service/auth-guard";
 import {ProfileComponent} from "./feature/profile-screen/profile/profile.component";
 import {CheckoutComponent} from "./feature/checkout-screen/checkout/checkout.component";
 import {PaymentComponent} from "./feature/payment-screen/payment/payment.component";
+import {ViewLoggedUserComponent} from "./feature/user-screen/view-logged-user/view-logged-user.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'user', component: ListUserComponent, canActivate: [AuthGuard]},
   {path: 'user/:id', component: EditUserComponent, canActivate: [AuthGuard]},
+  {path: 'view-logged-user', component: ViewLoggedUserComponent, canActivate: [AuthGuard]},
   {path: 'list-product', component: ListProductComponent, canActivate: [AuthGuard]},
   {path: 'edit-product', component: EditProductComponent, canActivate: [AuthGuard]},
   {path: 'edit-product/:id', component: EditProductComponent, canActivate: [AuthGuard]},

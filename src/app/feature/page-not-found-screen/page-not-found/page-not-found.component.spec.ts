@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PageNotFoundComponent } from './page-not-found.component';
-import {Panel} from "primeng/panel";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('PageNotFoundComponent', () => {

@@ -69,6 +69,29 @@
                 }
               ]
             },
+            "tailscale": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.tailscale.ts"
+                }
+              ],
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                {
+                  "input": "src/configurations/tailscale",
+                  "output": "assets",
+                  "glob": "*.json"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -101,11 +124,17 @@
             "production": {
               "buildTarget": "ui-marketplace:build:production"
             },
+            "tailscale": {
+              "buildTarget": "ui-marketplace:build:tailscale"
+            },
             "development": {
               "buildTarget": "ui-marketplace:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "ui-marketplace:build"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

@@ -3,32 +3,32 @@
   "domain": "dev-lug9ug4n.us.auth0.com",
   "authorizationParams": {
     "audience": "api-marketplace-id",
-    "redirect_uri": "https://marketplace.servebeer.com"
+    "redirect_uri": "http://localhost:4200"
   },
-  "apiUri": "https://marketplace.servebeer.com:8443",
+  "apiUri": "https://gamebazaar.duckdns.org:8443",
   "errorPath": "/error",
   "httpInterceptor": {
     "allowedList": [
       {
-        "uri": "https://marketplace.servebeer.com:8443/users*"
+        "uri": "https://gamebazaar.duckdns.org:8443/users*"
       },
       {
-        "uri": "https://marketplace.servebeer.com:8443/products*"
+        "uri": "https://gamebazaar.duckdns.org:8443/products*"
       },
       {
-        "uri": "https://marketplace.servebeer.com:8443/shopping-cart*"
+        "uri": "https://gamebazaar.duckdns.org:8443/shopping-cart*"
       },
       {
-        "uri": "https://marketplace.servebeer.com:8443/carts*"
+        "uri": "https://gamebazaar.duckdns.org:8443/carts*"
       },
       {
-        "uri": "https://marketplace.servebeer.com:8443/mercado-pago*"
+        "uri": "https://gamebazaar.duckdns.org:8443/mercado-pago*"
       },
       {
-        "uri": "https://marketplace.servebeer.com:8443/images*"
+        "uri": "https://gamebazaar.duckdns.org:8443/images*"
       },
       {
-        "uri": "https://marketplace.servebeer.com:8443/object-storage*"
+        "uri": "https://gamebazaar.duckdns.org:8443/object-storage*"
       }
     ]
   }

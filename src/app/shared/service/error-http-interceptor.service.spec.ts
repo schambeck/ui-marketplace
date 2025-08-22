@@ -8,15 +8,14 @@ describe('ErrorHttpInterceptorService', () => {
   let service: ErrorHttpInterceptorService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ 
-      imports: [ToastModule], 
+    TestBed.configureTestingModule({
+      imports: [ToastModule],
       providers: [ErrorHttpInterceptorService, MessageService]
     })
   });
-  
+
   it('should use created', () => {
     service = TestBed.inject(ErrorHttpInterceptorService);
     expect(service).toBeTruthy();
   });
-
 });

@@ -1,18 +1,22 @@
 <p-panel header="Checkout">
-  <p-progressSpinner *ngIf="creating" class="flex align-items-center"></p-progressSpinner>
+  <p-progressSpinner *ngIf="loading" class="flex align-items-center"></p-progressSpinner>
   <div *ngIf="cart$ | async as cart; else skeletonCart" class="pt-4 pb-2 flex flex-column justify-content-center flex-wrap">
     <div class="flex align-items-center justify-content-center text-3xl cart-total">
       Your cart total is {{ cart.total | currency }}
     </div>
   </div>
   <ng-template #skeletonCart>
+    Loading Cart...
   </ng-template>
-  <div class="grid justify-content-center">
-    <div class="col-6">
+  <p-progressSpinner *ngIf="loadingToken; else walletContainer" class="flex align-items-center"></p-progressSpinner>
+  <ng-template #walletContainer>
+    <div class="grid justify-content-center">
+      <div class="col-6">
       <span id="wallet_container">
       </span>
+      </div>
     </div>
-  </div>
+  </ng-template>
   <p-card class="p-0">
     <ng-template pTemplate="header">
       <p-toolbar>

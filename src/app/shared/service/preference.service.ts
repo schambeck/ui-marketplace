@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {Preference} from "../model/preference.entity";
+import {HttpUtil} from "../util/http.util";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -13,10 +14,9 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PreferenceService {
-
   private url = `${environment.baseUrl}/mercado-pago/preferences`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }
 
   create(): Observable<Preference> {

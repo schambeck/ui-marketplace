@@ -1,0 +1,65 @@
+<p-panel header="User">
+  <p-card class="p-0 shadow-8">
+    <ng-template pTemplate="header">
+      <p-toolbar>
+        <div class="p-toolbar-group-start">
+          <p-button label="Back" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2"></p-button>
+        </div>
+      </p-toolbar>
+    </ng-template>
+    <div *ngIf="user$ | async as user else loading" class="grid">
+
+      <div class="field col-6">
+        <label for="id" class="block font-bold">Id</label>
+        <p-inputNumber id="id" [size]="25" [(ngModel)]="user.id" [disabled]="true"></p-inputNumber>
+      </div>
+
+      <div class="field col-6">
+        <label for="username" class="block font-bold">Username</label>
+        <input id="username" type="text" class="w-full" [(ngModel)]="user.username" [disabled]="true" pInputText>
+      </div>
+      <div class="field col-6">
+        <label for="email" class="block font-bold">Email</label>
+        <input id="email" type="text" class="w-full" [(ngModel)]="user.email" [disabled]="true" pInputText >
+      </div>
+      <div class="field col-6">
+        <label for="fullName" class="block font-bold">FullName</label>
+        <input id="fullName" type="text" class="w-full" [(ngModel)]="user.fullName" [disabled]="true" pInputText >
+      </div>
+      <div class="field col-6">
+        <label for="publicKey" class="block font-bold">Public Key</label>
+        <input id="publicKey" type="text" class="w-full" [(ngModel)]="user.publicKey" [disabled]="true" pInputText >
+      </div>
+      <div class="field col-6">
+        <label for="publicKeyModifiedAt" class="block font-bold">Public Key ModifiedAt</label>
+        <p-calendar id="publicKeyModifiedAt" dateFormat="yy-mm-dd" [(ngModel)]="user.publicKeyModifiedAt" [showIcon]="true" dataType="string" [disabled]="true"/>
+      </div>
+
+      <div class="field col-6">
+        <label for="version" class="block font-bold">Version</label>
+        <p-inputNumber id="version" [size]="25" [(ngModel)]="user.version" [disabled]="true"></p-inputNumber>
+      </div>
+
+      <div class="field col-6">
+        <label for="createdAt" class="block font-bold">CreatedAt</label>
+        <p-calendar id="createdAt" dateFormat="yy-mm-dd" [(ngModel)]="user.createdAt" [showIcon]="true" dataType="string" [disabled]="true"/>
+      </div>
+
+      <div class="field col-6">
+        <label for="modifiedAt" class="block font-bold">ModifiedAt</label>
+        <p-calendar id="modifiedAt" dateFormat="yy-mm-dd" [(ngModel)]="user.modifiedAt" [showIcon]="true" dataType="string" [disabled]="true"/>
+      </div>
+    </div>
+    <ng-template #loading>
+      <div class="grid">
+        <div class="field col-6"><label for="id" class="block font-bold">Id</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="username" class="block font-bold">Username</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="email" class="block font-bold">Email</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="fullName" class="block font-bold">FullName</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="version" class="block font-bold">Version</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="createdAt" class="block font-bold">CreatedAt</label><p-skeleton height="2.75rem"></p-skeleton></div>
+        <div class="field col-6"><label for="modifiedAt" class="block font-bold">ModifiedAt</label><p-skeleton height="2.75rem"></p-skeleton></div>
+      </div>
+    </ng-template>
+  </p-card>
+</p-panel>

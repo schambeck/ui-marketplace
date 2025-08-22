@@ -1,5 +1,6 @@
 // @ts-ignore
 import config from '../../auth_config.production.json';
+import { environment as devEnvironment } from './environment.development';
 
 const { domain, clientId, authorizationParams: { audience, redirect_uri }, apiUri} = config as {
   domain: string;
@@ -13,14 +14,12 @@ const { domain, clientId, authorizationParams: { audience, redirect_uri }, apiUr
 };
 
 export const environment = {
+  ...devEnvironment,
   baseUrl: apiUri,
   mercadoPago: {
-    publicKey: 'APP_USR-b2f8308d-afed-4c39-b8eb-0cc009e743c1',
     locale: 'pt-BR'
   },
   keycloakUrl: 'https://gamebazaar.duckdns.org:9443',
-  keycloakRealm: 'marketplace',
-  keycloakClientId: 'ui-marketplace',
   auth: {
     domain,
     clientId,

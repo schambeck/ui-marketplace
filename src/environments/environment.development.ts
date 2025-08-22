@@ -15,10 +15,9 @@ const { domain, clientId, authorizationParams: { audience, redirect_uri }, apiUr
 export const environment = {
   baseUrl: apiUri,
   mercadoPago: {
-    publicKey: 'APP_USR-b2f8308d-afed-4c39-b8eb-0cc009e743c1',
     locale: 'pt-BR'
   },
-  keycloakUrl: 'http://keycloak.localhost:9000',
+  keycloakUrl: 'http://localhost:9000',
   keycloakRealm: 'marketplace',
   keycloakClientId: 'ui-marketplace',
   auth: {

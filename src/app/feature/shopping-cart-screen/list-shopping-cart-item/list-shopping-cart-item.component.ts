@@ -149,7 +149,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
         return 'success';
       case 'LOWSTOCK':
         return 'warning';
-      case 'OUTOFSTOCK':
+      case 'NOSTOCK':
         return 'danger';
       default:
         return 'danger';

@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment';
 import {Page} from '../model/page';
 import {Cart} from "../model/cart.entity"
 import {CustomAutoCompleteService} from "./custom-auto-complete.service";
+import {HttpUtil} from "../util/http.util";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -18,7 +19,7 @@ export class CartService implements CustomAutoCompleteService<Cart> {
 
   private url = `${environment.baseUrl}/carts`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }
 
   create(cart: Cart): Observable<Cart> {
