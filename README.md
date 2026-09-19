@@ -3,6 +3,44 @@
 
 Interface web Angular para um marketplace, com catálogo público, autenticação, gerenciamento de usuários e produtos, carrinho de compras, checkout e pagamento via Mercado Pago.
 
+## Visão do Negócio
+
+Esta aplicação é a interface web do marketplace. Ela permite que visitantes e clientes autenticados descubram produtos, consultem suas informações e montem uma seleção de compra. A partir do carrinho, o cliente pode iniciar o checkout, concluir o pagamento no Mercado Pago e visualizar o retorno recebido da integração.
+
+Além da experiência de compra, o frontend oferece operações autenticadas para manter produtos, imagens e usuários, bem como consultar a identidade e o perfil do usuário conectado. A confirmação comercial da venda, o processamento assíncrono do pagamento, estoque transacional, pedidos e entrega não são acompanhados por esta aplicação e continuam dependentes do backend e dos sistemas externos.
+
+### Atores do Negócio
+
+- **Visitante** — pesquisa o catálogo público e consulta os detalhes dos produtos.
+- **Cliente autenticado** — adiciona produtos ao carrinho, ajusta sua seleção, inicia o checkout e consulta seus dados de identidade.
+- **Usuário operacional ou administrativo** — mantém produtos, imagens e usuários conforme as permissões efetivas do backend. O frontend exige autenticação, mas não declara papéis específicos nas rotas.
+- **Mercado Pago** — participa do checkout externo e devolve o resultado do pagamento para registro na aplicação.
+
+### Capacidades Principais
+
+- Descoberta e consulta de produtos, preços, disponibilidade aparente e imagens.
+- Seleção de produtos no carrinho, alteração de quantidades, remoção de itens e consulta do total.
+- Preparação do checkout e integração com a wallet do Mercado Pago.
+- Registro e apresentação do retorno do pagamento.
+- Manutenção de produtos, imagens e usuários para operações autenticadas.
+- Consulta do perfil e da identidade do usuário conectado, além do início de fluxos OAuth quando aplicável.
+
+### Jornadas Principais
+
+- **Descobrir e selecionar um produto:** consultar o catálogo, pesquisar ou paginar, abrir os detalhes e adicionar o produto ao carrinho; visitantes são encaminhados ao login quando necessário.
+- **Preparar uma compra:** revisar itens e total, alterar quantidades ou remover produtos e iniciar o checkout.
+- **Pagar e registrar o retorno:** criar uma preferência, concluir o pagamento no Mercado Pago e retornar à aplicação para registrar e exibir o status recebido.
+- **Gerir a oferta do marketplace:** listar, criar, editar ou remover produtos e associar imagens.
+- **Administrar cadastros e identidade:** consultar ou manter usuários, visualizar o próprio perfil e iniciar uma autorização OAuth quando necessária.
+
+### Sistemas Relacionados
+
+O frontend depende do backend do marketplace para dados, regras e operações de negócio, do Keycloak para autenticação e do Mercado Pago para o checkout e o retorno do pagamento. O armazenamento de objetos é utilizado para as imagens dos produtos.
+
+### Documentação de Negócio
+
+Para processos de negócio, jornadas, regras, fluxos e lacunas detalhados, consulte [`docs/business/business-processes.md`](docs/business/business-processes.md).
+
 ## Funcionalidades
 
 - Navegação pelo catálogo e visualização de detalhes de produtos.
