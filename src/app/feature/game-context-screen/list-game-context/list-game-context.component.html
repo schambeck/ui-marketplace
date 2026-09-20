@@ -1,0 +1,61 @@
+<p-panel header="Game Contexts">
+  <p-card class="p-0">
+    <ng-template pTemplate="header">
+      <p-toolbar>
+        <div class="p-toolbar-group-start">
+          <p-button label="New" icon="pi pi-plus" (onClick)="newContext()" styleClass="p-button-success"></p-button>
+        </div>
+        <div class="p-toolbar-group-end">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="text" pInputText placeholder="Search game" (keyup)="search(getValue($event))" />
+          </span>
+          <p-button label="Refresh" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading" pTooltip="Refresh"></p-button>
+        </div>
+      </p-toolbar>
+    </ng-template>
+
+    <div *ngIf="page$ | async as page; else skeleton">
+      <p-table styleClass="p-datatable-sm" [value]="page.content" responsiveLayout="scroll" selectionMode="single" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Id</th>
+            <th>Game</th>
+            <th>Platform</th>
+            <th>Region</th>
+            <th>Variant</th>
+            <th>Status</th>
+            <th>Version</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-context>
+          <tr [pSelectableRow]="context" (click)="navigateToDetail(context)">
+            <td>{{ context.id }}</td>
+            <td>{{ context.game }}</td>
+            <td>{{ context.platform }}</td>
+            <td>{{ context.region || '—' }}</td>
+            <td>{{ context.variant || '—' }}</td>
+            <td><p-tag [value]="context.status" [severity]="getSeverity(context.status)"></p-tag></td>
+            <td>{{ context.version }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div *ngIf="page.content.length === 0" class="p-4 text-center">No active game contexts found.</div>
+    </div>
+
+    <ng-template #skeleton>
+      <p-table [value]="fake">
+        <ng-template pTemplate="body" let-item>
+          <tr><td *ngFor="let column of [1,2,3,4,5,6,7]"><p-skeleton></p-skeleton></td></tr>
+        </ng-template>
+      </p-table>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-paginator [rows]="rows" [totalRecords]="totalElements" [rowsPerPageOptions]="[5,10,25,50]"
+                   (onPageChange)="paginate($event)" [showCurrentPageReport]="true"
+                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+      </p-paginator>
+    </ng-template>
+  </p-card>
+</p-panel>

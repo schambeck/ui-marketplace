@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, tap} from "rxjs";
 import {Page} from 'src/app/shared/model/page';
 import {Router} from '@angular/router';
-import {Product} from "../../../shared/model/product.entity";
+import {Offer} from '../../../shared/model/offer.entity';
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
 import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
@@ -56,7 +56,7 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
     this.searchText$.next(text);
   }
 
-  load(page = 0, text = ''): Observable<Page<Product>> {
+  load(page = 0, text = ''): Observable<Page<Offer>> {
     this.loading = true;
     this.currentPage = page;
     this.currentText = text;
@@ -76,40 +76,35 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
     this.page$ = this.load(event.page);
   }
 
-  navigateToDetail(product: Product): void {
-    this.router.navigate(['catalog', product.id]);
+  navigateToDetail(offer: Offer): void {
+    this.router.navigate(['catalog', offer.id]);
   }
 
-  getSeverity(product: Product) {
-    switch (product.inventoryStatus) {
-      case 'INSTOCK':
+  getSeverity(offer: Offer) {
+    switch (offer.availabilityStatus) {
+      case 'AVAILABLE':
         return 'success';
-      case 'LOWSTOCK':
-        return 'warning';
-      case 'NOSTOCK':
+      case 'UNAVAILABLE':
         return 'danger';
       default:
         return 'danger';
     }
   };
 
-  addCartItem(product: Product) {
+  canPurchase(offer: Offer): boolean {
+    return offer.status === 'PUBLISHED' && offer.availabilityStatus === 'AVAILABLE' && offer.context.status !== 'INACTIVE' && offer.context.status !== 'DISCONTINUED';
+  }
+
+  addCartItem(offer: Offer) {
     if (!this.authService.isLoggedIn()) {
-      let redirectUri = `${window.location.origin}/shopping-cart/${product.id}`;
-      this.authService.login({redirectUri: redirectUri});
+      const redirectUri = `${window.location.origin}/shopping-cart/${offer.id}`;
+      this.authService.login({redirectUri});
       return;
     }
     this.saving = true;
-    let payload = {
-      productId: product.id,
-      quantity: 1
-    };
-    this.shoppingCartService.create(payload).subscribe({
+    this.shoppingCartService.create({offerId: offer.id, productId: offer.productId, quantity: 1}).subscribe({
       next: cartItem => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Product added to cart',
-          detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
+        this.messageService.add({severity: 'success', summary: 'Offer added to cart', detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
         this.router.navigate(['shopping-cart']);
       },
       error: () => this.saving = false,

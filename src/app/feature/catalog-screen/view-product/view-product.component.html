@@ -1,76 +1,51 @@
-<p-panel header="Product">
+<p-panel header="Offer">
   <p-card class="p-0 shadow-8">
     <ng-template pTemplate="header">
       <p-toolbar>
         <div class="p-toolbar-group-start">
           <p-button label="Catalog" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2" severity="secondary"></p-button>
-          <p-button label="Add to Cart" (onClick)="addCartItem()" icon="pi pi-shopping-cart" [loading]="saving"></p-button>
+          <p-button label="Add to Cart" (onClick)="addCartItem()" icon="pi pi-shopping-cart" [loading]="saving" [disabled]="!currentOffer || !canPurchase(currentOffer)"></p-button>
         </div>
       </p-toolbar>
     </ng-template>
-    <div *ngIf="product$ | async as product else loading" class="grid nested-grid">
-      <div class="col-4 flex justify-content-center align-items-center">
-        <div *ngIf="images$ | async as images else loadingGalleria">
-          <p-galleria [value]="images" [showItemNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="true" [numVisible]="5" [containerStyle]="{ 'max-width': '400px' }">
-            <ng-template pTemplate="item" let-item>
-              <img [src]="getImageUrl(item.objectId)" style="width: 100%; display: block;" />
-            </ng-template>
-            <ng-template pTemplate="thumbnail" let-item>
-              <div class="grid grid-nogutter justify-content-center">
-                <img [src]="getImageUrl(item.objectId)" style="display: block; width: 80px; height: 60px;" />
-              </div>
-            </ng-template>
-          </p-galleria>
-        </div>
-        <ng-template #loadingGalleria>
-          <p-progressSpinner></p-progressSpinner>
-        </ng-template>
-      </div>
-      <div class="col-8 pl-4">
-        <div class="grid">
-          <div class="col-6 pl-0">
-            <div id="name" class="font-bold text-2xl">{{ product.name }}</div>
-          </div>
-          <div class="col-6 flex justify-content-end align-items-end">
-            <div id="price" class="font-bold">{{ product.price | currency }}</div>
-          </div>
-          <div class="col-12 pl-0 pt-4">
-            <p-rating id="rating" [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
-            <label class="font-bold pl-4">20</label>
-            <label class="pl-2">Reviews</label>
-          </div>
-          <div class="col-12 pl-0 pt-4">
-            <label class="text-justify">{{ product.description }}</label>
-          </div>
-          <div class="col-6 pl-0 pt-4">
-            <label for="quantity" class="block font-bold">Quantity</label>
-            <p-inputNumber id="quantity"
-                           [(ngModel)]="quantity"
-                           [showButtons]="true"
-                           buttonLayout="horizontal"
-                           inputId="horizontal"
-                           [step]="1"
-                           decrementButtonClass="p-button-danger"
-                           incrementButtonClass="p-button-success"
-                           incrementButtonIcon="pi pi-plus"
-                           decrementButtonIcon="pi pi-minus"
-                           class="pt-2"/>
-          </div>
-          <div class="col-6 flex justify-content-end align-items-end">
-            <div id="username" class="font-bold text-lg">{{ product.user.username }}</div>
-          </div>
-          <div class="col-6 pl-0">
-          </div>
-        </div>
 
-      </div>
+    <div *ngIf="offer$ | async as offer; else loading">
+      <ng-container *ngIf="offer.product as product">
+        <div class="grid nested-grid">
+          <div class="col-4 flex justify-content-center align-items-center">
+            <div *ngIf="images$ | async as images">
+              <p-galleria [value]="images" [showItemNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="true" [numVisible]="5" [containerStyle]="{ 'max-width': '400px' }">
+                <ng-template pTemplate="item" let-item><img [src]="getImageUrl(item.objectId)" style="width: 100%; display: block;"></ng-template>
+                <ng-template pTemplate="thumbnail" let-item><div class="grid grid-nogutter justify-content-center"><img [src]="getImageUrl(item.objectId)" style="display: block; width: 80px; height: 60px;"></div></ng-template>
+              </p-galleria>
+            </div>
+          </div>
+          <div class="col-8 pl-4">
+            <div class="grid">
+              <div class="col-6 pl-0"><div id="name" class="font-bold text-2xl">{{ product.name }}</div></div>
+              <div class="col-6 flex justify-content-end align-items-end"><div id="price" class="font-bold">{{ offer.price | currency }}</div></div>
+              <div class="col-12 pl-0 pt-4"><p-rating id="rating" [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></div>
+              <div class="col-12 pl-0 pt-4"><label class="text-justify">{{ product.description }}</label></div>
+              <div class="col-12 pl-0 pt-4">
+                <p-panel header="Game Context">
+                  <div class="grid">
+                    <div class="col-6"><span class="font-bold">Game:</span> {{ offer.context.game }}</div>
+                    <div class="col-6"><span class="font-bold">Platform:</span> {{ offer.context.platform }}</div>
+                    <div class="col-6" *ngIf="offer.context.publisher"><span class="font-bold">Publisher:</span> {{ offer.context.publisher }}</div>
+                    <div class="col-6" *ngIf="offer.context.region"><span class="font-bold">Region:</span> {{ offer.context.region }}</div>
+                    <div class="col-6" *ngIf="offer.context.server"><span class="font-bold">Server:</span> {{ offer.context.server }}</div>
+                    <div class="col-6" *ngIf="offer.context.variant"><span class="font-bold">Variant:</span> {{ offer.context.variant }}</div>
+                    <div class="col-12"><p-tag [value]="offer.availabilityStatus" [severity]="canPurchase(offer) ? 'success' : 'danger'"></p-tag><span class="ml-2" *ngIf="!canPurchase(offer)">This offer is not available for a new purchase.</span></div>
+                  </div>
+                </p-panel>
+              </div>
+              <div class="col-6 flex justify-content-end align-items-end"><div id="username" class="font-bold text-lg">{{ product.user.username }}</div></div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
-    <ng-template #loading>
-      <div class="grid">
-        <div class="col-6"><label for="name" class="block font-bold">Name</label><p-skeleton height="2.75rem"></p-skeleton></div>
-        <div class="col-6"><label for="price" class="block font-bold">Price</label><p-skeleton height="2.75rem"></p-skeleton></div>
-        <div class="col-6"><label for="rating" class="block font-bold">Rating</label><p-skeleton height="2.75rem"></p-skeleton></div>
-      </div>
-    </ng-template>
+
+    <ng-template #loading><div class="grid"><div class="col-6"><p-skeleton height="2.75rem"></p-skeleton></div><div class="col-6"><p-skeleton height="2.75rem"></p-skeleton></div></div></ng-template>
   </p-card>
 </p-panel>

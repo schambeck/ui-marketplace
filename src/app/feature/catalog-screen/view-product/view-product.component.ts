@@ -1,15 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {ProductService} from 'src/app/shared/service/product.service';
-import {Product} from "../../../shared/model/product.entity";
-import {MessageService} from "primeng/api";
-import {Title} from "@angular/platform-browser";
-import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
-import {AuthService} from "../../../shared/service/auth.service";
-import {ObjectStorageService} from "../../../shared/service/object-storage.service";
-import {Image} from "../../../shared/model/image.entity";
-import {ImageService} from "../../../shared/service/image.service";
+import {MessageService} from 'primeng/api';
+import {Title} from '@angular/platform-browser';
+
+import {Offer} from '../../../shared/model/offer.entity';
+import {Image} from '../../../shared/model/image.entity';
+import {ShoppingCartService} from '../../../shared/service/shopping-cart.service';
+import {AuthService} from '../../../shared/service/auth.service';
+import {ObjectStorageService} from '../../../shared/service/object-storage.service';
+import {ImageService} from '../../../shared/service/image.service';
+import {CatalogService} from '../../../shared/service/catalog.service';
 
 @Component({
   selector: 'app-view-product',
@@ -17,17 +18,17 @@ import {ImageService} from "../../../shared/service/image.service";
   styleUrls: ['./view-product.component.css']
 })
 export class ViewProductComponent implements OnInit {
-  productSubject$ = new BehaviorSubject<Product>({} as Product);
-  product$?: Observable<Product>;
+  offerSubject$ = new BehaviorSubject<Offer>({} as Offer);
+  offer$ = this.offerSubject$.asObservable();
+  currentOffer?: Offer;
   saving = false;
-  quantity: number = 1;
-  imagesSubject$ = new BehaviorSubject<Image[]>({} as Image[]);
-  images$?: Observable<Image[]>;
-  images: Image[] = [];
+  quantity = 1;
+  imagesSubject$ = new BehaviorSubject<Image[]>([]);
+  images$ = this.imagesSubject$.asObservable();
   responsiveOptions: any[] = [];
 
   constructor(private route: ActivatedRoute,
-              private service: ProductService,
+              private service: CatalogService,
               private objectStorageService: ObjectStorageService,
               private messageService: MessageService,
               private titleService: Title,
@@ -35,53 +36,48 @@ export class ViewProductComponent implements OnInit {
               private shoppingCartService: ShoppingCartService,
               private authService: AuthService,
               private imageService: ImageService) {
-    let id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.service.get(id).subscribe(value => {
-        this.productSubject$.next(value);
-        this.product$ = this.productSubject$.asObservable();
+      this.service.get(id).subscribe(offer => {
+        this.currentOffer = offer;
+        this.offerSubject$.next(offer);
+        this.imageService.listByProduct(offer.productId).subscribe(images => this.imagesSubject$.next(images));
       });
-      this.imageService.listByProduct(Number(id)).subscribe(value => {
-        this.imagesSubject$.next(value);
-        this.images$ = this.imagesSubject$.asObservable();
-        this.images = value;
-      });
-    } else {
-      this.product$ = this.productSubject$.asObservable();
-      this.images$ = this.imagesSubject$.asObservable();
-      this.images = [];
     }
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle("Product");
+    this.titleService.setTitle('Offer');
   }
 
   back(): void {
     this.router.navigate(['catalog']);
   }
 
-  addCartItem() {
-    this.product$?.subscribe(product => this.addCartProduct(product));
+  canPurchase(offer: Offer): boolean {
+    return offer.status === 'PUBLISHED' && offer.availabilityStatus === 'AVAILABLE' && offer.context.status !== 'INACTIVE' && offer.context.status !== 'DISCONTINUED';
   }
 
-  addCartProduct(product: Product) {
+  addCartItem(): void {
+    const offer = this.currentOffer;
+    if (offer) {
+      this.addCartOffer(offer);
+    }
+  }
+
+  private addCartOffer(offer: Offer): void {
+    if (!this.canPurchase(offer)) {
+      return;
+    }
     if (!this.authService.isLoggedIn()) {
-      let redirectUri = `${window.location.origin}/shopping-cart/${product.id}`;
-      this.authService.login({redirectUri: redirectUri});
+      const redirectUri = `${window.location.origin}/shopping-cart/${offer.id}`;
+      this.authService.login({redirectUri});
       return;
     }
     this.saving = true;
-    let payload = {
-      productId: product.id,
-      quantity: 1
-    };
-    this.shoppingCartService.create(payload).subscribe({
+    this.shoppingCartService.create({offerId: offer.id, productId: offer.productId, quantity: 1}).subscribe({
       next: cartItem => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Product added to cart',
-          detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
+        this.messageService.add({severity: 'success', summary: 'Offer added to cart', detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
         this.router.navigate(['shopping-cart']);
       },
       error: () => this.saving = false,
@@ -89,7 +85,7 @@ export class ViewProductComponent implements OnInit {
     });
   }
 
-  getImageUrl(objectId: string) {
-    return this.objectStorageService.getImageUrl(objectId)
+  getImageUrl(objectId: string): string {
+    return this.objectStorageService.getImageUrl(objectId);
   }
 }

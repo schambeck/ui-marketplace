@@ -35,7 +35,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   cart$?: Observable<Cart>;
   quantity$ = new Subject<CartItemQuantity>();
   quantitySubscription?: Subscription;
-  productId?: string | null;
+  offerId?: string | null;
   checkingOut = false;
 
   constructor(private cartService: CartService,
@@ -46,8 +46,8 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
               private titleService: Title,
               private route: ActivatedRoute,
               private preferenceService: PreferenceService) {
-    this.productId = this.route.snapshot.paramMap.get('id');
-    if (!this.productId) {
+    this.offerId = this.route.snapshot.paramMap.get('id');
+    if (!this.offerId) {
       this.refreshCart();
       this.refresh();
     }
@@ -79,15 +79,15 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
       distinctUntilChanged((prev, curr) => prev.id === curr.id && prev.quantity === curr.quantity),
     ).subscribe(cartItemQuantity => this.updateQuantity(cartItemQuantity))
 
-    if (this.productId) {
-      this.addCartItemIfAbsent(Number(this.productId));
+    if (this.offerId) {
+      this.addCartItemIfAbsent(Number(this.offerId));
     }
   }
 
-  addCartItemIfAbsent(productId: number) {
+  addCartItemIfAbsent(offerId: number) {
     this.creating = true;
     let payload = {
-      productId: productId,
+      offerId,
       quantity: 1
     };
     this.service.createIfAbsent(payload).subscribe({
@@ -139,8 +139,10 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     this.page$ = this.load(event.page);
   }
 
-  navigateToDetail(product: Product): void {
-    this.router.navigate(['catalog', product.id]);
+  navigateToDetail(offerId?: number): void {
+    if (offerId) {
+      this.router.navigate(['catalog', offerId]);
+    }
   }
 
   getSeverity(product: Product) {
