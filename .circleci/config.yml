@@ -1,11 +1,15 @@
 version: 2.1
 
+orbs:
+  browser-tools: circleci/browser-tools@1.1.0
+
 jobs:
   build-and-test:
     docker:
       - image: cimg/node:18.20-browsers
     working_directory: ~/ui-marketplace
     steps:
+      - browser-tools/install-browser-tools
       - checkout
       - restore_cache:
           keys:
