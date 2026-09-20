@@ -14,6 +14,8 @@ import {ProfileComponent} from "./feature/profile-screen/profile/profile.compone
 import {CheckoutComponent} from "./feature/checkout-screen/checkout/checkout.component";
 import {PaymentComponent} from "./feature/payment-screen/payment/payment.component";
 import {ViewLoggedUserComponent} from "./feature/user-screen/view-logged-user/view-logged-user.component";
+import {ListGameContextComponent} from "./feature/game-context-screen/list-game-context/list-game-context.component";
+import {EditGameContextComponent} from "./feature/game-context-screen/edit-game-context/edit-game-context.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -24,6 +26,9 @@ const routes: Routes = [
   {path: 'list-product', component: ListProductComponent, canActivate: [AuthGuard]},
   {path: 'edit-product', component: EditProductComponent, canActivate: [AuthGuard]},
   {path: 'edit-product/:id', component: EditProductComponent, canActivate: [AuthGuard]},
+  {path: 'game-context', component: ListGameContextComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
+  {path: 'game-context/new', component: EditGameContextComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
+  {path: 'game-context/:id', component: EditGameContextComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
   {path: 'catalog', component: ListCatalogComponent},
   {path: 'catalog/:id', component: ViewProductComponent},
   {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},

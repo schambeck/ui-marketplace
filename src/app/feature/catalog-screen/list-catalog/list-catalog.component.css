@@ -18,6 +18,15 @@
   padding: 0;
 }
 
+.context-summary {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  padding: .5rem;
+  border-left: 3px solid var(--primary-color);
+  background: var(--surface-100);
+}
+
 .number {
   text-align: right !important;
 }

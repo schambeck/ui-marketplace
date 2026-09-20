@@ -186,6 +186,17 @@ Ao concluir este plano, o PLAN-002 deve receber:
 
 O plano fica `BLOCKED` para implementação quando o contrato da API não definir, de forma verificável, a referência de contexto no catálogo/detalhe ou os endpoints de mutação. Até essa decisão, somente o fechamento documental e mocks controlados podem avançar.
 
+## Implementação do contrato — 2026-09-20
+
+O contrato atualmente disponível na API permite avançar em duas etapas sem duplicar contexto em `Product`:
+
+1. O catálogo público consome `GET /catalog/offers` e `GET /catalog/offers/{id}`. Cada `Offer` traz `productId`, preço, disponibilidade e a referência `context` com os atributos do `GameContext`. Como o payload público traz apenas `productId`, o frontend hidrata o produto por `GET /products/{id}` para preservar nome, imagem e demais dados visuais existentes.
+2. A inclusão no carrinho envia `offerId` (mantendo `productId` apenas por compatibilidade), e o detalhe/carrinho/checkout usam `offerId` como identidade de navegação e compra. O backend já valida publicação, disponibilidade e o snapshot de contexto antes do checkout.
+
+A tela administrativa usa `GET /game-contexts` (contextos `ACTIVE`), `POST /game-contexts`, `PUT /game-contexts/{id}` e `GET /game-contexts/{id}/history`, com rota protegida por `ADMIN`.
+
+O backend agora aceita e aplica `search` em `GET /catalog/offers` e `GET /offers`, preservando paginação e o filtro de ofertas publicadas. A limitação contratual de busca pública está resolvida; resta apenas validar a jornada integrada com dados publicados em ambiente controlado.
+
 ## Evidência de conclusão
 
 - `npm run build` passa no `ui-marketplace`;

@@ -149,8 +149,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.page$ = this.load(event.page);
   }
 
-  navigateToDetail(product: Product): void {
-    this.router.navigate(['catalog', product.id]);
+  navigateToDetail(offerId?: number): void {
+    if (offerId) {
+      this.router.navigate(['catalog', offerId]);
+    }
   }
 
   getSeverity(product: Product) {

@@ -16,7 +16,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ProductService implements CustomAutoCompleteService<Product> {
-  private url = `${environment.baseUrl}/products`;
+  private url = `${(environment as {baseUrl: string}).baseUrl}/products`;
 
   constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }

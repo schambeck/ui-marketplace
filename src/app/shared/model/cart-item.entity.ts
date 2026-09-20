@@ -23,6 +23,7 @@ export interface CartItem {
     id: number;
     cart: Cart;
     product: Product;
+    offerId?: number;
     price: number;
     quantity: number;
     total: number;
