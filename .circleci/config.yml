@@ -4,6 +4,8 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/node:18.20-browsers
+    environment:
+      CHROME_BIN: /usr/bin/google-chrome
     working_directory: ~/ui-marketplace
     steps:
       - checkout
