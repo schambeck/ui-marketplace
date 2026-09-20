@@ -1,5 +1,6 @@
 # ui-marketplace
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/schambeck/ui-marketplace/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/schambeck/ui-marketplace/tree/main)
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/schambeck/ui-marketplace/tree/main.svg?style=svg&circle-token=CCIPRJ_DTHsXvNSMHSYMMn4Td2xdG_8ce01f104eca4dd320b6858977baaecb5a6114fd)](https://dl.circleci.com/status-badge/redirect/gh/schambeck/ui-marketplace/tree/main)
 
 Interface web Angular para um marketplace, com catálogo público, autenticação, gerenciamento de usuários e produtos, carrinho de compras, checkout e pagamento via Mercado Pago.
 
