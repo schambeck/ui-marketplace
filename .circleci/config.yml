@@ -1,0 +1,31 @@
+version: 2.1
+
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/node:18.20-browsers
+    working_directory: ~/ui-marketplace
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-v1-{{ checksum "package-lock.json" }}
+            - npm-v1-
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - save_cache:
+          key: npm-v1-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Build
+          command: npm run build --if-present
+      - run:
+          name: Test
+          command: npm run test-headless
+
+workflows:
+  build:
+    jobs:
+      - build-and-test
