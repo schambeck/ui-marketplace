@@ -1,17 +1,14 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {Offer} from '../model/offer.entity';
 import {Product} from '../model/product.entity';
-import {ProductService} from './product.service';
 import {CatalogService} from './catalog.service';
 
 describe('CatalogService', () => {
   let service: CatalogService;
   let http: HttpTestingController;
-  let productService: jasmine.SpyObj<ProductService>;
   const apiBaseUrl = (environment as {baseUrl: string}).baseUrl;
   const product = {id: 7, name: 'Product'} as Product;
   const offer = {
@@ -30,11 +27,8 @@ describe('CatalogService', () => {
   } as Offer;
 
   beforeEach(() => {
-    productService = jasmine.createSpyObj<ProductService>('ProductService', ['get']);
-    productService.get.and.returnValue(of(product));
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [{provide: ProductService, useValue: productService}]
+      imports: [HttpClientTestingModule]
     });
     service = TestBed.inject(CatalogService);
     http = TestBed.inject(HttpTestingController);
@@ -51,7 +45,10 @@ describe('CatalogService', () => {
     const request = http.expectOne(request => request.url === `${apiBaseUrl}/catalog/offers`);
     expect(request.request.params.get('search')).toBe('Elden');
     request.flush({content: [offer], size: 5, totalElements: 1});
-    expect(productService.get).toHaveBeenCalledWith(String(product.id));
+
+    const productRequest = http.expectOne(`${apiBaseUrl}/catalog/${product.id}`);
+    expect(productRequest.request.method).toBe('GET');
+    productRequest.flush(product);
   });
 
   it('loads an offer by encoded offer id', () => {
@@ -60,5 +57,9 @@ describe('CatalogService', () => {
     const request = http.expectOne(`${apiBaseUrl}/catalog/offers/offer%2F11`);
     expect(request.request.method).toBe('GET');
     request.flush(offer);
+
+    const productRequest = http.expectOne(`${apiBaseUrl}/catalog/${product.id}`);
+    expect(productRequest.request.method).toBe('GET');
+    productRequest.flush(product);
   });
 });

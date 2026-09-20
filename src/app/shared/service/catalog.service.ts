@@ -5,7 +5,7 @@ import {forkJoin, map, Observable, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Page} from '../model/page';
 import {Offer} from '../model/offer.entity';
-import {ProductService} from './product.service';
+import {Product} from '../model/product.entity';
 import {HttpUtil} from "../util/http.util";
 
 @Injectable({
@@ -14,7 +14,7 @@ import {HttpUtil} from "../util/http.util";
 export class CatalogService {
   private url = `${(environment as {baseUrl: string}).baseUrl}/catalog`;
 
-  constructor(private http: HttpClient, private httpUtil: HttpUtil, private productService: ProductService) {
+  constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }
 
   list(page = 0, size = 5, search = ''): Observable<Page<Offer>> {
@@ -35,7 +35,8 @@ export class CatalogService {
   }
 
   private hydrateProduct(offer: Offer): Observable<Offer> {
-    return this.productService.get(String(offer.productId)).pipe(map(product => ({...offer, product})));
+    return this.http.get<Product>(`${this.url}/${encodeURIComponent(offer.productId)}`, {headers: this.httpUtil.getHeaders()})
+      .pipe(map(product => ({...offer, product})));
   }
 
 }
