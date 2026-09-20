@@ -1,5 +1,5 @@
 # ui-marketplace
-[![Build](https://github.com/schambeck/ui-marketplace/actions/workflows/node.js.yml/badge.svg)](https://github.com/schambeck/ui-marketplace/actions/workflows/node.js.yml)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/schambeck/ui-marketplace/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/schambeck/ui-marketplace/tree/main)
 
 Interface web Angular para um marketplace, com catálogo público, autenticação, gerenciamento de usuários e produtos, carrinho de compras, checkout e pagamento via Mercado Pago.
 
