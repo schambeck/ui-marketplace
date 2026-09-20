@@ -4,8 +4,6 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/node:18.20-browsers
-    environment:
-      CHROME_BIN: /usr/bin/google-chrome
     working_directory: ~/ui-marketplace
     steps:
       - checkout
@@ -23,6 +21,15 @@ jobs:
       - run:
           name: Build
           command: npm run build --if-present
+      - run:
+          name: Configure Chrome binary
+          command: |
+            CHROME_BIN_PATH="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+            if [ -z "$CHROME_BIN_PATH" ]; then
+              echo "No supported Chrome/Chromium binary found in the CircleCI image."
+              exit 1
+            fi
+            echo "export CHROME_BIN=$CHROME_BIN_PATH" >> "$BASH_ENV"
       - run:
           name: Test
           command: npm run test-headless
