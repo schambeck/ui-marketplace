@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {Title} from "@angular/platform-browser";
 import {AuthService} from "../../../shared/service/auth.service";
 import {CatalogService} from "../../../shared/service/catalog.service";
+import {canPurchaseOffer, offerAvailabilitySeverity, offerErrorMessage} from '../../../shared/util/offer.util';
 import {ObjectStorageService} from "../../../shared/service/object-storage.service";
 
 @Component({
@@ -92,10 +93,14 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   };
 
   canPurchase(offer: Offer): boolean {
-    return offer.status === 'PUBLISHED' && offer.availabilityStatus === 'AVAILABLE' && offer.context.status !== 'INACTIVE' && offer.context.status !== 'DISCONTINUED';
+    return canPurchaseOffer(offer);
   }
 
   addCartItem(offer: Offer) {
+    if (!this.canPurchase(offer)) {
+      this.messageService.add({severity: 'warn', summary: 'Offer unavailable', detail: 'This offer cannot start a new purchase.'});
+      return;
+    }
     if (!this.authService.isLoggedIn()) {
       const redirectUri = `${window.location.origin}/shopping-cart/${offer.id}`;
       this.authService.login({redirectUri});
@@ -107,12 +112,19 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
         this.messageService.add({severity: 'success', summary: 'Offer added to cart', detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
         this.router.navigate(['shopping-cart']);
       },
-      error: () => this.saving = false,
+      error: error => {
+        this.saving = false;
+        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+      },
       complete: () => this.saving = false
     });
   }
 
   getImageUrl(objectId: string) {
     return this.objectStorageService.getImageUrl(objectId)
+  }
+
+  getAvailabilitySeverity(offer: Offer) {
+    return offerAvailabilitySeverity(offer);
   }
 }

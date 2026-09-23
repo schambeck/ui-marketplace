@@ -23,8 +23,11 @@ export class ErrorHttpInterceptorService implements HttpInterceptor {
           } else {
             message = response.message;
           }
-          this.messageService.add({severity: 'error', summary: 'Error', detail: message})
-          return throwError(() => new Error(message));
+          const detail = (response.status === 400 || response.status === 409) && (request.url.includes('/offers') || request.url.includes('/shopping-cart') || request.url.includes('/mercado-pago/preferences'))
+            ? 'The offer changed or is no longer available. Refresh the offer and select it again.'
+            : message;
+          this.messageService.add({severity: 'error', summary: 'Error', detail})
+          return throwError(() => response);
         })
       )
   }

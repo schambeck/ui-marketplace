@@ -35,7 +35,7 @@
                     <div class="col-6" *ngIf="offer.context.region"><span class="font-bold">Region:</span> {{ offer.context.region }}</div>
                     <div class="col-6" *ngIf="offer.context.server"><span class="font-bold">Server:</span> {{ offer.context.server }}</div>
                     <div class="col-6" *ngIf="offer.context.variant"><span class="font-bold">Variant:</span> {{ offer.context.variant }}</div>
-                    <div class="col-12"><p-tag [value]="offer.availabilityStatus" [severity]="canPurchase(offer) ? 'success' : 'danger'"></p-tag><span class="ml-2" *ngIf="!canPurchase(offer)">This offer is not available for a new purchase.</span></div>
+                    <div class="col-12"><p-tag [value]="offer.availabilityStatus" [severity]="canPurchase(offer) ? 'success' : 'danger'"></p-tag><span class="ml-2">{{ offer.deliveryMethod }} · {{ offer.status }}</span><span class="ml-2" *ngIf="!canPurchase(offer)">This offer is not available for a new purchase.</span></div>
                   </div>
                 </p-panel>
               </div>

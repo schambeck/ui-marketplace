@@ -26,6 +26,7 @@ import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {environment} from "../environments/environment";
 import {NgrokHttpInterceptorService} from "./shared/service/ngrok-http-interceptor.service";
 import {GameContextScreenModule} from "./feature/game-context-screen/game-context-screen.module";
+import {OfferAdminScreenModule} from "./feature/offer-admin-screen/offer-admin-screen.module";
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -79,7 +80,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ProfileScreenModule,
     CheckoutScreenModule,
     PaymentScreenModule,
-    GameContextScreenModule
+    GameContextScreenModule,
+    OfferAdminScreenModule
   ],
   providers: [
     {

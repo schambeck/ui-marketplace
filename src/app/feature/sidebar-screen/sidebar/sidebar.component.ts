@@ -51,6 +51,11 @@ export class SidebarComponent {
             icon: 'pi pi-fw pi-sitemap',
             routerLink: ["/game-context"]
           },
+          {
+            label: 'Offer',
+            icon: 'pi pi-fw pi-tags',
+            routerLink: ["/offer"]
+          },
         ]
       },
       {

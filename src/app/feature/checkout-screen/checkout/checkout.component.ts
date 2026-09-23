@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, debounceTime, distinctUntilChanged, Observable, Subject, Subscription, tap} from "rxjs";
 import {Page} from 'src/app/shared/model/page';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Product} from "../../../shared/model/product.entity";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
 import {CartItem} from "../../../shared/model/cart-item.entity";
 import {CartService} from "../../../shared/service/cart.service";
@@ -12,6 +11,7 @@ import {ObjectStorageService} from "../../../shared/service/object-storage.servi
 import {loadMercadoPago} from "@mercadopago/sdk-js";
 import {environment} from "../../../../environments/environment";
 import {OAuthTokenService} from "../../../shared/service/oauth-token.service";
+import {offerErrorMessage} from '../../../shared/util/offer.util';
 
 @Component({
   selector: 'app-checkout',
@@ -155,18 +155,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSeverity(product: Product) {
-    switch (product.inventoryStatus) {
-      case 'INSTOCK':
-        return 'success';
-      case 'LOWSTOCK':
-        return 'warning';
-      case 'NOSTOCK':
-        return 'danger';
-      default:
-        return 'danger';
-    }
-  };
 
   back(): void {
     this.router.navigate(['shopping-cart']);
@@ -174,5 +162,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   getImageUrl(objectId: string) {
     return this.objectStorageService.getImageUrl(objectId)
+  }
+
+  getOfferErrorMessage(error: {message?: string; status?: number}): string {
+    return offerErrorMessage(error);
   }
 }

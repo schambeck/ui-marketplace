@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, debounceTime, distinctUntilChanged, Observable, Subject, Subscription, tap} from "rxjs";
 import {Page} from 'src/app/shared/model/page';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Product} from "../../../shared/model/product.entity";
 import {ShoppingCartService} from "../../../shared/service/shopping-cart.service";
 import {CartItem} from "../../../shared/model/cart-item.entity";
 import {CartService} from "../../../shared/service/cart.service";
@@ -12,6 +11,7 @@ import {CartItemQuantity} from "./cart-item-quantity.entity";
 import {Title} from "@angular/platform-browser";
 import {ObjectStorageService} from "../../../shared/service/object-storage.service";
 import {PreferenceService} from "../../../shared/service/preference.service";
+import {offerErrorMessage} from '../../../shared/util/offer.util';
 
 @Component({
   selector: 'app-list-shopping-cart-item',
@@ -101,7 +101,10 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
         this.refreshCart();
         this.refresh();
       },
-      error: () => this.creating = false,
+      error: error => {
+        this.creating = false;
+        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+      },
       complete: () => this.creating = false
     });
   }
@@ -145,18 +148,6 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSeverity(product: Product) {
-    switch (product.inventoryStatus) {
-      case 'INSTOCK':
-        return 'success';
-      case 'LOWSTOCK':
-        return 'warning';
-      case 'NOSTOCK':
-        return 'danger';
-      default:
-        return 'danger';
-    }
-  };
 
   back(): void {
     this.router.navigate(['catalog']);
@@ -193,7 +184,10 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
         this.refreshCart();
         this.messageService.add({severity: 'success', summary: 'Quantity updated', detail: `Id: ${cartItem.id} Quantity: ${cartItem.quantity}`})
       },
-      error: () => this.updating = false,
+      error: error => {
+        this.updating = false;
+        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+      },
       complete: () => this.updating = false
     });
   }
@@ -206,7 +200,10 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     this.checkingOut = true;
     this.preferenceService.create().subscribe({
       next: preference => this.router.navigate(['checkout', preference.id]),
-      error: () => this.checkingOut = false,
+      error: error => {
+        this.checkingOut = false;
+        this.messageService.add({severity: 'warn', summary: 'Checkout unavailable', detail: offerErrorMessage(error)});
+      },
       complete: () => this.checkingOut = false
     });
   }

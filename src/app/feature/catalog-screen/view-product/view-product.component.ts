@@ -11,6 +11,7 @@ import {AuthService} from '../../../shared/service/auth.service';
 import {ObjectStorageService} from '../../../shared/service/object-storage.service';
 import {ImageService} from '../../../shared/service/image.service';
 import {CatalogService} from '../../../shared/service/catalog.service';
+import {canPurchaseOffer, offerAvailabilitySeverity, offerErrorMessage} from '../../../shared/util/offer.util';
 
 @Component({
   selector: 'app-view-product',
@@ -55,7 +56,7 @@ export class ViewProductComponent implements OnInit {
   }
 
   canPurchase(offer: Offer): boolean {
-    return offer.status === 'PUBLISHED' && offer.availabilityStatus === 'AVAILABLE' && offer.context.status !== 'INACTIVE' && offer.context.status !== 'DISCONTINUED';
+    return canPurchaseOffer(offer);
   }
 
   addCartItem(): void {
@@ -80,12 +81,19 @@ export class ViewProductComponent implements OnInit {
         this.messageService.add({severity: 'success', summary: 'Offer added to cart', detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
         this.router.navigate(['shopping-cart']);
       },
-      error: () => this.saving = false,
+      error: error => {
+        this.saving = false;
+        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+      },
       complete: () => this.saving = false
     });
   }
 
   getImageUrl(objectId: string): string {
     return this.objectStorageService.getImageUrl(objectId);
+  }
+
+  getAvailabilitySeverity(offer: Offer) {
+    return offerAvailabilitySeverity(offer);
   }
 }
