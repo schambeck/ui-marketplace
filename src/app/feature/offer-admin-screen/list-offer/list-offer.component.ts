@@ -57,7 +57,7 @@ export class ListOfferComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.currentPage = page;
     this.currentText = text;
-    return this.service.searchAdmin(page, this.rows, this.selectedStatus, text).pipe(tap({
+    return this.service.searchOwned(page, this.rows, this.selectedStatus, text).pipe(tap({
       next: result => this.totalElements = result.totalElements,
       error: () => this.loading = false,
       complete: () => this.loading = false

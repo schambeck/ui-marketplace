@@ -28,12 +28,12 @@ export class OfferService {
     return this.http.get<Offer>(`${this.url}/${encodeURIComponent(id)}`, {headers: this.httpUtil.getHeaders()});
   }
 
-  searchAdmin(page = 0, size = 25, status = '', search = ''): Observable<Page<Offer>> {
+  searchOwned(page = 0, size = 25, status = '', search = ''): Observable<Page<Offer>> {
     let params = new HttpParams().set('page', page).set('size', size).set('search', search);
     if (status) {
       params = params.set('status', status);
     }
-    return this.http.get<Page<Offer>>(`${(environment as {baseUrl: string}).baseUrl}/admin/offers`, {params, headers: this.httpUtil.getHeaders()});
+    return this.http.get<Page<Offer>>(`${(environment as {baseUrl: string}).baseUrl}/seller/offers`, {params, headers: this.httpUtil.getHeaders()});
   }
 
   getAdmin(id: number | string): Observable<Offer> {

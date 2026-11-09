@@ -29,9 +29,9 @@ describe('OfferService', () => {
     history.flush([]);
   });
 
-  it("lists administrative offers with status and search filters", () => {
-    service.searchAdmin(1, 25, "PAUSED", "elden ring").subscribe();
-    const request = http.expectOne(req => req.url.endsWith("/admin/offers"));
+  it("lists owned offers with status and search filters", () => {
+    service.searchOwned(1, 25, "PAUSED", "elden ring").subscribe();
+    const request = http.expectOne(req => req.url.endsWith("/seller/offers"));
     expect(request.request.method).toBe("GET");
     expect(request.request.params.get("status")).toBe("PAUSED");
     expect(request.request.params.get("search")).toBe("elden ring");
