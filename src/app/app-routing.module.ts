@@ -18,6 +18,7 @@ import {ListGameContextComponent} from "./feature/game-context-screen/list-game-
 import {EditGameContextComponent} from "./feature/game-context-screen/edit-game-context/edit-game-context.component";
 import {ListOfferComponent} from "./feature/offer-admin-screen/list-offer/list-offer.component";
 import {EditOfferComponent} from "./feature/offer-admin-screen/edit-offer/edit-offer.component";
+import {OrderComponent} from "./feature/order-screen/order/order.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
   {path: 'checkout/:id', component: CheckoutComponent, canActivate: [AuthGuard]},
   {path: 'payment', component: PaymentComponent},
+  {path: 'orders/:id', component: OrderComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo: '/catalog', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];

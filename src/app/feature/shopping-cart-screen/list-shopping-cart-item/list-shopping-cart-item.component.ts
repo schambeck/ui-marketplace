@@ -10,7 +10,7 @@ import {MessageService} from "primeng/api";
 import {CartItemQuantity} from "./cart-item-quantity.entity";
 import {Title} from "@angular/platform-browser";
 import {ObjectStorageService} from "../../../shared/service/object-storage.service";
-import {PreferenceService} from "../../../shared/service/preference.service";
+import {OrderService} from "../../../shared/service/order.service";
 import {offerErrorMessage} from '../../../shared/util/offer.util';
 
 @Component({
@@ -45,7 +45,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
               private router: Router,
               private titleService: Title,
               private route: ActivatedRoute,
-              private preferenceService: PreferenceService) {
+              private orderService: OrderService) {
     this.offerId = this.route.snapshot.paramMap.get('id');
     if (!this.offerId) {
       this.refreshCart();
@@ -198,8 +198,9 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
 
   checkout() {
     this.checkingOut = true;
-    this.preferenceService.create().subscribe({
-      next: preference => this.router.navigate(['checkout', preference.id]),
+    const key = crypto.randomUUID();
+    this.orderService.checkout(key).subscribe({
+      next: order => this.router.navigate(['orders', order.publicId]),
       error: error => {
         this.checkingOut = false;
         this.messageService.add({severity: 'warn', summary: 'Checkout unavailable', detail: offerErrorMessage(error)});

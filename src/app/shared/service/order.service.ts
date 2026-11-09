@@ -1,0 +1,19 @@
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {Order} from '../model/order.entity';
+import {Page} from '../model/page';
+
+@Injectable({providedIn: 'root'})
+export class OrderService {
+  private readonly url = `${environment.baseUrl}/orders`;
+  constructor(private http: HttpClient) {}
+
+  checkout(idempotencyKey: string, instructions?: string): Observable<Order> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey});
+    return this.http.post<Order>(`${this.url}/checkout`, {instructions: instructions || null}, {headers});
+  }
+  get(publicId: string): Observable<Order> { return this.http.get<Order>(`${this.url}/${publicId}`); }
+  list(page = 0, size = 20): Observable<Page<Order>> { return this.http.get<Page<Order>>(`${this.url}?page=${page}&size=${size}`); }
+}
