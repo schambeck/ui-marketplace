@@ -23,6 +23,7 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   page$ = this.load();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
+  error = false;
   saving = false;
   totalElements = 0;
   currentPage = 0;
@@ -38,11 +39,11 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle("Catalog");
+    this.titleService.setTitle("Catálogo");
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-    ).subscribe(text => this.refresh(text))
+    ).subscribe(text => { this.currentPage = 0; this.refresh(text); })
   }
 
   ngOnDestroy(): void {
@@ -59,11 +60,12 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
 
   load(page = 0, text = ''): Observable<Page<Offer>> {
     this.loading = true;
+    this.error = false;
     this.currentPage = page;
     this.currentText = text;
     return this.service.list(page, this.rows, text).pipe(tap({
       next: page => this.totalElements = page.totalElements,
-      error: () => this.loading = false,
+      error: () => { this.loading = false; this.error = true; },
       complete: () => this.loading = false
     }));
   }
@@ -74,7 +76,7 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
 
   paginate(event: any) {
     this.rows = event.rows;
-    this.page$ = this.load(event.page);
+    this.page$ = this.load(event.page, this.currentText);
   }
 
   navigateToDetail(offer: Offer): void {
@@ -98,7 +100,7 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
 
   addCartItem(offer: Offer) {
     if (!this.canPurchase(offer)) {
-      this.messageService.add({severity: 'warn', summary: 'Offer unavailable', detail: 'This offer cannot start a new purchase.'});
+      this.messageService.add({severity: 'warn', summary: 'Oferta indisponível', detail: 'Esta oferta não está disponível para uma nova compra.'});
       return;
     }
     if (!this.authService.isLoggedIn()) {
@@ -109,12 +111,12 @@ export class ListCatalogComponent implements OnInit, OnDestroy {
     this.saving = true;
     this.shoppingCartService.create({offerId: offer.id, productId: offer.productId, quantity: 1}).subscribe({
       next: cartItem => {
-        this.messageService.add({severity: 'success', summary: 'Offer added to cart', detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
+        this.messageService.add({severity: 'success', summary: 'Oferta adicionada ao carrinho', detail: 'Seu item está no carrinho.'});
         this.router.navigate(['shopping-cart']);
       },
       error: error => {
         this.saving = false;
-        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+        this.messageService.add({severity: 'warn', summary: 'Oferta alterada', detail: offerErrorMessage(error)});
       },
       complete: () => this.saving = false
     });

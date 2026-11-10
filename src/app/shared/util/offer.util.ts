@@ -14,7 +14,7 @@ export function offerAvailabilitySeverity(offer: Offer): 'success' | 'danger' {
 
 export function offerErrorMessage(error: {message?: string; status?: number}): string {
   if (error.status === 400 || error.status === 409) {
-    return 'The offer changed or is no longer available. Refresh the offer and select it again.';
+    return 'A oferta mudou ou está indisponível. Atualize e selecione novamente.';
   }
-  return error.message || 'The offer could not be processed.';
+  return error.message || 'Não foi possível processar a oferta.';
 }

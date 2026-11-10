@@ -62,4 +62,16 @@ describe('CatalogService', () => {
     expect(productRequest.request.method).toBe('GET');
     productRequest.flush(product);
   });
+
+  it('emits an empty page without requesting product details', () => {
+    let received = false;
+    service.list(0, 25, 'inexistente').subscribe(page => {
+      received = true;
+      expect(page.content).toEqual([]);
+      expect(page.totalElements).toBe(0);
+    });
+    http.expectOne(request => request.url.endsWith('/catalog/offers') && request.params.get('search') === 'inexistente')
+      .flush({content: [], totalElements: 0, size: 25, number: 0});
+    expect(received).toBeTrue();
+  });
 });

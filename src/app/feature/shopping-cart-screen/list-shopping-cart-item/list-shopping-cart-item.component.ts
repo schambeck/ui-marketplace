@@ -25,6 +25,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   page$ = new Observable<Page<CartItem>>();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
+  error = false;
   creating = false;
   updating = false;
   removing = false;
@@ -69,7 +70,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.titleService.setTitle("Cart");
+    this.titleService.setTitle("Carrinho");
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -95,15 +96,15 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
         if (response.created) {
           this.messageService.add({
             severity: 'success',
-            summary: 'Product added to cart',
-            detail: `Cart: ${response.cartItem.cart.id} - Item: ${response.cartItem.id}`});
+            summary: 'Produto adicionado ao carrinho',
+            detail: 'Seu item está no carrinho.'});
         }
         this.refreshCart();
         this.refresh();
       },
       error: error => {
         this.creating = false;
-        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+        this.messageService.add({severity: 'warn', summary: 'Oferta alterada', detail: offerErrorMessage(error)});
       },
       complete: () => this.creating = false
     });
@@ -124,11 +125,12 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
 
   load(page = 0, text = ''): Observable<Page<CartItem>> {
     this.loading = true;
+    this.error = false;
     this.currentPage = page;
     this.currentText = text;
-    return this.service.search(page, 5, text).pipe(tap({
+    return this.service.search(page, this.rows, text).pipe(tap({
       next: page => this.totalElements = page.totalElements,
-      error: () => this.loading = false,
+      error: () => { this.loading = false; this.error = true; },
       complete: () => this.loading = false
     }));
   }
@@ -139,7 +141,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
 
   paginate(event: any) {
     this.rows = event.rows;
-    this.page$ = this.load(event.page);
+    this.page$ = this.load(event.page, this.currentText);
   }
 
   navigateToDetail(offerId?: number): void {
@@ -157,7 +159,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     this.removing = true;
     this.service.delete(id).subscribe({
       next: () => {
-        this.messageService.add({severity: 'success', summary: 'Item removed from cart', detail: `Id: ${id}`});
+        this.messageService.add({severity: 'success', summary: 'Item removido do carrinho', detail: 'Carrinho atualizado.'});
         this.refreshCart();
         this.refresh();
       },
@@ -182,11 +184,11 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
     this.service.update(cartItemQuantity.id, payload).subscribe({
       next: cartItem => {
         this.refreshCart();
-        this.messageService.add({severity: 'success', summary: 'Quantity updated', detail: `Id: ${cartItem.id} Quantity: ${cartItem.quantity}`})
+        this.messageService.add({severity: 'success', summary: 'Quantidade atualizada', detail: 'Carrinho atualizado.'})
       },
       error: error => {
         this.updating = false;
-        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+        this.messageService.add({severity: 'warn', summary: 'Oferta alterada', detail: offerErrorMessage(error)});
       },
       complete: () => this.updating = false
     });
@@ -206,7 +208,7 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
       error: error => {
         this.checkingOut = false;
         const detail = error?.status === 409 ? 'O estoque mudou ou a reserva não pôde ser criada. Revise o carrinho e tente novamente.' : offerErrorMessage(error);
-        this.messageService.add({severity: 'warn', summary: 'Checkout unavailable', detail});
+        this.messageService.add({severity: 'warn', summary: 'Finalização indisponível', detail});
       },
       complete: () => this.checkingOut = false
     });

@@ -1,0 +1,8 @@
+<app-page-header title="Solicitações de venda" description="Avalie os perfis enviados e registre sua decisão." section="Administração"></app-page-header>
+<p-card>
+  <app-ui-state *ngIf="loading" icon="pi-spin pi-spinner" title="Carregando solicitações" description="Buscando os perfis pendentes de análise."></app-ui-state>
+  <app-ui-state *ngIf="error" icon="pi-exclamation-circle" title="Não foi possível carregar as solicitações" description="Tente novamente em instantes."><p-button label="Tentar novamente" (onClick)="load()"></p-button></app-ui-state>
+  <app-ui-state *ngIf="!loading && !error && !applications.length" icon="pi-id-card" title="Nenhuma solicitação pendente" description="Novos perfis de vendedores aparecerão aqui quando forem enviados para análise."></app-ui-state>
+  <p-table *ngIf="!loading && applications.length" [value]="applications" responsiveLayout="scroll"><ng-template pTemplate="header"><tr><th>Loja</th><th>Contato</th><th>Itens</th><th>Entrega</th><th>Descrição</th><th>Decisão</th></tr></ng-template>
+  <ng-template pTemplate="body" let-app><tr><td><strong>{{app.publicName}}</strong></td><td>{{app.contactEmail}}</td><td>{{app.itemTypes}}</td><td>{{app.deliveryMethod}}</td><td>{{app.description}}</td><td><div class="decision-actions"><label [for]="'reason-' + app.id">Justificativa</label><input pInputText [id]="'reason-' + app.id" [(ngModel)]="reasons[app.id]" placeholder="Explique sua decisão"/><p-button label="Aprovar" icon="pi pi-check" [disabled]="deciding" (onClick)="decide(app, true)"></p-button><p-button label="Rejeitar" icon="pi pi-times" severity="danger" [disabled]="deciding" (onClick)="decide(app, false)"></p-button></div></td></tr></ng-template></p-table>
+</p-card>

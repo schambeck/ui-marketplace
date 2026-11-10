@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {forkJoin, map, Observable, switchMap} from 'rxjs';
+import {forkJoin, map, Observable, of, switchMap} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {Page} from '../model/page';
@@ -23,7 +23,7 @@ export class CatalogService {
       .set('size', size)
       .set('search', search);
     return this.http.get<Page<Offer>>(`${this.url}/offers`, {params, headers: this.httpUtil.getHeaders()}).pipe(
-      switchMap(result => forkJoin(result.content.map(offer => this.hydrateProduct(offer))).pipe(
+      switchMap(result => result.content.length === 0 ? of(result) : forkJoin(result.content.map(offer => this.hydrateProduct(offer))).pipe(
         map(content => ({...result, content}))
       ))
     );

@@ -1,16 +1,17 @@
-<p-panel header="Users">
+<app-page-header title="Usuários" description="Administre os perfis e os contatos dos usuários." section="Administração"></app-page-header>
+<section class="data-surface">
   <p-card class="p-0">
     <ng-template pTemplate="header">
       <p-toolbar>
         <div class="p-toolbar-group-start">
-          <p-button label="New" icon="pi pi-plus" (onClick)="newUser()" [loading]="loading" pTooltip="New User" styleClass="p-button-success"></p-button>
+          <p-button label="Novo" icon="pi pi-plus" (onClick)="newUser()" [loading]="loading" pTooltip="Novo usuário" styleClass="p-button-success"></p-button>
         </div>
         <div class="p-toolbar-group-end">
           <span class="p-input-icon-left">
               <i class="pi pi-search"></i>
-              <input type="text" pInputText placeholder="Search" (keyup)="search(getValue($event))" />
+              <input type="text" pInputText placeholder="Buscar" aria-label="Buscar registros" (keyup)="search(getValue($event))" />
           </span>
-          <p-button label="Refresh" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading" pTooltip="Refresh" tooltipPosition="left"></p-button>
+          <p-button label="Atualizar" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading" pTooltip="Atualizar" tooltipPosition="left"></p-button>
         </div>
       </p-toolbar>
     </ng-template>
@@ -25,44 +26,46 @@
 
 
 
-            <th>Username</th>
+            <th>Usuário</th>
 
 
 
-            <th>Email</th>
+            <th>E-mail</th>
 
 
 
-            <th>FullName</th>
+            <th>Nome completo</th>
 
 
 
-            <th>ModifiedAt</th>
+            <th>Atualizado em</th>
 
 
-            <th><div style="text-align: center">Actions</div></th>
+            <th><div style="text-align: center">Ações</div></th>
           </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-user>
-          <tr [pSelectableRow]="user" style="font-family: 'Courier New', Courier, monospace;">
+          <tr [pSelectableRow]="user">
 
 
             <td (click)="navigateToDetail(user)" class="number">{{user.id | number}}</td>
 
-            <td (click)="navigateToDetail(user)">{{user.username}}</td>
+            <td><button type="button" class="table-link" (click)="navigateToDetail(user)">{{user.username}}</button></td>
             <td (click)="navigateToDetail(user)">{{user.email}}</td>
             <td (click)="navigateToDetail(user)">{{user.fullName}}</td>
 
             <td (click)="navigateToDetail(user)">{{user.modifiedAt | date:'dd/MM/yyyy'}}</td>
 
-            <td><div style="text-align: center"><i class="pi pi-trash" (click)="remove(user.id)" style="color: red"></i></div></td>
+            <td><div style="text-align: center"><button type="button" class="icon-button danger" aria-label="Excluir registro" [disabled]="removing" (click)="remove(user.id)"><i class="pi pi-trash" aria-hidden="true"></i></button></div></td>
           </tr>
         </ng-template>
       </p-table>
+      <app-ui-state *ngIf="page.content.length === 0" title="Nenhum registro encontrado" description="Ajuste a busca ou cadastre um novo registro."></app-ui-state>
     </div>
 
-    <ng-template #skeleton>
+    <app-ui-state *ngIf="error" title="Não foi possível carregar a listagem" description="Use Atualizar para tentar novamente." icon="pi-exclamation-circle"></app-ui-state>
+    <ng-template #skeleton><ng-container *ngIf="!error">
       <p-table styleClass="p-datatable-sm" [value]="fake" responsiveLayout="scroll" class="pt-4" selectionMode="single" dataKey="id">
         <ng-template pTemplate="header">
           <tr>
@@ -72,26 +75,26 @@
 
 
 
-            <th>Username</th>
+            <th>Usuário</th>
 
 
 
-            <th>Email</th>
+            <th>E-mail</th>
 
 
 
-            <th>FullName</th>
+            <th>Nome completo</th>
 
 
 
-            <th>ModifiedAt</th>
+            <th>Atualizado em</th>
 
-            <th><div style="text-align: center">Actions</div></th>
+            <th><div style="text-align: center">Ações</div></th>
           </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-item>
-          <tr [pSelectableRow]="item" style="font-family: 'Courier New', Courier, monospace;">
+          <tr [pSelectableRow]="item">
             <td><p-skeleton></p-skeleton></td>
             <td><p-skeleton></p-skeleton></td>
             <td><p-skeleton></p-skeleton></td>
@@ -101,12 +104,12 @@
           </tr>
         </ng-template>
       </p-table>
-    </ng-template>
+    </ng-container></ng-template>
 
     <ng-template pTemplate="footer">
       <p-paginator [rows]="rows" [totalRecords]="totalElements" class="hidden lg:block"
                    [rowsPerPageOptions]="[5,10,25,50]" (onPageChange)="paginate($event)" [showCurrentPageReport]="true"
-                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                   currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} registros">
       </p-paginator>
 
       <p-paginator [rows]="rows" [totalRecords]="totalElements" class="lg:hidden block"
@@ -114,4 +117,4 @@
       </p-paginator>
     </ng-template>
   </p-card>
-</p-panel>
+</section>

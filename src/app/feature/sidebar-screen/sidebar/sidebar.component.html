@@ -1,1 +1,19 @@
-<p-menu [model]="items" (click)="toggleDisplay()"></p-menu>
+<nav class="navigation" (click)="toggleDisplay()" aria-label="Menu principal">
+  <span class="nav-group">Explorar</span>
+  <a routerLink="/home" routerLinkActive="active"><i class="pi pi-home" aria-hidden="true"></i>Início</a>
+  <a routerLink="/catalog" routerLinkActive="active"><i class="pi pi-shopping-bag" aria-hidden="true"></i>Catálogo</a>
+  <a routerLink="/orders" routerLinkActive="active"><i class="pi pi-list" aria-hidden="true"></i>Meus pedidos</a>
+  <span class="nav-group">Minha conta</span>
+  <a routerLink="/profile" routerLinkActive="active"><i class="pi pi-user" aria-hidden="true"></i>Perfil</a>
+  <a routerLink="/become-seller" routerLinkActive="active"><i class="pi pi-briefcase" aria-hidden="true"></i>Quero vender</a>
+  <ng-container *ngIf="isSeller"><span class="nav-group">Vendas</span>
+    <a routerLink="/offer" routerLinkActive="active"><i class="pi pi-tags" aria-hidden="true"></i>Minhas ofertas</a>
+    <a routerLink="/inventory" routerLinkActive="active"><i class="pi pi-box" aria-hidden="true"></i>Estoque operacional</a>
+  </ng-container>
+  <ng-container *ngIf="isAdmin"><span class="nav-group">Administração</span>
+    <a routerLink="/user" routerLinkActive="active"><i class="pi pi-users" aria-hidden="true"></i>Usuários</a>
+    <a routerLink="/seller-applications" routerLinkActive="active"><i class="pi pi-id-card" aria-hidden="true"></i>Solicitações de venda</a>
+    <a routerLink="/list-product" routerLinkActive="active"><i class="pi pi-database" aria-hidden="true"></i>Produtos</a>
+    <a routerLink="/game-context" routerLinkActive="active"><i class="pi pi-sitemap" aria-hidden="true"></i>Contextos de jogo</a>
+  </ng-container>
+</nav>

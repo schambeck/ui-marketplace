@@ -84,12 +84,12 @@ export class EditProductComponent implements OnInit {
               version: 0
             };
             this.imageService.create(newImage).subscribe({
-              next: created => this.messageService.add({severity: 'success', summary: 'Image Created', detail: JSON.stringify(created)}),
+              next: created => this.messageService.add({severity: 'success', summary: 'Imagem adicionada', detail: JSON.stringify(created)}),
               error: () => this.saving = false,
               complete: () => this.saving = false
             });
           }
-          this.messageService.add({severity: 'success', summary: 'Product Updated', detail: JSON.stringify(product)});
+          this.messageService.add({severity: 'success', summary: 'Produto atualizado', detail: JSON.stringify(product)});
           this.location.back();
         },
         error: () => this.saving = false,
@@ -98,7 +98,7 @@ export class EditProductComponent implements OnInit {
     } else {
       this.service.create(payload).subscribe({
         next: product => {
-          this.messageService.add({severity: 'success', summary: 'Product Created', detail: JSON.stringify(product)});
+          this.messageService.add({severity: 'success', summary: 'Produto criado', detail: JSON.stringify(product)});
           this.location.back();
         },
         error: () => this.saving = false,
@@ -111,7 +111,7 @@ export class EditProductComponent implements OnInit {
     let originalEvent = event.originalEvent as HttpResponse<any>;
     let uploadedFile = originalEvent.body;
     if (!uploadedFile) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'File upload response body cannot be empty.' });
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'File upload response body cannot be empty.' });
       return;
     }
     this.uploadedFiles.push(uploadedFile);
@@ -127,7 +127,7 @@ export class EditProductComponent implements OnInit {
     this.imagesSubject$.next(this.images);
     product.objectId = uploadedFile.objectId;
     product.image = uploadedFile.fileName;
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: `Images Uploaded: ${event.files.map(file => file.name)}` });
+    this.messageService.add({ severity: 'info', summary: 'Sucesso', detail: `Images Uploaded: ${event.files.map(file => file.name)}` });
   }
 
   getImageUrl(objectId: string) {

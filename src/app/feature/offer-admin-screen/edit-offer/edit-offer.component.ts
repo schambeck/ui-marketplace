@@ -33,7 +33,7 @@ export class EditOfferComponent implements OnInit {
               private keycloak: KeycloakService) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Offer');
+    this.titleService.setTitle('Oferta');
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       const isAdmin = this.keycloak.getUserRoles().some(role => role.toLowerCase() === 'admin');
@@ -64,7 +64,7 @@ export class EditOfferComponent implements OnInit {
   saveDraft(): void {
     const offer = this.offer();
     if (offer.status !== 'DRAFT' || !this.isReasonValid()) {
-      this.warn('A DRAFT offer requires a reason and source before editing.');
+      this.warn('Informe justificativa e origem para editar o rascunho.');
       return;
     }
     this.saving = true;
@@ -80,7 +80,7 @@ export class EditOfferComponent implements OnInit {
     }).pipe(finalize(() => this.saving = false)).subscribe(saved => {
       this.offerSubject$.next(saved);
       this.reason = '';
-      this.messageService.add({severity: 'success', summary: 'Offer saved'});
+      this.messageService.add({severity: 'success', summary: 'Oferta salva'});
       this.loadHistory(saved.id);
     });
   }
@@ -88,7 +88,7 @@ export class EditOfferComponent implements OnInit {
   changeAvailability(): void {
     const offer = this.offer();
     if (!this.isReasonValid()) {
-      this.warn('A reason and source are required for availability changes.');
+      this.warn('Informe justificativa e origem para alterar a disponibilidade.');
       return;
     }
     this.runAction(this.service.changeAvailability(offer.id, {
@@ -101,7 +101,7 @@ export class EditOfferComponent implements OnInit {
   transition(target: 'publish' | 'pause' | 'reactivate' | 'retire'): void {
     const offer = this.offer();
     if (!this.isReasonValid()) {
-      this.warn('A reason and source are required for status changes.');
+      this.warn('Informe justificativa e origem para alterar a publicação.');
       return;
     }
     const request = {reason: this.reason, source: this.source};
@@ -125,7 +125,7 @@ export class EditOfferComponent implements OnInit {
     operation.pipe(finalize(() => this.saving = false)).subscribe(saved => {
       this.offerSubject$.next(saved);
       this.reason = '';
-      this.messageService.add({severity: 'success', summary: 'Offer updated'});
+      this.messageService.add({severity: 'success', summary: 'Oferta atualizada'});
       this.loadHistory(saved.id);
     });
   }
@@ -136,6 +136,6 @@ export class EditOfferComponent implements OnInit {
   }
 
   private warn(detail: string): void {
-    this.messageService.add({severity: 'warn', summary: 'Offer action unavailable', detail});
+    this.messageService.add({severity: 'warn', summary: 'Ação indisponível', detail});
   }
 }

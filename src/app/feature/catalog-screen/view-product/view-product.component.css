@@ -1,17 +1,10 @@
-:host ::ng-deep .p-panel {
-  box-shadow: var(--shadow-4);
-}
-
-:host ::ng-deep .p-card .p-card-body {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-:host ::ng-deep .p-card .p-card-body .p-card-content {
-  padding-bottom: 0;
-}
-
-:host ::ng-deep .p-inputnumber-input {
-  text-align: center;
-  width: 5rem;
-}
+.product-detail { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-8); margin-top: var(--space-5); }
+.detail-gallery { min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5); align-self: start; }
+.detail-image { display: block; width: 100%; height: 380px; object-fit: contain; } .detail-thumbnail { width: 60px; height: 50px; object-fit: contain; }
+.detail-summary { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); min-width: 0; }
+h1 { font-size: clamp(1.6rem, 3vw, 2.5rem); margin: 0; letter-spacing: -.04em; overflow-wrap: anywhere; } .detail-price { font-size: 2rem; margin-top: var(--space-3); letter-spacing: -.03em; }
+.detail-description { border-top: 1px solid var(--border); width: 100%; padding-top: var(--space-4); }
+h2 { font-size: 1rem; } .detail-description p { color: var(--text-secondary); line-height: 1.7; white-space: pre-line; overflow-wrap: anywhere; }
+.context-details { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin: 0; padding: var(--space-5); background: var(--surface-muted); border-radius: var(--radius); }
+dt { color: var(--text-secondary); font-size: .8rem; } dd { margin: var(--space-1) 0 0; font-weight: 600; overflow-wrap: anywhere; }
+@media (max-width: 767px) { .product-detail { grid-template-columns: minmax(0, 1fr); } .detail-image { height: 260px; } }

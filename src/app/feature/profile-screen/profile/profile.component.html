@@ -1,4 +1,4 @@
-<p-panel header="Profile">
+<p-panel header="Perfil">
   <div class="grid flex justify-content-center">
     <p-card>
       <div *ngIf="userProfile" class="p-4">
@@ -23,13 +23,13 @@
             <input id="sub" type="text" class="w-full" [(ngModel)]="userProfile.sub" [disabled]="true" pInputText>
           </div>
           <div class="col-3">
-            <label for="username" class="font-bold">Username</label>
+            <label for="username" class="font-bold">Usuário</label>
           </div>
           <div class="col-9">
             <input id="username" type="text" class="w-full" [(ngModel)]="userProfile.preferred_username" [disabled]="true" pInputText>
           </div>
           <div class="col-3">
-            <label for="email" class="font-bold">Email</label>
+            <label for="email" class="font-bold">E-mail</label>
           </div>
           <div class="col-9">
             <input id="email" type="text" class="w-full" [(ngModel)]="userProfile.email" [disabled]="true" pInputText>

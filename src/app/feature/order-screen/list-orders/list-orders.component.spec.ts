@@ -1,3 +1,4 @@
+import {UiModule} from '../../../shared/ui/ui.module';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {CommonModule} from '@angular/common';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
@@ -16,7 +17,7 @@ describe('ListOrdersComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ListOrdersComponent],
-      imports: [CommonModule],
+      imports: [UiModule, CommonModule],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {provide: OrderService, useValue: orderService},

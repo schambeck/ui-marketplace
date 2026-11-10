@@ -1,16 +1,7 @@
-:host ::ng-deep .p-sidebar {
-    width: auto;
-}
-
-:host ::ng-deep .p-toolbar {
-    padding: 0.75em;
-}
-
-:host ::ng-deep .p-badge {
-    font-size: 0.8rem;
-    box-shadow: var(--shadow-4);
-}
-
-:host ::ng-deep .p-button {
-    color: black;
-}
+.app-header { height: 72px; padding: 0 var(--space-6); display: flex; align-items: center; justify-content: space-between; background: var(--surface); border-bottom: 1px solid var(--border); }
+.header-start, .header-actions, .brand { display: flex; align-items: center; gap: var(--space-3); }
+.brand { color: var(--text); font-size: 1.15rem; font-weight: 750; text-decoration: none; letter-spacing: -.03em; }
+.brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--radius); color: white; background: var(--brand); }
+.mobile-toggle { display: none; }
+@media (max-width: 1023px) { .desktop-toggle { display: none; } .mobile-toggle { display: inline-flex; } .app-header { padding: 0 var(--space-3); } }
+@media (max-width: 360px) { .brand { font-size: .95rem; gap: .4rem; } .brand-mark { display: none; } }

@@ -23,7 +23,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.titleService.setTitle("Payment");
+    this.titleService.setTitle("Pagamento");
     this.savePayment(this.createPayment());
   }
 

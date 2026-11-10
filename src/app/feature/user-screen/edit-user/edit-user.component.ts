@@ -31,7 +31,7 @@ export class EditUserComponent implements OnInit {
         this.user$ = this.userSubject$.asObservable();
         let tokenGenerated = Boolean(this.route.snapshot.queryParamMap.get('tokenGenerated'));
         if (tokenGenerated) {
-          this.messageService.add({severity: 'success', summary: 'Token Generated', detail: 'Token Generated'});
+          this.messageService.add({severity: 'success', summary: 'Token gerado', detail: 'Token gerado'});
         }
       });
     } else {
@@ -40,7 +40,7 @@ export class EditUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle("User");
+    this.titleService.setTitle("Usuário");
   }
 
   back(): void {
@@ -52,7 +52,7 @@ export class EditUserComponent implements OnInit {
     let payload = this.userSubject$.getValue();
     this.service.create(payload).subscribe({
       next: user => {
-        this.messageService.add({severity: 'success', summary: 'User Created', detail: JSON.stringify(user)});
+        this.messageService.add({severity: 'success', summary: 'Usuário criado', detail: JSON.stringify(user)});
         this.location.back();
       },
       error: () => this.saving = false,

@@ -1,0 +1,30 @@
+<app-page-header title="Abra as portas da sua loja" description="Apresente seu perfil e envie sua solicitação para análise." section="Quero vender"></app-page-header><div class="form-surface"><p-card>
+    <app-ui-state *ngIf="error" icon="pi-exclamation-circle" title="Não foi possível carregar seu perfil" description="Atualize a página e tente novamente."></app-ui-state>
+    <ng-container *ngIf="!loading && !error; else busy">
+      <ng-container *ngIf="hasSeller; else applicationFlow">
+        <p>Sua conta já tem acesso de vendedor. Você não precisa enviar outra solicitação.</p>
+        <p-button label="Ir para minhas ofertas" icon="pi pi-tags" routerLink="/offer"></p-button>
+      </ng-container>
+      <ng-template #applicationFlow>
+      <ng-container *ngIf="application; else form">
+        <h3>Solicitação {{application.status | statusLabel}}</h3>
+        <p>{{application.publicName}} · enviada em {{application.submittedAt | date:'short'}}</p>
+        <p *ngIf="application.decisionReason">{{application.decisionReason}}</p>
+        <p *ngIf="application.status === 'APPROVED'">Seu perfil de vendedor foi aprovado. Atualize sua sessão para acessar as ferramentas de venda.</p>
+        <p-button *ngIf="application.status === 'APPROVED'" label="Atualizar sessão" icon="pi pi-refresh" (onClick)="refreshSession()"></p-button>
+        <p-button *ngIf="application.status === 'REJECTED' || application.status === 'WITHDRAWN'" label="Enviar nova solicitação" (onClick)="application = null"></p-button>
+      </ng-container>
+      <ng-template #form><form #sellerForm="ngForm" (ngSubmit)="sellerForm.valid && submit()">
+        <p>Preencha os dados do seu perfil de vendedor. Você continuará podendo comprar enquanto analisamos a solicitação.</p>
+        <div class="form-grid"><div class="field"><label for="publicName">Nome público / loja *</label><input pInputText class="w-full" id="publicName" name="publicName" #publicNameControl="ngModel" [attr.aria-invalid]="publicNameControl.invalid && (publicNameControl.touched || sellerForm.submitted)" required [(ngModel)]="request.publicName" /><small class="validation-error help-text" *ngIf="publicNameControl.invalid && (publicNameControl.touched || sellerForm.submitted)">Preencha este campo.</small></div>
+        <div class="field"><label for="description">Descrição *</label><textarea pInputTextarea class="w-full" id="description" name="description" #descriptionControl="ngModel" [attr.aria-invalid]="descriptionControl.invalid && (descriptionControl.touched || sellerForm.submitted)" required [(ngModel)]="request.description"></textarea><small class="validation-error help-text" *ngIf="descriptionControl.invalid && (descriptionControl.touched || sellerForm.submitted)">Preencha este campo.</small></div>
+        <div class="field"><label for="contactEmail">E-mail de contato *</label><input pInputText type="email" email class="w-full" id="contactEmail" name="contactEmail" #contactEmailControl="ngModel" [attr.aria-invalid]="contactEmailControl.invalid && (contactEmailControl.touched || sellerForm.submitted)" required [(ngModel)]="request.contactEmail" /><small class="validation-error help-text" *ngIf="contactEmailControl.invalid && (contactEmailControl.touched || sellerForm.submitted)">Informe um e-mail válido.</small></div>
+        <div class="field"><label for="itemTypes">Tipos de itens *</label><input pInputText class="w-full" id="itemTypes" name="itemTypes" #itemTypesControl="ngModel" [attr.aria-invalid]="itemTypesControl.invalid && (itemTypesControl.touched || sellerForm.submitted)" required [(ngModel)]="request.itemTypes" /><small class="validation-error help-text" *ngIf="itemTypesControl.invalid && (itemTypesControl.touched || sellerForm.submitted)">Preencha este campo.</small></div>
+        <div class="field"><label for="deliveryMethod">Método de entrega *</label><input pInputText class="w-full" id="deliveryMethod" name="deliveryMethod" #deliveryMethodControl="ngModel" [attr.aria-invalid]="deliveryMethodControl.invalid && (deliveryMethodControl.touched || sellerForm.submitted)" required [(ngModel)]="request.deliveryMethod" /><small class="validation-error help-text" *ngIf="deliveryMethodControl.invalid && (deliveryMethodControl.touched || sellerForm.submitted)">Preencha este campo.</small></div>
+        </div><p class="help-text">* Campos obrigatórios. Descreva seus itens e como pretende entregá-los.</p><div class="field"><p-checkbox name="termsAccepted" [(ngModel)]="request.termsAccepted" [binary]="true" inputId="sellerTerms"></p-checkbox><label for="sellerTerms">Aceito os termos para vendedores ({{request.termsVersion}})</label></div>
+        <p *ngIf="sellerForm.invalid && sellerForm.submitted" role="alert" class="validation-error">Preencha os campos obrigatórios e informe um e-mail válido.</p><p class="help-text">Ao enviar, você confirma que aceita os termos para vendedores na versão informada acima.</p><p-button type="submit" [disabled]="!request.termsAccepted || saving" label="Enviar solicitação" icon="pi pi-send" [loading]="saving"></p-button>
+      </form></ng-template>
+      </ng-template>
+    </ng-container>
+    <ng-template #busy><p-progressSpinner *ngIf="loading"></p-progressSpinner></ng-template>
+  </p-card></div>

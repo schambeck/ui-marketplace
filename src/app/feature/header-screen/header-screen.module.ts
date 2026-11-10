@@ -1,3 +1,4 @@
+import {RouterModule} from '@angular/router';
 import { NgModule } from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { HeaderComponent } from './header/header.component';
@@ -21,6 +22,7 @@ import {ImageModule} from "primeng/image";
     ShoppingCartComponent
   ],
   imports: [
+    RouterModule,
     CommonModule,
     MenubarModule,
     ToolbarModule,

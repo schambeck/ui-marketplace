@@ -1,3 +1,4 @@
+import {UiModule} from '../../shared/ui/ui.module';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -14,5 +15,6 @@ import {SellerAdminComponent} from './seller-admin.component';
 import {RouterLink} from "@angular/router";
 
 @NgModule({declarations: [SellerOnboardingComponent, SellerAdminComponent],
-    imports: [CommonModule, FormsModule, PanelModule, CardModule, InputTextModule, InputTextareaModule, CheckboxModule, ButtonModule, TableModule, ProgressSpinnerModule, RouterLink], exports: [SellerOnboardingComponent, SellerAdminComponent]})
+    imports: [
+    UiModule, CommonModule, FormsModule, PanelModule, CardModule, InputTextModule, InputTextareaModule, CheckboxModule, ButtonModule, TableModule, ProgressSpinnerModule, RouterLink], exports: [SellerOnboardingComponent, SellerAdminComponent]})
 export class SellerOnboardingModule {}

@@ -17,10 +17,10 @@ export class InventoryScreenComponent {
 
   load(): void {
     if (!this.orderId.trim()) { this.error = 'Informe o identificador público do pedido.'; return; }
-    this.loading = true; this.error = '';
+    this.loading = true; this.inventory = undefined; this.error = '';
     this.inventoryService.getOrder(this.orderId.trim()).subscribe({
       next: value => this.inventory = value,
-      error: response => { this.inventory = undefined; this.error = response?.error?.message || 'Não foi possível carregar o inventory.'; },
+      error: response => { this.loading = false; this.inventory = undefined; this.error = response?.error?.message || 'Não foi possível carregar o estoque.'; },
       complete: () => this.loading = false
     });
   }
@@ -47,7 +47,7 @@ export class InventoryScreenComponent {
   }
 
   private fail(response: any): void {
-    this.error = response?.error?.message || 'A operação de inventory falhou.';
+    this.error = response?.error?.message || 'A operação de estoque falhou.';
     this.operationLoading = false;
   }
 }

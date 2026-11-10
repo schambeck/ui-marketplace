@@ -34,9 +34,9 @@ export class LoggedUserComponent implements OnInit, OnDestroy {
       {
         label: this.username,
         items: [
-          {label: 'User', icon: 'pi pi-fw pi-user', routerLink: "/view-logged-user"},
-          {label: 'Profile', icon: 'pi pi-fw pi-user', routerLink: "/profile"},
-          {label: 'Log out', icon: 'pi pi-fw pi-power-off', command: () => this.authService.logout()}
+          {label: 'Usuário', icon: 'pi pi-fw pi-user', routerLink: "/view-logged-user"},
+          {label: 'Perfil', icon: 'pi pi-fw pi-user', routerLink: "/profile"},
+          {label: 'Sair', icon: 'pi pi-fw pi-power-off', command: () => this.authService.logout()}
         ]
       }
     ];

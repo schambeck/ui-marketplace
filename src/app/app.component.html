@@ -1,19 +1,10 @@
-<div class="grid">
-  <div class="col-12 p-0 shadow-4">
-    <app-header #h></app-header>
-  </div>
-  <div class="col-12 lg:p-4">
-    <div class="flex">
-      <div *ngIf="h.menuDisplay" class="flex-none hidden lg:inline-flex lg:pr-4">
-        <app-sidebar></app-sidebar>
-      </div>
-      <div class="flex-grow-1">
-        <router-outlet></router-outlet>
-        <div *ngIf="loading" class="flex-grow-1">
-          <p-progressSpinner class="flex align-items-center"></p-progressSpinner>
-        </div>
-      </div>
-    </div>
-  </div>
+<a class="skip-link" href="#main-content">Ir para o conteúdo</a>
+<app-header #h></app-header>
+<div class="app-layout" [class.menu-collapsed]="!h.menuDisplay">
+  <aside class="desktop-sidebar" aria-label="Navegação principal"><app-sidebar></app-sidebar></aside>
+  <main id="main-content" class="content-area" tabindex="-1" [attr.aria-busy]="loading">
+    <div *ngIf="loading" class="navigation-progress" role="status" aria-label="Carregando página"></div>
+    <router-outlet></router-outlet>
+  </main>
 </div>
 <p-toast position="top-center"></p-toast>

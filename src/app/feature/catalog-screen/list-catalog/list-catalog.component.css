@@ -1,36 +1,15 @@
-:host ::ng-deep .p-panel {
-  box-shadow: var(--shadow-4);
-}
-
-:host ::ng-deep .p-card .p-card-body {
-  padding: 0;
-}
-
-:host ::ng-deep .p-card .p-card-body .p-card-content {
-  padding: 0;
-}
-
-:host ::ng-deep .p-card .p-card-body .p-card-footer {
-  padding: 0;
-}
-
-:host ::ng-deep .p-card .p-card-body .p-card-footer .p-paginator {
-  padding: 0;
-}
-
-.context-summary {
-  display: flex;
-  flex-direction: column;
-  gap: .25rem;
-  padding: .5rem;
-  border-left: 3px solid var(--primary-color);
-  background: var(--surface-100);
-}
-
-.number {
-  text-align: right !important;
-}
-
-.datetime {
-  text-align: center !important;
-}
+.catalog-search { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); }
+.catalog-search > span { flex: 1; } .catalog-search input { width: 100%; background: var(--surface); }
+.catalog-meta { color: var(--text-secondary); margin-bottom: var(--space-4); font-size: .85rem; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 225px), 1fr)); gap: var(--space-5); margin-bottom: var(--space-6); }
+.product-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .15s, border-color .15s; }
+.product-card:hover { box-shadow: var(--shadow-soft); border-color: #b7c8e8; }
+.product-visual { border: 0; padding: var(--space-4); background: var(--surface-muted); cursor: pointer; width: 100%; aspect-ratio: 4 / 3; }
+.product-visual img { width: 100%; height: 100%; object-fit: contain; }
+.product-body { padding: var(--space-5); display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); flex: 1; }
+.product-category { color: var(--text-muted); font-size: .75rem; }
+.product-title { border: 0; background: transparent; padding: 0; text-align: left; font-size: 1.1rem; font-weight: 650; color: var(--text); line-height: 1.4; cursor: pointer; overflow-wrap: anywhere; }
+.product-context, .seller-name { color: var(--text-secondary); margin: 0; font-size: .82rem; }
+.product-purchase { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); width: 100%; padding-top: var(--space-4); margin-top: auto; }
+.product-purchase strong { font-size: 1.45rem; letter-spacing: -.03em; }
+@media (max-width: 480px) { .catalog-search { flex-wrap: wrap; } .catalog-search > span { flex-basis: 100%; } }

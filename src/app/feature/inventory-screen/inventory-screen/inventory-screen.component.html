@@ -1,38 +1,41 @@
-<div class="p-4">
-  <p-card header="Inventory operacional">
-    <div class="flex gap-2 mb-4">
-      <input pInputText [(ngModel)]="orderId" placeholder="ID público do pedido" class="flex-1" />
-      <p-button label="Consultar" icon="pi pi-search" (onClick)="load()" [loading]="loading"></p-button>
-    </div>
+<div>
+  <app-page-header title="Estoque operacional" description="Consulte reservas, alocações e movimentos pelo identificador público do pedido." section="Vendas"></app-page-header>
+  <p-card>
+    <form class="query-form" (ngSubmit)="load()"><div class="field"><label for="inventory-order">Identificador público do pedido</label>
+      <input pInputText id="inventory-order" name="orderId" [(ngModel)]="orderId" placeholder="ID público do pedido" class="flex-1" />
+      </div><p-button type="submit" label="Consultar" icon="pi pi-search" [loading]="loading"></p-button>
+    </form>
     <p-message *ngIf="error" severity="error" [text]="error"></p-message>
   </p-card>
 
+  <app-ui-state *ngIf="!inventory && !loading && !error" icon="pi-box" title="Consulte o estoque de um pedido" description="Informe o identificador público para visualizar sua operação."></app-ui-state>
+  <app-ui-state *ngIf="loading" icon="pi-spin pi-spinner" title="Consultando estoque" description="Aguarde enquanto buscamos os dados do pedido."></app-ui-state>
   <ng-container *ngIf="inventory as current">
     <p-card header="Reservas" class="block mt-4">
       <p-table [value]="current.reservations" responsiveLayout="scroll">
         <ng-template pTemplate="header"><tr><th>ID</th><th>Produto</th><th>Quantidade</th><th>Status</th><th>Expira em</th><th>Ações</th></tr></ng-template>
         <ng-template pTemplate="body" let-reservation>
-          <tr><td>{{reservation.id}}</td><td>{{reservation.productId}}</td><td>{{reservation.quantity}}</td><td><p-tag [value]="reservation.status"></p-tag></td><td>{{reservation.expiresAt | date:'short'}}</td><td>
+          <tr><td>{{reservation.id}}</td><td>{{reservation.productId}}</td><td>{{reservation.quantity}}</td><td><p-tag [value]="reservation.status | statusLabel"></p-tag></td><td>{{reservation.expiresAt | date:'short'}}</td><td>
             <p-button *ngIf="reservation.status === 'RESERVED'" label="Alocar" size="small" [disabled]="operationLoading" (onClick)="allocate(reservation)"></p-button>
             <p-button *ngIf="reservation.status === 'RESERVED' || reservation.status === 'ALLOCATED'" label="Liberar" severity="secondary" size="small" class="ml-2" [disabled]="operationLoading" (onClick)="release(reservation)"></p-button>
             <p-button *ngIf="reservation.status === 'RESERVED'" label="Expirar" severity="warning" size="small" class="ml-2" [disabled]="operationLoading" (onClick)="expire(reservation)"></p-button>
           </td></tr>
         </ng-template>
-      </p-table>
+      <ng-template pTemplate="emptymessage"><tr><td colspan="6">Nenhum registro para este pedido.</td></tr></ng-template></p-table>
     </p-card>
     <p-card header="Alocações" class="block mt-4">
       <p-table [value]="current.allocations" responsiveLayout="scroll">
         <ng-template pTemplate="header"><tr><th>ID</th><th>Reserva</th><th>Quantidade</th><th>Consumida</th><th>Status</th><th>Ações</th></tr></ng-template>
         <ng-template pTemplate="body" let-allocation>
-          <tr><td>{{allocation.id}}</td><td>{{allocation.reservationId}}</td><td>{{allocation.quantity}}</td><td>{{allocation.consumedQuantity}}</td><td><p-tag [value]="allocation.status"></p-tag></td><td><p-button *ngIf="allocation.status === 'ACTIVE' || allocation.status === 'PARTIALLY_CONSUMED'" label="Consumir restante" size="small" [disabled]="operationLoading" (onClick)="consume(allocation)"></p-button></td></tr>
+          <tr><td>{{allocation.id}}</td><td>{{allocation.reservationId}}</td><td>{{allocation.quantity}}</td><td>{{allocation.consumedQuantity}}</td><td><p-tag [value]="allocation.status | statusLabel"></p-tag></td><td><p-button *ngIf="allocation.status === 'ACTIVE' || allocation.status === 'PARTIALLY_CONSUMED'" label="Consumir restante" size="small" [disabled]="operationLoading" (onClick)="consume(allocation)"></p-button></td></tr>
         </ng-template>
-      </p-table>
+      <ng-template pTemplate="emptymessage"><tr><td colspan="6">Nenhum registro para este pedido.</td></tr></ng-template></p-table>
     </p-card>
     <p-card header="Movimentos" class="block mt-4">
       <p-table [value]="current.movements" responsiveLayout="scroll">
         <ng-template pTemplate="header"><tr><th>Operação</th><th>Transição</th><th>Quantidade</th><th>Data</th></tr></ng-template>
         <ng-template pTemplate="body" let-movement><tr><td>{{movement.operation}}</td><td>{{movement.fromStatus}} → {{movement.toStatus}}</td><td>{{movement.quantity}}</td><td>{{movement.createdAt | date:'short'}}</td></tr></ng-template>
-      </p-table>
+      <ng-template pTemplate="emptymessage"><tr><td colspan="4">Nenhum registro para este pedido.</td></tr></ng-template></p-table>
     </p-card>
   </ng-container>
 </div>

@@ -1,16 +1,9 @@
-<p-sidebar [(visible)]="display">
-    <app-sidebar [(display)]="display"></app-sidebar>
-</p-sidebar>
-
-<p-toolbar>
-    <div class="p-toolbar-group-left">
-        <p-button icon="pi pi-bars" [text]="true" (click)="toggleMenuDisplay()" pTooltip="Toggle Menu Display" tooltipPosition="bottom" [showDelay]="1000"></p-button>
-        <p-image src="assets/logo-angular.svg" (click)="display = true" alt="Swap" class="cursor-pointer" height="33" width="116" />
-    </div>
-    <div class="p-toolbar-group-right">
-        <div *ngIf="authService.isLoggedIn()">
-          <app-shopping-cart></app-shopping-cart>
-        </div>
-        <app-logged-user></app-logged-user>
-    </div>
-</p-toolbar>
+<p-sidebar [(visible)]="display" ariaCloseLabel="Fechar navegação"><app-sidebar (displayChange)="display = false"></app-sidebar></p-sidebar>
+<header class="app-header">
+  <div class="header-start">
+    <button class="icon-button desktop-toggle" type="button" aria-label="Recolher ou expandir navegação" [attr.aria-expanded]="menuDisplay" (click)="toggleMenuDisplay()"><i class="pi pi-bars" aria-hidden="true"></i></button>
+    <button class="icon-button mobile-toggle" type="button" aria-label="Abrir navegação" [attr.aria-expanded]="display" (click)="display = true"><i class="pi pi-bars" aria-hidden="true"></i></button>
+    <a class="brand" routerLink="/catalog"><span class="brand-mark"><i class="pi pi-shopping-bag" aria-hidden="true"></i></span>Marketplace</a>
+  </div>
+  <div class="header-actions"><app-shopping-cart *ngIf="authService.isLoggedIn()"></app-shopping-cart><app-logged-user></app-logged-user></div>
+</header>

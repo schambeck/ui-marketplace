@@ -1,29 +1,29 @@
-<p-panel header="Offer">
+<p-panel header="Oferta">
   <p-card class="p-0 shadow-8">
-    <ng-template pTemplate="header"><p-toolbar><div class="p-toolbar-group-start"><p-button label="Back" icon="pi pi-arrow-left" (onClick)="back()"></p-button></div></p-toolbar></ng-template>
+    <ng-template pTemplate="header"><p-toolbar><div class="p-toolbar-group-start"><p-button label="Voltar" icon="pi pi-arrow-left" (onClick)="back()"></p-button></div></p-toolbar></ng-template>
     <div *ngIf="offer$ | async as offer" class="grid">
-      <div class="field col-3"><label class="block font-bold">Id</label><p-inputNumber [(ngModel)]="offer.id" [disabled]="true"></p-inputNumber></div>
-      <div class="field col-3"><label class="block font-bold">Product Id</label><p-inputNumber [(ngModel)]="offer.productId" [disabled]="true"></p-inputNumber></div>
-      <div class="field col-3"><label class="block font-bold">Context Id</label><p-inputNumber [(ngModel)]="offer.gameContextId" [disabled]="true"></p-inputNumber></div>
-      <div class="field col-3"><label class="block font-bold">Version</label><p-inputNumber [(ngModel)]="offer.version" [disabled]="true"></p-inputNumber></div>
-      <div class="field col-6"><label class="block font-bold">Context</label><input class="w-full" pInputText [value]="contextLabel(offer)" disabled /></div>
-      <div class="field col-3"><label class="block font-bold">Price</label><p-inputNumber [(ngModel)]="offer.price" mode="currency" currency="USD" [disabled]="offer.status !== 'DRAFT'"></p-inputNumber></div>
-      <div class="field col-3"><label class="block font-bold">Status</label><p-tag [value]="offer.status"></p-tag></div>
-      <div class="field col-6"><label class="block font-bold">Delivery method</label><input class="w-full" pInputText [(ngModel)]="offer.deliveryMethod" [disabled]="offer.status !== 'DRAFT'" /></div>
-      <div class="field col-6"><label class="block font-bold">Availability source</label><input class="w-full" pInputText [(ngModel)]="offer.availabilitySource" [disabled]="offer.status !== 'DRAFT'" /></div>
-      <div class="field col-6"><label class="block font-bold">Availability</label><p-dropdown [options]="availabilityStatuses" [(ngModel)]="offer.availabilityStatus" [disabled]="offer.status === 'RETIRED'"></p-dropdown></div>
-      <div class="field col-6"><label class="block font-bold">Reason *</label><input class="w-full" pInputText [(ngModel)]="reason" /></div>
-      <div class="field col-6"><label class="block font-bold">Source *</label><input class="w-full" pInputText [(ngModel)]="source" /></div>
+      <div class="field col-12 sm:col-6 lg:col-3"><label class="block font-bold" for="offer-field-1">Id</label><p-inputNumber inputId="offer-field-1" [(ngModel)]="offer.id" [disabled]="true"></p-inputNumber></div>
+      <div class="field col-12 sm:col-6 lg:col-3"><label class="block font-bold" for="offer-field-2">ID do produto</label><p-inputNumber inputId="offer-field-2" [(ngModel)]="offer.productId" [disabled]="true"></p-inputNumber></div>
+      <div class="field col-12 sm:col-6 lg:col-3"><label class="block font-bold" for="offer-field-3">ID do contexto</label><p-inputNumber inputId="offer-field-3" [(ngModel)]="offer.gameContextId" [disabled]="true"></p-inputNumber></div>
+      <div class="field col-12 sm:col-6 lg:col-3"><label class="block font-bold" for="offer-field-4">Versão</label><p-inputNumber inputId="offer-field-4" [(ngModel)]="offer.version" [disabled]="true"></p-inputNumber></div>
+      <div class="field col-12 md:col-6"><label class="block font-bold" for="offer-field-5">Contexto</label><input id="offer-field-5" class="w-full" pInputText [value]="contextLabel(offer)" disabled /></div>
+      <div class="field col-12 sm:col-6 lg:col-3"><label class="block font-bold" for="offer-field-6">Preço</label><p-inputNumber inputId="offer-field-6" [(ngModel)]="offer.price" mode="currency" currency="USD" [disabled]="offer.status !== 'DRAFT'"></p-inputNumber></div>
+      <div class="field col-12 sm:col-6 lg:col-3"><label class="block font-bold">Status</label><p-tag [value]="offer.status | statusLabel"></p-tag></div>
+      <div class="field col-12 md:col-6"><label class="block font-bold" for="offer-field-7">Método de entrega</label><input id="offer-field-7" class="w-full" pInputText [(ngModel)]="offer.deliveryMethod" [disabled]="offer.status !== 'DRAFT'" /></div>
+      <div class="field col-12 md:col-6"><label class="block font-bold" for="offer-field-8">Origem da disponibilidade</label><input id="offer-field-8" class="w-full" pInputText [(ngModel)]="offer.availabilitySource" [disabled]="offer.status !== 'DRAFT'" /></div>
+      <div class="field col-12 md:col-6"><label class="block font-bold" for="offer-field-9">Disponibilidade</label><p-dropdown inputId="offer-field-9" [options]="availabilityStatuses" [(ngModel)]="offer.availabilityStatus" [disabled]="offer.status === 'RETIRED'"><ng-template pTemplate="item" let-status>{{status | statusLabel}}</ng-template><ng-template pTemplate="selectedItem" let-status>{{status | statusLabel}}</ng-template></p-dropdown></div>
+      <div class="field col-12 md:col-6"><label class="block font-bold" for="offer-field-10">Justificativa *</label><input id="offer-field-10" class="w-full" pInputText [(ngModel)]="reason" /></div>
+      <div class="field col-12 md:col-6"><label class="block font-bold" for="offer-field-11">Origem *</label><input id="offer-field-11" class="w-full" pInputText [(ngModel)]="source" /></div>
       <div class="field col-12 flex gap-2 flex-wrap">
-        <p-button label="Save draft" icon="pi pi-save" (onClick)="saveDraft()" [loading]="saving" [disabled]="offer.status !== 'DRAFT'"></p-button>
-        <p-button label="Publish" icon="pi pi-check" severity="success" (onClick)="transition('publish')" [loading]="saving" [disabled]="!canTransition('publish')"></p-button>
-        <p-button label="Pause" icon="pi pi-pause" severity="warning" (onClick)="transition('pause')" [loading]="saving" [disabled]="!canTransition('pause')"></p-button>
-        <p-button label="Reactivate" icon="pi pi-play" severity="success" (onClick)="transition('reactivate')" [loading]="saving" [disabled]="!canTransition('reactivate')"></p-button>
-        <p-button label="Retire" icon="pi pi-ban" severity="danger" (onClick)="transition('retire')" [loading]="saving" [disabled]="!canTransition('retire')"></p-button>
-        <p-button label="Save availability" icon="pi pi-refresh" (onClick)="changeAvailability()" [loading]="saving" [disabled]="offer.status === 'RETIRED'"></p-button>
+        <p-button label="Salvar rascunho" icon="pi pi-save" (onClick)="saveDraft()" [loading]="saving" [disabled]="offer.status !== 'DRAFT'"></p-button>
+        <p-button label="Publicar" icon="pi pi-check" severity="success" (onClick)="transition('publish')" [loading]="saving" [disabled]="!canTransition('publish')"></p-button>
+        <p-button label="Pausar" icon="pi pi-pause" severity="warning" (onClick)="transition('pause')" [loading]="saving" [disabled]="!canTransition('pause')"></p-button>
+        <p-button label="Reativar" icon="pi pi-play" severity="success" (onClick)="transition('reactivate')" [loading]="saving" [disabled]="!canTransition('reactivate')"></p-button>
+        <p-button label="Encerrar" icon="pi pi-ban" severity="danger" (onClick)="transition('retire')" [loading]="saving" [disabled]="!canTransition('retire')"></p-button>
+        <p-button label="Salvar disponibilidade" icon="pi pi-refresh" (onClick)="changeAvailability()" [loading]="saving" [disabled]="offer.status === 'RETIRED'"></p-button>
       </div>
     </div>
-    <div *ngIf="history$ | async as history" class="mt-4"><h3>History</h3><p-table [value]="history" styleClass="p-datatable-sm" responsiveLayout="scroll"><ng-template pTemplate="header"><tr><th>From</th><th>To</th><th>Reason</th><th>Source</th><th>Changed by</th><th>Recorded at</th></tr></ng-template><ng-template pTemplate="body" let-entry><tr><td>{{ entry.fromStatus || '—' }}</td><td>{{ entry.toStatus }}</td><td>{{ entry.reason }}</td><td>{{ entry.source }}</td><td>{{ entry.changedBy || '—' }}</td><td>{{ entry.recordedAt }}</td></tr></ng-template></p-table></div>
+    <div *ngIf="history$ | async as history" class="mt-4"><h3>Histórico</h3><p-table [value]="history" styleClass="p-datatable-sm" responsiveLayout="scroll"><ng-template pTemplate="header"><tr><th>De</th><th>Para</th><th>Justificativa</th><th>Origem</th><th>Alterado por</th><th>Registrado em</th></tr></ng-template><ng-template pTemplate="body" let-entry><tr><td>{{ entry.fromStatus || '—' }}</td><td>{{ entry.toStatus }}</td><td>{{ entry.reason }}</td><td>{{ entry.source }}</td><td>{{ entry.changedBy || '—' }}</td><td>{{ entry.recordedAt }}</td></tr></ng-template></p-table></div>
     <p-progressSpinner *ngIf="loadingHistory"></p-progressSpinner>
   </p-card>
 </p-panel>

@@ -19,6 +19,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   page$ = this.load();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
+  error = false;
   removing = false;
   totalElements = 0;
   currentPage = 0;
@@ -31,11 +32,11 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle("Products");
+    this.titleService.setTitle("Produtos");
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-    ).subscribe(text => this.refresh(text))
+    ).subscribe(text => { this.currentPage = 0; this.refresh(text); })
   }
 
   ngOnDestroy(): void {
@@ -50,24 +51,25 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.searchText$.next(text);
   }
 
-  load(page = 0, text = ''): Observable<Page<Product>> {
+  load(page = 0, text = this.currentText || ''): Observable<Page<Product>> {
     this.loading = true;
+    this.error = false;
     this.currentPage = page;
     this.currentText = text;
     return this.service.listByUser(page, this.rows, text).pipe(tap({
       next: page => this.totalElements = page.totalElements,
-      error: () => this.loading = false,
+      error: () => { this.loading = false; this.error = true; },
       complete: () => this.loading = false
     }));
   }
 
-  refresh(text = ''): void {
+  refresh(text = this.currentText): void {
     this.page$ = this.load(this.currentPage, text);
   }
 
   paginate(event: any) {
     this.rows = event.rows;
-    this.page$ = this.load(event.page);
+    this.page$ = this.load(event.page, this.currentText);
   }
 
   navigateToDetail(product: Product): void {
@@ -79,10 +81,11 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   remove(id: string): void {
+    if (!window.confirm('Excluir este registro? Esta ação não pode ser desfeita.')) { return; }
     this.removing = true;
     this.service.delete(id).subscribe({
       next: () => {
-        this.messageService.add({severity: 'success', summary: 'Product Deleted', detail: `Id: ${id}`});
+        this.messageService.add({severity: 'success', summary: 'Produto excluído', detail: `Id: ${id}`});
         this.refresh();
       },
       error: () => this.removing = false,

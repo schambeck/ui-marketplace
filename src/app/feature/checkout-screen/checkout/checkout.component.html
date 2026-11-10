@@ -1,8 +1,8 @@
-<p-panel header="Checkout">
+<p-panel header="Finalizar compra">
   <p-progressSpinner *ngIf="loading" class="flex align-items-center"></p-progressSpinner>
   <div *ngIf="cart$ | async as cart; else skeletonCart" class="pt-4 pb-2 flex flex-column justify-content-center flex-wrap">
     <div class="flex align-items-center justify-content-center text-3xl cart-total">
-      Your cart total is {{ cart.total | currency }}
+      Total do carrinho: {{ cart.total | currency }}
     </div>
   </div>
   <ng-template #skeletonCart>
@@ -11,7 +11,7 @@
   <p-progressSpinner *ngIf="loadingToken; else walletContainer" class="flex align-items-center"></p-progressSpinner>
   <ng-template #walletContainer>
     <div class="grid justify-content-center">
-      <div class="col-6">
+      <div class="col-12 md:col-6">
       <span id="wallet_container">
       </span>
       </div>
@@ -23,7 +23,7 @@
         <div class="p-toolbar-group-start">
         </div>
         <div class="p-toolbar-group-center">
-          <p-button label="Cart" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2" severity="secondary"></p-button>
+          <p-button label="Carrinho" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2" severity="secondary"></p-button>
         </div>
         <div class="p-toolbar-group-end">
         </div>
@@ -45,7 +45,7 @@
                                     <i class="pi pi-tag"></i>
                                     <span class="font-semibold">{{ item.product.category }}</span>
                                 </span>
-                      <p-tag value="OFFER SELECTED" severity="info"></p-tag>
+                      <p-tag value="Oferta selecionada" severity="info"></p-tag>
                     </div>
                   </div>
                   <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
@@ -68,21 +68,21 @@
         <ng-template pTemplate="header">
           <tr>
             <th class="number">Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th class="number">Price</th>
-            <th class="number">Quantity</th>
-            <th>User</th>
-            <th class="number">Version</th>
-            <th>CreatedAt</th>
-            <th>ModifiedAt</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th class="number">Preço</th>
+            <th class="number">Quantidade</th>
+            <th>Usuário</th>
+            <th class="number">Versão</th>
+            <th>Criado em</th>
+            <th>Atualizado em</th>
 
-            <th><div style="text-align: center">Actions</div></th>
+            <th><div style="text-align: center">Ações</div></th>
           </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-item>
-          <tr [pSelectableRow]="item" style="font-family: 'Courier New', Courier, monospace;">
+          <tr [pSelectableRow]="item">
             <td><p-skeleton></p-skeleton></td>
             <td><p-skeleton></p-skeleton></td>
             <td><p-skeleton></p-skeleton></td>
@@ -101,7 +101,7 @@
     <ng-template pTemplate="footer">
       <p-paginator [rows]="rows" [totalRecords]="totalElements" class="hidden lg:block"
                    [rowsPerPageOptions]="[5,10,25,50]" (onPageChange)="paginate($event)" [showCurrentPageReport]="true"
-                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                   currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} registros">
       </p-paginator>
 
       <p-paginator [rows]="rows" [totalRecords]="totalElements" class="lg:hidden block"

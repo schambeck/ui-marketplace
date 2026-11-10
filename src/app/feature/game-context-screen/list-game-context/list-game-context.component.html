@@ -1,16 +1,17 @@
-<p-panel header="Game Contexts">
+<app-page-header title="Contextos de jogo" description="Gerencie jogos, plataformas e variantes do catálogo." section="Administração"></app-page-header>
+<section class="data-surface">
   <p-card class="p-0">
     <ng-template pTemplate="header">
       <p-toolbar>
         <div class="p-toolbar-group-start">
-          <p-button label="New" icon="pi pi-plus" (onClick)="newContext()" styleClass="p-button-success"></p-button>
+          <p-button label="Novo" icon="pi pi-plus" (onClick)="newContext()" styleClass="p-button-success"></p-button>
         </div>
         <div class="p-toolbar-group-end">
           <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input type="text" pInputText placeholder="Search game" (keyup)="search(getValue($event))" />
+            <input type="text" pInputText placeholder="Buscar jogo" aria-label="Buscar jogo" (keyup)="search(getValue($event))" />
           </span>
-          <p-button label="Refresh" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading" pTooltip="Refresh"></p-button>
+          <p-button label="Atualizar" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading" pTooltip="Atualizar"></p-button>
         </div>
       </p-toolbar>
     </ng-template>
@@ -20,42 +21,43 @@
         <ng-template pTemplate="header">
           <tr>
             <th>Id</th>
-            <th>Game</th>
-            <th>Platform</th>
-            <th>Region</th>
-            <th>Variant</th>
+            <th>Jogo</th>
+            <th>Plataforma</th>
+            <th>Região</th>
+            <th>Variante</th>
             <th>Status</th>
-            <th>Version</th>
+            <th>Versão</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-context>
-          <tr [pSelectableRow]="context" (click)="navigateToDetail(context)">
+          <tr [pSelectableRow]="context" (click)="navigateToDetail(context)" tabindex="0" (keydown.enter)="navigateToDetail(context)">
             <td>{{ context.id }}</td>
             <td>{{ context.game }}</td>
             <td>{{ context.platform }}</td>
             <td>{{ context.region || '—' }}</td>
             <td>{{ context.variant || '—' }}</td>
-            <td><p-tag [value]="context.status" [severity]="getSeverity(context.status)"></p-tag></td>
+            <td><p-tag [value]="context.status | statusLabel" [severity]="getSeverity(context.status)"></p-tag></td>
             <td>{{ context.version }}</td>
           </tr>
         </ng-template>
       </p-table>
-      <div *ngIf="page.content.length === 0" class="p-4 text-center">No active game contexts found.</div>
+      <app-ui-state *ngIf="page.content.length === 0" title="Nenhum contexto encontrado." description="Ajuste a busca ou atualize a listagem."></app-ui-state>
     </div>
 
-    <ng-template #skeleton>
+    <app-ui-state *ngIf="error" title="Não foi possível carregar a listagem" description="Use Atualizar para tentar novamente." icon="pi-exclamation-circle"></app-ui-state>
+    <ng-template #skeleton><ng-container *ngIf="!error">
       <p-table [value]="fake">
         <ng-template pTemplate="body" let-item>
           <tr><td *ngFor="let column of [1,2,3,4,5,6,7]"><p-skeleton></p-skeleton></td></tr>
         </ng-template>
       </p-table>
-    </ng-template>
+    </ng-container></ng-template>
 
     <ng-template pTemplate="footer">
       <p-paginator [rows]="rows" [totalRecords]="totalElements" [rowsPerPageOptions]="[5,10,25,50]"
                    (onPageChange)="paginate($event)" [showCurrentPageReport]="true"
-                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                   currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} registros">
       </p-paginator>
     </ng-template>
   </p-card>
-</p-panel>
+</section>

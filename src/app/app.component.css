@@ -1,0 +1,9 @@
+:host { display: block; }
+.app-layout { display: grid; grid-template-columns: 224px minmax(0, 1fr); max-width: 1800px; margin: auto; }
+.desktop-sidebar { border-right: 1px solid var(--border); padding: var(--space-6) var(--space-4); min-height: calc(100dvh - 72px); }
+.content-area { min-width: 0; padding: var(--space-8); width: 100%; max-width: 1440px; margin: 0 auto; }
+.menu-collapsed { grid-template-columns: minmax(0, 1fr); }
+.menu-collapsed .desktop-sidebar { display: none; }
+.navigation-progress { height: 3px; background: var(--brand); position: fixed; top: 0; left: 0; right: 0; z-index: 1100; }
+@media (max-width: 1023px) { .app-layout { display: block; } .desktop-sidebar { display: none; } .content-area { padding: var(--space-5); } }
+@media (max-width: 480px) { .content-area { padding: var(--space-4); } }

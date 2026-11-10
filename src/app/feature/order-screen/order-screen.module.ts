@@ -1,3 +1,4 @@
+import {UiModule} from '../../shared/ui/ui.module';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ButtonModule} from 'primeng/button';
@@ -14,7 +15,8 @@ import {OrderComponent} from './order/order.component';
 
 @NgModule({
   declarations: [ListOrdersComponent, OrderComponent],
-  imports: [CommonModule, ButtonModule, CardModule, MessageModule, PaginatorModule, PanelModule,
+  imports: [
+    UiModule, CommonModule, ButtonModule, CardModule, MessageModule, PaginatorModule, PanelModule,
     ProgressSpinnerModule, SkeletonModule, TableModule, TagModule],
   exports: [ListOrdersComponent, OrderComponent]
 })

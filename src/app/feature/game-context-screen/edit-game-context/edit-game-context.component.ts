@@ -32,7 +32,7 @@ export class EditGameContextComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Game Context');
+    this.titleService.setTitle('Contexto de jogo');
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.get(id).subscribe(context => {
@@ -58,11 +58,11 @@ export class EditGameContextComponent implements OnInit {
   save(): void {
     const context = this.contextSubject$.getValue();
     if (!this.isValid(context)) {
-      this.messageService.add({severity: 'warn', summary: 'Invalid game context', detail: 'Game and platform are required. Region is required when server is provided.'});
+      this.messageService.add({severity: 'warn', summary: 'Contexto de jogo inválido', detail: 'Informe jogo e plataforma. A região é obrigatória quando houver servidor.'});
       return;
     }
     if (this.isTerminal(context)) {
-      this.messageService.add({severity: 'warn', summary: 'Context is discontinued', detail: 'A discontinued context cannot be edited.'});
+      this.messageService.add({severity: 'warn', summary: 'Contexto descontinuado', detail: 'Um contexto descontinuado não pode ser editado.'});
       return;
     }
 
@@ -71,7 +71,7 @@ export class EditGameContextComponent implements OnInit {
     request.subscribe({
       next: saved => {
         this.contextSubject$.next(saved);
-        this.messageService.add({severity: 'success', summary: 'Game context saved'});
+        this.messageService.add({severity: 'success', summary: 'Contexto de jogo salvo'});
         this.loadHistory(saved.id);
       },
       error: () => this.saving = false,
@@ -84,8 +84,8 @@ export class EditGameContextComponent implements OnInit {
       return;
     }
     this.confirmationService.confirm({
-      message: 'This context will remain available for historical references but cannot be used for new offers. Continue?',
-      header: 'Discontinue game context',
+      message: 'O contexto continuará no histórico e deixará de aceitar novas ofertas. Deseja continuar?',
+      header: 'Descontinuar contexto de jogo',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         context.status = 'DISCONTINUED';

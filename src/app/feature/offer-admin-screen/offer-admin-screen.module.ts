@@ -1,3 +1,4 @@
+import {UiModule} from '../../shared/ui/ui.module';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -20,6 +21,7 @@ import {EditOfferComponent} from './edit-offer/edit-offer.component';
 @NgModule({
   declarations: [ListOfferComponent, EditOfferComponent],
   imports: [
+    UiModule,
     CommonModule,
     FormsModule,
     PanelModule,

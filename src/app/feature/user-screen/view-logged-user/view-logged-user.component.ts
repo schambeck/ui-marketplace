@@ -29,7 +29,7 @@ export class ViewLoggedUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle("User");
+    this.titleService.setTitle("Usuário");
   }
 
   back(): void {

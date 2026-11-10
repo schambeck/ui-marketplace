@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
               private readonly keycloak: KeycloakService) {}
 
   ngOnInit() {
-    this.titleService.setTitle("Profile");
+    this.titleService.setTitle("Perfil");
     this.keycloak.getKeycloakInstance().loadUserInfo().then(value => this.userProfile = value);
   }
 }

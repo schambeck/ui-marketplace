@@ -1,4 +1,6 @@
-:host ::ng-deep .p-menu {
-    box-shadow: var(--shadow-4);
-    width: 15rem;
-}
+.navigation { display: flex; flex-direction: column; gap: var(--space-1); }
+.nav-group { color: var(--text-muted); text-transform: uppercase; font-size: .68rem; font-weight: 700; letter-spacing: .09em; padding: var(--space-5) var(--space-3) var(--space-2); }
+.nav-group:first-child { padding-top: 0; }
+a { display: flex; align-items: center; gap: var(--space-3); min-height: 44px; padding: var(--space-3); text-decoration: none; color: var(--text-secondary); border-radius: var(--radius); font-size: .86rem; font-weight: 550; }
+a:hover { background: var(--surface-muted); color: var(--text); }
+a.active { background: var(--brand-soft); color: var(--brand); }

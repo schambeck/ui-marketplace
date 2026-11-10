@@ -16,8 +16,8 @@ describe('offer utilities', () => {
   });
 
   it('returns an actionable message for domain revalidation errors', () => {
-    expect(offerErrorMessage({status: 400})).toContain('Refresh');
-    expect(offerErrorMessage({status: 409})).toContain('select it again');
+    expect(offerErrorMessage({status: 400})).toContain('Atualize');
+    expect(offerErrorMessage({status: 409})).toContain('selecione novamente');
     expect(offerErrorMessage({message: 'network failure'})).toBe('network failure');
   });
 });

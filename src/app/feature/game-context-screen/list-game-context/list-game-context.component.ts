@@ -19,6 +19,7 @@ export class ListGameContextComponent implements OnInit, OnDestroy {
   searchText$ = new Subject<string>();
   subscription?: Subscription;
   loading = false;
+  error = false;
   totalElements = 0;
   currentPage = 0;
   currentText = '';
@@ -29,11 +30,11 @@ export class ListGameContextComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Game Contexts');
+    this.titleService.setTitle('Contextos de jogo');
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged()
-    ).subscribe(text => this.refresh(text));
+    ).subscribe(text => { this.currentPage = 0; this.refresh(text); });
   }
 
   ngOnDestroy(): void {
@@ -48,13 +49,14 @@ export class ListGameContextComponent implements OnInit, OnDestroy {
     this.searchText$.next(text);
   }
 
-  load(page = 0, text = ''): Observable<Page<GameContext>> {
+  load(page = 0, text = this.currentText || ''): Observable<Page<GameContext>> {
     this.loading = true;
+    this.error = false;
     this.currentPage = page;
     this.currentText = text;
     return this.service.list(page, this.rows, text).pipe(tap({
       next: result => this.totalElements = result.totalElements,
-      error: () => this.loading = false,
+      error: () => { this.loading = false; this.error = true; },
       complete: () => this.loading = false
     }));
   }

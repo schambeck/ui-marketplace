@@ -17,6 +17,7 @@ export class ListOfferComponent implements OnInit, OnDestroy {
   page$ = this.load();
   fake = [{}, {}, {}, {}, {}];
   loading = false;
+  error = false;
   totalElements = 0;
   currentPage = 0;
   currentText = '';
@@ -24,17 +25,17 @@ export class ListOfferComponent implements OnInit, OnDestroy {
   searchText$ = new Subject<string>();
   subscription?: Subscription;
   statuses: Array<{label: string; value: string}> = [
-    {label: 'All statuses', value: ''},
-    {label: 'Draft', value: 'DRAFT'},
-    {label: 'Published', value: 'PUBLISHED'},
-    {label: 'Paused', value: 'PAUSED'},
-    {label: 'Retired', value: 'RETIRED'}
+    {label: 'Todos os status', value: ''},
+    {label: 'Rascunho', value: 'DRAFT'},
+    {label: 'Publicada', value: 'PUBLISHED'},
+    {label: 'Pausada', value: 'PAUSED'},
+    {label: 'Encerrada', value: 'RETIRED'}
   ];
 
   constructor(private service: OfferService, private router: Router, private titleService: Title) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Offers');
+    this.titleService.setTitle('Ofertas');
     this.subscription = this.searchText$.pipe(
       debounceTime(500),
       distinctUntilChanged()
@@ -55,11 +56,12 @@ export class ListOfferComponent implements OnInit, OnDestroy {
 
   load(page = 0, text = this.currentText): Observable<Page<Offer>> {
     this.loading = true;
+    this.error = false;
     this.currentPage = page;
     this.currentText = text;
     return this.service.searchOwned(page, this.rows, this.selectedStatus, text).pipe(tap({
       next: result => this.totalElements = result.totalElements,
-      error: () => this.loading = false,
+      error: () => { this.loading = false; this.error = true; },
       complete: () => this.loading = false
     }));
   }

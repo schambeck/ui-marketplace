@@ -22,6 +22,7 @@ export class ViewProductComponent implements OnInit {
   offerSubject$ = new BehaviorSubject<Offer>({} as Offer);
   offer$ = this.offerSubject$.asObservable();
   currentOffer?: Offer;
+  error = false;
   saving = false;
   quantity = 1;
   imagesSubject$ = new BehaviorSubject<Image[]>([]);
@@ -39,16 +40,16 @@ export class ViewProductComponent implements OnInit {
               private imageService: ImageService) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.service.get(id).subscribe(offer => {
+      this.service.get(id).subscribe({next: offer => {
         this.currentOffer = offer;
         this.offerSubject$.next(offer);
         this.imageService.listByProduct(offer.productId).subscribe(images => this.imagesSubject$.next(images));
-      });
+      }, error: () => this.error = true});
     }
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Offer');
+    this.titleService.setTitle('Oferta');
   }
 
   back(): void {
@@ -78,12 +79,12 @@ export class ViewProductComponent implements OnInit {
     this.saving = true;
     this.shoppingCartService.create({offerId: offer.id, productId: offer.productId, quantity: 1}).subscribe({
       next: cartItem => {
-        this.messageService.add({severity: 'success', summary: 'Offer added to cart', detail: `Cart: ${cartItem.cart.id} - Item: ${cartItem.id}`});
+        this.messageService.add({severity: 'success', summary: 'Oferta adicionada ao carrinho', detail: 'Seu item está no carrinho.'});
         this.router.navigate(['shopping-cart']);
       },
       error: error => {
         this.saving = false;
-        this.messageService.add({severity: 'warn', summary: 'Offer changed', detail: offerErrorMessage(error)});
+        this.messageService.add({severity: 'warn', summary: 'Oferta alterada', detail: offerErrorMessage(error)});
       },
       complete: () => this.saving = false
     });

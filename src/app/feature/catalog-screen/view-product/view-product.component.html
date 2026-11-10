@@ -1,51 +1,31 @@
-<p-panel header="Offer">
-  <p-card class="p-0 shadow-8">
-    <ng-template pTemplate="header">
-      <p-toolbar>
-        <div class="p-toolbar-group-start">
-          <p-button label="Catalog" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2" severity="secondary"></p-button>
-          <p-button label="Add to Cart" (onClick)="addCartItem()" icon="pi pi-shopping-cart" [loading]="saving" [disabled]="!currentOffer || !canPurchase(currentOffer)"></p-button>
-        </div>
-      </p-toolbar>
-    </ng-template>
-
-    <div *ngIf="offer$ | async as offer; else loading">
-      <ng-container *ngIf="offer.product as product">
-        <div class="grid nested-grid">
-          <div class="col-4 flex justify-content-center align-items-center">
-            <div *ngIf="images$ | async as images">
-              <p-galleria [value]="images" [showItemNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="true" [numVisible]="5" [containerStyle]="{ 'max-width': '400px' }">
-                <ng-template pTemplate="item" let-item><img [src]="getImageUrl(item.objectId)" style="width: 100%; display: block;"></ng-template>
-                <ng-template pTemplate="thumbnail" let-item><div class="grid grid-nogutter justify-content-center"><img [src]="getImageUrl(item.objectId)" style="display: block; width: 80px; height: 60px;"></div></ng-template>
-              </p-galleria>
-            </div>
-          </div>
-          <div class="col-8 pl-4">
-            <div class="grid">
-              <div class="col-6 pl-0"><div id="name" class="font-bold text-2xl">{{ product.name }}</div></div>
-              <div class="col-6 flex justify-content-end align-items-end"><div id="price" class="font-bold">{{ offer.price | currency }}</div></div>
-              <div class="col-12 pl-0 pt-4"><p-rating id="rating" [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></div>
-              <div class="col-12 pl-0 pt-4"><label class="text-justify">{{ product.description }}</label></div>
-              <div class="col-12 pl-0 pt-4">
-                <p-panel header="Game Context">
-                  <div class="grid">
-                    <div class="col-6"><span class="font-bold">Game:</span> {{ offer.context.game }}</div>
-                    <div class="col-6"><span class="font-bold">Platform:</span> {{ offer.context.platform }}</div>
-                    <div class="col-6" *ngIf="offer.context.publisher"><span class="font-bold">Publisher:</span> {{ offer.context.publisher }}</div>
-                    <div class="col-6" *ngIf="offer.context.region"><span class="font-bold">Region:</span> {{ offer.context.region }}</div>
-                    <div class="col-6" *ngIf="offer.context.server"><span class="font-bold">Server:</span> {{ offer.context.server }}</div>
-                    <div class="col-6" *ngIf="offer.context.variant"><span class="font-bold">Variant:</span> {{ offer.context.variant }}</div>
-                    <div class="col-12"><p-tag [value]="offer.availabilityStatus" [severity]="canPurchase(offer) ? 'success' : 'danger'"></p-tag><span class="ml-2">{{ offer.deliveryMethod }} · {{ offer.status }}</span><span class="ml-2" *ngIf="!canPurchase(offer)">This offer is not available for a new purchase.</span></div>
-                  </div>
-                </p-panel>
-              </div>
-              <div class="col-6 flex justify-content-end align-items-end"><div id="username" class="font-bold text-lg">{{ product.user.username }}</div></div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
+<p-button label="Voltar ao catálogo" icon="pi pi-arrow-left" [text]="true" (onClick)="back()"></p-button>
+<app-ui-state *ngIf="error" icon="pi-exclamation-circle" title="Não foi possível carregar o produto" description="Volte ao catálogo e tente novamente."></app-ui-state>
+<ng-container *ngIf="currentOffer as offer; else busy">
+  <ng-container *ngIf="offer.product as product">
+    <div class="product-detail">
+      <section class="detail-gallery" aria-label="Imagens do produto">
+        <ng-container *ngIf="images$ | async as images">
+          <p-galleria *ngIf="images.length; else cover" [value]="images" [showItemNavigators]="true" [circular]="true" [numVisible]="4">
+            <ng-template pTemplate="item" let-item><img class="detail-image" [src]="getImageUrl(item.objectId)" [alt]="product.name"></ng-template>
+            <ng-template pTemplate="thumbnail" let-item><img class="detail-thumbnail" [src]="getImageUrl(item.objectId)" [alt]="'Miniatura de ' + product.name"></ng-template>
+          </p-galleria>
+          <ng-template #cover><img class="detail-image" [src]="getImageUrl(product.objectId)" [alt]="product.name"></ng-template>
+        </ng-container>
+      </section>
+      <section class="detail-summary">
+        <span class="eyebrow">{{product.category}}</span><h1>{{product.name}}</h1>
+        <ng-container *ngIf="product.user as seller"><p *ngIf="seller.fullName" class="help-text">Vendido por {{seller.fullName}}</p></ng-container>
+        <p-rating *ngIf="product.rating" [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+        <strong class="detail-price">{{offer.price | currency}}</strong>
+        <p-tag [value]="offer.availabilityStatus | statusLabel" [severity]="getAvailabilitySeverity(offer)"></p-tag>
+        <p *ngIf="!canPurchase(offer)" class="help-text">Esta oferta não está disponível para uma nova compra.</p>
+        <p-button label="Adicionar ao carrinho" icon="pi pi-shopping-cart" [loading]="saving" [disabled]="!canPurchase(offer)" (onClick)="addCartItem()"></p-button>
+        <div *ngIf="product.description" class="detail-description"><h2>Sobre o produto</h2><p>{{product.description}}</p></div>
+        <dl *ngIf="offer.context as context" class="context-details">
+          <div *ngIf="context.game"><dt>Jogo</dt><dd>{{context.game}}</dd></div><div *ngIf="context.platform"><dt>Plataforma</dt><dd>{{context.platform}}</dd></div><div *ngIf="context.publisher"><dt>Publicadora</dt><dd>{{context.publisher}}</dd></div><div *ngIf="context.region"><dt>Região</dt><dd>{{context.region}}</dd></div><div *ngIf="context.server"><dt>Servidor</dt><dd>{{context.server}}</dd></div><div *ngIf="context.variant"><dt>Variante</dt><dd>{{context.variant}}</dd></div>
+        </dl>
+      </section>
     </div>
-
-    <ng-template #loading><div class="grid"><div class="col-6"><p-skeleton height="2.75rem"></p-skeleton></div><div class="col-6"><p-skeleton height="2.75rem"></p-skeleton></div></div></ng-template>
-  </p-card>
-</p-panel>
+  </ng-container>
+</ng-container>
+<ng-template #busy><div *ngIf="!error" class="product-detail" role="status" aria-label="Carregando produto"><p-skeleton height="360px"></p-skeleton><p-skeleton height="360px"></p-skeleton></div></ng-template>

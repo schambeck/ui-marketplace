@@ -1,3 +1,4 @@
+import {UiModule} from '../../shared/ui/ui.module';
 import {CommonModule} from '@angular/common';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -20,7 +21,7 @@ describe('SellerOnboardingComponent', () => {
     keycloak.getUserRoles.and.returnValue(['SELLER']);
 
     await TestBed.configureTestingModule({
-      imports: [CommonModule, FormsModule, RouterTestingModule],
+      imports: [UiModule, CommonModule, FormsModule, RouterTestingModule],
       declarations: [SellerOnboardingComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [

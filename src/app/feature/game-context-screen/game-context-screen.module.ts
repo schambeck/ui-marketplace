@@ -1,3 +1,4 @@
+import {UiModule} from '../../shared/ui/ui.module';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -28,6 +29,7 @@ import {EditGameContextComponent} from './edit-game-context/edit-game-context.co
     EditGameContextComponent
   ],
   imports: [
+    UiModule,
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,

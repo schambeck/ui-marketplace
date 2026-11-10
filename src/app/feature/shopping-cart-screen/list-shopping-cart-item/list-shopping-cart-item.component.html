@@ -1,118 +1,20 @@
-<p-panel header="Cart">
-  <p-progressSpinner *ngIf="creating" class="flex align-items-center"></p-progressSpinner>
-  <span id="wallet_container">
-  </span>
-  <div *ngIf="cart$ | async as cart; else skeletonCart" class="pt-4 pb-4 flex flex-column justify-content-center flex-wrap">
-    <div class="flex align-items-center justify-content-center text-3xl cart-total">
-      Your cart total is {{ cart.total | currency }}
-      <p-button label="Checkout" (onClick)="checkout()" icon="pi pi-shopping-cart" class="pl-2" [loading]="checkingOut"></p-button>
-    </div>
-  </div>
-  <ng-template #skeletonCart>
-  </ng-template>
-  <p-card class="p-0">
-    <ng-template pTemplate="header">
-      <p-toolbar>
-        <div class="p-toolbar-group-start">
-          <p-button label="Catalog" (onClick)="back()" icon="pi pi-arrow-left" styleClass="mr-2" severity="secondary"></p-button>
-        </div>
-        <div class="p-toolbar-group-end">
-          <span class="p-input-icon-left pr-2">
-              <i class="pi pi-search"></i>
-              <input type="text" pInputText placeholder="Search" (keyup)="search(getValue($event))" />
-          </span>
-          <p-button label="Refresh" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading" pTooltip="Refresh" tooltipPosition="left"></p-button>
-        </div>
-      </p-toolbar>
-    </ng-template>
-    <div *ngIf="page$ | async as page; else skeleton">
-      <p-dataView #dv [value]="page.content" [layout]="'list'">
-        <ng-template let-item pTemplate="list" let-items>
-          <div class="grid grid-nogutter">
-            <div class="col-12" *ngFor="let item of items; let first = first">
-              <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{ 'border-top-1 surface-border': !first }">
-                <p-image width="150" class="cursor-pointer w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="getImageUrl(item.product.objectId)" [alt]="item.product.name" [preview]="true" />
-                <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-                  <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                    <div (click)="navigateToDetail(item.offerId)" class="cursor-pointer text-2xl font-bold text-900">{{ item.product.name }}</div>
-                    <p-rating [ngModel]="item.product.rating" [readonly]="true" [cancel]="false"></p-rating>
-                    <div class="flex align-items-center gap-3">
-                                <span class="flex align-items-center gap-2">
-                                    <i class="pi pi-tag"></i>
-                                    <span class="font-semibold">{{ item.product.category }}</span>
-                                </span>
-                      <p-tag value="OFFER SELECTED" severity="info"></p-tag>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                    <span class="text-2xl font-semibold">{{ (item.price * item.quantity) | currency }}</span>
-                    <i class="pi pi-trash cursor-pointer" (click)="remove(item.id)" style="color: lightcoral"></i>
-                    <p-inputNumber id="quantity"
-                                   [(ngModel)]="item.quantity"
-                                   (ngModelChange)="onModelChange(item.id, $event)"
-                                   [showButtons]="true"
-                                   buttonLayout="horizontal"
-                                   inputId="horizontal"
-                                   [step]="1"
-                                   [disabled]="updating"
-                                   decrementButtonClass="p-button-danger"
-                                   incrementButtonClass="p-button-success"
-                                   incrementButtonIcon="pi pi-plus"
-                                   decrementButtonIcon="pi pi-minus"
-                                   class="pt-2" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </p-dataView>
-    </div>
-
-    <ng-template #skeleton>
-      <p-table styleClass="p-datatable-sm" [value]="fake" responsiveLayout="scroll" class="pt-4" selectionMode="single" dataKey="id">
-        <ng-template pTemplate="header">
-          <tr>
-            <th class="number">Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th class="number">Price</th>
-            <th class="number">Quantity</th>
-            <th>User</th>
-            <th class="number">Version</th>
-            <th>CreatedAt</th>
-            <th>ModifiedAt</th>
-
-            <th><div style="text-align: center">Actions</div></th>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-item>
-          <tr [pSelectableRow]="item" style="font-family: 'Courier New', Courier, monospace;">
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-            <td><p-skeleton></p-skeleton></td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </ng-template>
-
-    <ng-template pTemplate="footer">
-      <p-paginator [rows]="rows" [totalRecords]="totalElements" class="hidden lg:block"
-                   [rowsPerPageOptions]="[5,10,25,50]" (onPageChange)="paginate($event)" [showCurrentPageReport]="true"
-                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-      </p-paginator>
-
-      <p-paginator [rows]="rows" [totalRecords]="totalElements" class="lg:hidden block"
-                   (onPageChange)="paginate($event)" [pageLinkSize]="2">
-      </p-paginator>
-    </ng-template>
-  </p-card>
-</p-panel>
+<app-page-header title="Meu carrinho" description="Revise os itens e as quantidades antes de finalizar sua compra." section="Sua compra"></app-page-header>
+<span id="wallet_container"></span>
+<p-progressSpinner *ngIf="creating" ariaLabel="Adicionando produto"></p-progressSpinner>
+<div class="cart-layout">
+  <section class="cart-items" aria-label="Itens do carrinho">
+    <p-toolbar><div class="p-toolbar-group-start"><p-button label="Continuar comprando" icon="pi pi-arrow-left" [text]="true" (onClick)="back()"></p-button></div><div class="p-toolbar-group-end"><span class="p-input-icon-left"><i class="pi pi-search" aria-hidden="true"></i><input pInputText type="search" aria-label="Buscar no carrinho" placeholder="Buscar item" (input)="search(getValue($event))"></span><p-button icon="pi pi-refresh" ariaLabel="Atualizar carrinho" [outlined]="true" [loading]="loading" (onClick)="refresh(currentText)"></p-button></div></p-toolbar>
+    <ng-container *ngIf="page$ | async as page; else busy">
+      <article *ngFor="let item of page.content" class="cart-item">
+        <p-image [src]="getImageUrl(item.product.objectId)" [alt]="item.product.name" [preview]="true"></p-image>
+        <div class="cart-item-info"><button type="button" class="table-link" (click)="navigateToDetail(item.offerId)">{{item.product.name}}</button><span class="help-text">{{item.product.category}}</span><p-rating *ngIf="item.product.rating" [ngModel]="item.product.rating" [readonly]="true" [cancel]="false"></p-rating><span class="help-text">{{item.price | currency}} por unidade</span><label class="help-text" [for]="'quantity-' + item.id">Quantidade</label><p-inputNumber [(ngModel)]="item.quantity" (ngModelChange)="onModelChange(item.id, $event)" [inputId]="'quantity-' + item.id" [showButtons]="true" buttonLayout="horizontal" [step]="1" [disabled]="updating" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber></div>
+        <div class="cart-item-actions"><strong>{{item.price * item.quantity | currency}}</strong><button type="button" class="icon-button danger" [attr.aria-label]="'Remover ' + item.product.name" [disabled]="removing" (click)="remove(item.id.toString())"><i class="pi pi-trash" aria-hidden="true"></i></button></div>
+      </article>
+      <app-ui-state *ngIf="!page.content.length" icon="pi-shopping-cart" title="Seu carrinho está vazio" description="Explore o catálogo para encontrar seu próximo item."></app-ui-state>
+      <p-paginator [rows]="rows" [totalRecords]="totalElements" [rowsPerPageOptions]="[5,10,25,50]" (onPageChange)="paginate($event)" [pageLinkSize]="2"></p-paginator>
+    </ng-container>
+    <ng-template #busy><div *ngIf="!error" class="p-4" role="status" aria-label="Carregando carrinho"><p-skeleton *ngFor="let item of fake" height="80px" styleClass="mb-3"></p-skeleton></div></ng-template>
+    <app-ui-state *ngIf="error" title="Não foi possível carregar o carrinho" description="Atualize a página para tentar novamente." icon="pi-exclamation-circle"></app-ui-state>
+  </section>
+  <aside class="cart-summary" aria-label="Resumo da compra"><h2>Resumo da compra</h2><ng-container *ngIf="cart$ | async as cart; else summaryLoading"><p>Confira os itens antes de continuar para o pedido.</p><div class="summary-total"><span>Total</span><strong>{{cart.total | currency}}</strong></div><p-button label="Finalizar compra" icon="pi pi-arrow-right" [loading]="checkingOut" [disabled]="!cart.total || updating || removing || loading" (onClick)="checkout()"></p-button></ng-container><ng-template #summaryLoading><p-skeleton height="100px"></p-skeleton></ng-template></aside>
+</div>

@@ -1,4 +1,6 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {registerLocaleData} from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import {APP_INITIALIZER, DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -34,6 +36,8 @@ import {MessageModule} from 'primeng/message';
 import {SellerOnboardingModule} from './feature/seller-onboarding-screen/seller-onboarding.module';
 import {InventoryScreenModule} from './feature/inventory-screen/inventory-screen.module';
 import {OrderScreenModule} from './feature/order-screen/order-screen.module';
+
+registerLocaleData(localePt);
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -92,6 +96,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ,ButtonModule, CardModule, TagModule, MessageModule, SellerOnboardingModule, InventoryScreenModule, OrderScreenModule
   ],
   providers: [
+    {provide: LOCALE_ID, useValue: 'pt-BR'},
+    {provide: DEFAULT_CURRENCY_CODE, useValue: 'USD'},
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

@@ -1,3 +1,4 @@
+import {UiModule} from '../../shared/ui/ui.module';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {PanelModule} from 'primeng/panel';
@@ -33,6 +34,7 @@ import {GalleriaModule} from "primeng/galleria";
     ViewProductComponent
   ],
   imports: [
+    UiModule,
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,

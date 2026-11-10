@@ -1,3 +1,4 @@
+import {UiModule} from '../../shared/ui/ui.module';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -13,7 +14,8 @@ import {InventoryScreenComponent} from './inventory-screen/inventory-screen.comp
 
 @NgModule({
   declarations: [InventoryScreenComponent],
-  imports: [CommonModule, FormsModule, InputTextModule, InputNumberModule, ButtonModule,
+  imports: [
+    UiModule, CommonModule, FormsModule, InputTextModule, InputNumberModule, ButtonModule,
     CardModule, TableModule, TagModule, MessageModule, ProgressSpinnerModule],
   exports: [InventoryScreenComponent]
 })
