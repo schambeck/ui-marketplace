@@ -6,6 +6,8 @@
   --text-secondary: #526078;
   --text-muted: #637087;
   --brand: #2458c6;
+  --on-brand: #fff;
+  --control-border: #b9c4d4;
   --brand-soft: #eaf0ff;
   --success: #147348;
   --warning: #865600;
@@ -43,7 +45,7 @@ a { color: var(--brand); }
 .icon-button { display: inline-flex; justify-content: center; align-items: center; min-width: 44px; min-height: 44px; background: transparent; color: var(--text-secondary); border: 0; border-radius: var(--radius); cursor: pointer; }
 .icon-button:hover { background: var(--surface-muted); }
 .icon-button.danger { color: var(--danger); }
-.primary-link { display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5); background: var(--brand); color: white; border-radius: var(--radius); text-decoration: none; min-height: var(--control-height); font-weight: 600; }
+.primary-link { display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5); background: var(--brand); color: var(--on-brand); border-radius: var(--radius); text-decoration: none; min-height: var(--control-height); font-weight: 600; }
 /* Shared PrimeNG treatment is scoped to application content. */
 .content-area .p-component { font-family: inherit; }
 .content-area .p-panel, .content-area .p-card { box-shadow: none; border-radius: var(--radius-lg); }
@@ -52,13 +54,13 @@ a { color: var(--brand); }
 .content-area .p-card { background: var(--surface); color: var(--text); }
 .content-area .p-toolbar { background: transparent; border: 0; padding: var(--space-3) 0 var(--space-5); gap: var(--space-3); }
 .content-area .p-toolbar > div { gap: var(--space-2); flex-wrap: wrap; }
-.content-area .p-inputtext, .content-area .p-dropdown { border-color: #b9c4d4; border-radius: var(--radius); min-height: var(--control-height); max-width: 100%; }
+.content-area .p-inputtext, .content-area .p-dropdown { border-color: var(--control-border); border-radius: var(--radius); min-height: var(--control-height); max-width: 100%; }
 .content-area .p-inputtext { color: var(--text); }
 .content-area .p-button { border-radius: var(--radius); min-height: var(--control-height); font-weight: 600; }
 .content-area .p-button:not(.p-button-secondary):not(.p-button-danger):not(.p-button-warning):not(.p-button-text):not(.p-button-success):not(.p-button-outlined) { background: var(--brand); border-color: var(--brand); }
 .content-area .p-datatable .p-datatable-thead > tr > th { background: var(--surface-muted); color: var(--text-secondary); border-color: var(--border); font-size: .78rem; font-weight: 650; padding: var(--space-3) var(--space-4); white-space: nowrap; }
 .content-area .p-datatable .p-datatable-tbody > tr > td { border-color: var(--border); padding: var(--space-3) var(--space-4); line-height: 1.5; overflow-wrap: anywhere; max-width: 320px; }
-.content-area .p-datatable .p-datatable-tbody > tr:hover { background: #f8faff; }
+.content-area .p-datatable .p-datatable-tbody > tr:hover { background: var(--surface-muted); }
 .content-area .p-datatable-wrapper { overflow-x: auto; }
 .content-area .p-datatable table { min-width: 640px; }
 .content-area .p-paginator { border-top: 1px solid var(--border); padding: var(--space-4) 0; gap: var(--space-1); }
@@ -96,3 +98,90 @@ a { color: var(--brand); }
 .content-area .field .p-inputnumber, .content-area .field .p-calendar, .content-area .field .p-dropdown { width: 100%; }
 .content-area .field .p-inputnumber-input { width: 100%; min-width: 0; }
 .p-toast.p-toast-top-center { width: min(350px, calc(100vw - 2rem)); }
+
+/* Palette and contrast are independent so every combination stays available. */
+:root[data-palette="green"] { --brand: #166534; --brand-soft: #e4f5eb; }
+:root[data-palette="purple"] { --brand: #7e22ce; --brand-soft: #f3e8ff; }
+:root[data-palette="amber"] { --brand: #925b00; --brand-soft: #fff2cd; }
+:root[data-contrast="dark"], :root[data-contrast="high-contrast"] {
+  color-scheme: dark;
+  --background-color: #111827;
+  --surface: #1f2937;
+  --surface-muted: #273449;
+  --text: #f3f4f6;
+  --text-secondary: #cbd5e1;
+  --text-muted: #aab8cc;
+  --border: #526078;
+  --control-border: #8190a5;
+  --brand: #93c5fd;
+  --brand-soft: #1e3a5f;
+  --on-brand: #111827;
+  --success: #86efac;
+  --warning: #fcd34d;
+  --danger: #fda4af;
+}
+:root[data-contrast="dark"][data-palette="green"], :root[data-contrast="high-contrast"][data-palette="green"] { --brand: #86efac; --brand-soft: #143d2a; }
+:root[data-contrast="dark"][data-palette="purple"], :root[data-contrast="high-contrast"][data-palette="purple"] { --brand: #d8b4fe; --brand-soft: #3b2456; }
+:root[data-contrast="dark"][data-palette="amber"], :root[data-contrast="high-contrast"][data-palette="amber"] { --brand: #fcd34d; --brand-soft: #463714; }
+:root[data-contrast="high-contrast"] {
+  --background-color: #000;
+  --surface: #000;
+  --surface-muted: #171717;
+  --text: #fff;
+  --text-secondary: #fff;
+  --text-muted: #fff;
+  --border: #fff;
+  --control-border: #fff;
+  --on-brand: #000;
+  --shadow-4: none;
+  --shadow-soft: none;
+}
+:root[data-contrast="light"] { color-scheme: light; }
+:root[data-palette] {
+  --primary-color: var(--brand);
+  --primary-color-text: var(--on-brand);
+  --text-color: var(--text);
+  --text-color-secondary: var(--text-secondary);
+  --surface-ground: var(--background-color);
+  --surface-card: var(--surface);
+  --surface-overlay: var(--surface);
+  --surface-border: var(--border);
+  --highlight-bg: var(--brand-soft);
+  --highlight-text-color: var(--text);
+}
+/* These overrides also cover PrimeNG overlays appended outside content-area. */
+.p-panel .p-panel-content, .p-dialog .p-dialog-header, .p-dialog .p-dialog-content,
+.p-dialog .p-dialog-footer, .p-sidebar, .p-overlaypanel, .p-menu, .p-dropdown-panel,
+.p-datepicker, .p-paginator, .p-datatable .p-datatable-tbody > tr,
+.p-inputtext, .p-dropdown {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--control-border);
+}
+.p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-secondary):not(.p-button-danger):not(.p-button-warning):not(.p-button-success) {
+  color: var(--on-brand);
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.p-button.p-button-text, .p-button.p-button-outlined { color: var(--brand); background: transparent; }
+.p-button.p-button-text { border-color: transparent; }
+.p-button.p-button-text:enabled:hover, .p-button.p-button-outlined:enabled:hover { background: var(--brand-soft); color: var(--brand); }
+.app-header .header-actions .p-button.p-button-text {
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-secondary);
+}
+.app-header .header-actions .p-button.p-button-text:enabled:hover {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+.content-area .p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-secondary):not(.p-button-danger):not(.p-button-warning):not(.p-button-success) { color: var(--on-brand); }
+.p-overlaypanel::after { border-bottom-color: var(--surface); }
+.p-overlaypanel::before { border-bottom-color: var(--control-border); }
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight { background: var(--brand-soft); color: var(--text); }
+:root[data-contrast="high-contrast"] .p-component { --surface-border: #fff; --text-color-secondary: #fff; }
+:root[data-contrast="high-contrast"] .p-component :is(.p-menuitem-link, .p-dropdown-item, .p-datepicker-header, .p-paginator-element, .p-dialog-header-icon, .p-sidebar-close, .p-overlaypanel-close) { color: var(--text); background: var(--surface); }
+:root[data-contrast="high-contrast"] :is(.p-panel-header, .p-panel-content, .p-card, .p-menu, .p-overlaypanel, .p-dialog, .p-sidebar, .p-dropdown-panel, .p-datepicker, .p-toast-message, .p-paginator) { border: 1px solid var(--border); }

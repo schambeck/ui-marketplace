@@ -14,6 +14,7 @@ import {SidebarScreenModule} from "../sidebar-screen/sidebar-screen.module";
 import {LoggedUserComponent} from "./logged-user/logged-user.component";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {ImageModule} from "primeng/image";
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {ImageModule} from "primeng/image";
     ProgressSpinnerModule,
     TooltipModule,
     NgOptimizedImage,
-    ImageModule
+    ImageModule,
+    OverlayPanelModule
   ],
   exports: [
     HeaderComponent

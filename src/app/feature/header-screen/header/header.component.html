@@ -5,5 +5,27 @@
     <button class="icon-button mobile-toggle" type="button" aria-label="Abrir navegação" [attr.aria-expanded]="display" (click)="display = true"><i class="pi pi-bars" aria-hidden="true"></i></button>
     <a class="brand" routerLink="/catalog"><span class="brand-mark"><i class="pi pi-shopping-bag" aria-hidden="true"></i></span>Marketplace</a>
   </div>
-  <div class="header-actions"><app-shopping-cart *ngIf="authService.isLoggedIn()"></app-shopping-cart><app-logged-user></app-logged-user></div>
+  <div class="header-actions">
+    <button class="icon-button" type="button" aria-label="Alterar tema" title="Alterar tema" aria-controls="theme-picker" [attr.aria-expanded]="themePanel.overlayVisible" (click)="themePanel.toggle($event)"><i class="pi pi-palette" aria-hidden="true"></i></button>
+    <p-overlayPanel #themePanel [showCloseIcon]="true" ariaCloseLabel="Fechar seletor de tema">
+      <section id="theme-picker" class="theme-picker" aria-label="Tema da aplicação">
+        <h2>Tema da aplicação</h2>
+        <fieldset>
+          <legend>Paleta</legend>
+          <label *ngFor="let palette of themeService.palettes">
+            <input type="radio" name="theme-palette" [value]="palette.value" [checked]="themeService.current.palette === palette.value" (change)="themeService.setPalette(palette.value)">
+            <span class="palette-swatch" [attr.data-swatch]="palette.value" aria-hidden="true"></span>{{ palette.label }}
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>Contraste</legend>
+          <label *ngFor="let contrast of themeService.contrasts">
+            <input type="radio" name="theme-contrast" [value]="contrast.value" [checked]="themeService.current.contrast === contrast.value" (change)="themeService.setContrast(contrast.value)">{{ contrast.label }}
+          </label>
+        </fieldset>
+        <p>Preferências salvas neste navegador.</p>
+      </section>
+    </p-overlayPanel>
+    <app-shopping-cart *ngIf="authService.isLoggedIn()"></app-shopping-cart><app-logged-user></app-logged-user>
+  </div>
 </header>
