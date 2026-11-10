@@ -198,7 +198,9 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
 
   checkout() {
     this.checkingOut = true;
-    const key = crypto.randomUUID();
+    const storageKey = 'marketplace.checkout.idempotency-key';
+    const key = sessionStorage.getItem(storageKey) || crypto.randomUUID();
+    sessionStorage.setItem(storageKey, key);
     this.orderService.checkout(key).subscribe({
       next: order => this.router.navigate(['orders', order.publicId]),
       error: error => {

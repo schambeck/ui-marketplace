@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Order} from '../model/order.entity';
 import {Page} from '../model/page';
+import {Preference} from '../model/preference.entity';
 
 @Injectable({providedIn: 'root'})
 export class OrderService {
@@ -16,4 +17,8 @@ export class OrderService {
   }
   get(publicId: string): Observable<Order> { return this.http.get<Order>(`${this.url}/${publicId}`); }
   list(page = 0, size = 20): Observable<Page<Order>> { return this.http.get<Page<Order>>(`${this.url}?page=${page}&size=${size}`); }
+  createPreference(publicId: string, idempotencyKey: string): Observable<Preference> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey});
+    return this.http.post<Preference>(`${(environment as {baseUrl: string}).baseUrl}/mercado-pago/preferences/orders/${encodeURIComponent(publicId)}`, {}, {headers});
+  }
 }
