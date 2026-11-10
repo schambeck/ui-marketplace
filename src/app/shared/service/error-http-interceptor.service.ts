@@ -23,8 +23,11 @@ export class ErrorHttpInterceptorService implements HttpInterceptor {
           } else {
             message = response.message;
           }
-          const detail = (response.status === 400 || response.status === 409) && (request.url.includes('/offers') || request.url.includes('/shopping-cart') || request.url.includes('/mercado-pago/preferences'))
-            ? 'The offer changed or is no longer available. Refresh the offer and select it again.'
+          const inventoryConflict = response.status === 409 && request.url.includes('/inventory');
+          const detail = inventoryConflict
+            ? 'O estoque mudou ou a reserva expirou. Atualize o inventory e tente novamente.'
+            : (response.status === 400 || response.status === 409) && (request.url.includes('/offers') || request.url.includes('/shopping-cart') || request.url.includes('/mercado-pago/preferences') || request.url.includes('/orders/checkout'))
+            ? 'A oferta mudou ou não está mais disponível. Atualize a oferta e tente novamente.'
             : message;
           this.messageService.add({severity: 'error', summary: 'Error', detail})
           return throwError(() => response);

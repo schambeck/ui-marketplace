@@ -21,6 +21,7 @@ import {EditOfferComponent} from "./feature/offer-admin-screen/edit-offer/edit-o
 import {OrderComponent} from "./feature/order-screen/order/order.component";
 import {SellerOnboardingComponent} from './feature/seller-onboarding-screen/seller-onboarding.component';
 import {SellerAdminComponent} from './feature/seller-onboarding-screen/seller-admin.component';
+import {InventoryScreenComponent} from './feature/inventory-screen/inventory-screen/inventory-screen.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path: 'offer/:id', component: EditOfferComponent, canActivate: [AuthGuard], data: {rolesAny: ['SELLER', 'ADMIN']}},
   {path: 'become-seller', component: SellerOnboardingComponent, canActivate: [AuthGuard]},
   {path: 'seller-applications', component: SellerAdminComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
+  {path: 'inventory', component: InventoryScreenComponent, canActivate: [AuthGuard], data: {rolesAny: ['SELLER', 'ADMIN']}},
   {path: 'catalog', component: ListCatalogComponent},
   {path: 'catalog/:id', component: ViewProductComponent},
   {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},

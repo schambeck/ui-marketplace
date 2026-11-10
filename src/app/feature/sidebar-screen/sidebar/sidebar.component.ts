@@ -66,6 +66,11 @@ export class SidebarComponent {
             icon: 'pi pi-fw pi-tags',
             routerLink: ["/offer"]
           },
+          {
+            label: 'Inventory',
+            icon: 'pi pi-fw pi-box',
+            routerLink: ["/inventory"]
+          },
         ]
       },
       {

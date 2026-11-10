@@ -203,7 +203,8 @@ export class ListShoppingCartItemComponent implements OnInit, OnDestroy {
       next: order => this.router.navigate(['orders', order.publicId]),
       error: error => {
         this.checkingOut = false;
-        this.messageService.add({severity: 'warn', summary: 'Checkout unavailable', detail: offerErrorMessage(error)});
+        const detail = error?.status === 409 ? 'O estoque mudou ou a reserva não pôde ser criada. Revise o carrinho e tente novamente.' : offerErrorMessage(error);
+        this.messageService.add({severity: 'warn', summary: 'Checkout unavailable', detail});
       },
       complete: () => this.checkingOut = false
     });
