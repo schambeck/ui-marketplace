@@ -29,18 +29,20 @@ export class AuthGuard extends KeycloakAuthGuard {
     }
 
     // Get only valid, non-empty role names configured on the route.
-    const requiredRoles = (route.data?.['roles'] ?? [])
+    const roleValues = (route.data?.['rolesAny'] ?? route.data?.['roles'] ?? [])
       .filter((role: unknown): role is string => typeof role === 'string')
       .map((role: string) => role.trim().toLowerCase())
       .filter((role: string) => role.length > 0);
 
     // Allow the user to proceed if no additional roles are required to access the route.
-    if (requiredRoles.length === 0) {
+    if (roleValues.length === 0) {
       return true;
     }
 
     // A route may require more than one role: the user must contain all of them.
     const userRoles = new Set((this.roles ?? []).map((role) => role.trim().toLowerCase()));
-    return requiredRoles.every((role: string) => userRoles.has(role));
+    return route.data?.['rolesAny']
+      ? roleValues.some((role: string) => userRoles.has(role))
+      : roleValues.every((role: string) => userRoles.has(role));
   }
 }

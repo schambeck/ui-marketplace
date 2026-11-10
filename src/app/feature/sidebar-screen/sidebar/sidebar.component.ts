@@ -31,6 +31,11 @@ export class SidebarComponent {
             icon: 'pi pi-fw pi-user',
             routerLink: ["/profile"]
           },
+          {
+            label: 'Quero vender',
+            icon: 'pi pi-fw pi-briefcase',
+            routerLink: ['/become-seller']
+          },
         ]
       },
       {
@@ -40,6 +45,11 @@ export class SidebarComponent {
             label: 'User',
             icon: 'pi pi-fw pi-users',
             routerLink: ["/user"]
+          },
+          {
+            label: 'Seller applications',
+            icon: 'pi pi-fw pi-id-card',
+            routerLink: ['/seller-applications']
           },
           {
             label: 'Product',

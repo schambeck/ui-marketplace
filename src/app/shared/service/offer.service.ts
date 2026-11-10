@@ -40,6 +40,10 @@ export class OfferService {
     return this.http.get<Offer>(`${(environment as {baseUrl: string}).baseUrl}/admin/offers/${encodeURIComponent(id)}`, {headers: this.httpUtil.getHeaders()});
   }
 
+  getOwned(id: number | string): Observable<Offer> {
+    return this.http.get<Offer>(`${(environment as {baseUrl: string}).baseUrl}/seller/offers/${encodeURIComponent(id)}`, {headers: this.httpUtil.getHeaders()});
+  }
+
   create(request: OfferUpdateRequest): Observable<Offer> { return this.http.post<Offer>(this.url, request, httpOptions); }
 
   updateDraft(id: number | string, request: OfferUpdateRequest): Observable<Offer> {

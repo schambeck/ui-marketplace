@@ -19,6 +19,8 @@ import {EditGameContextComponent} from "./feature/game-context-screen/edit-game-
 import {ListOfferComponent} from "./feature/offer-admin-screen/list-offer/list-offer.component";
 import {EditOfferComponent} from "./feature/offer-admin-screen/edit-offer/edit-offer.component";
 import {OrderComponent} from "./feature/order-screen/order/order.component";
+import {SellerOnboardingComponent} from './feature/seller-onboarding-screen/seller-onboarding.component';
+import {SellerAdminComponent} from './feature/seller-onboarding-screen/seller-admin.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -32,8 +34,10 @@ const routes: Routes = [
   {path: 'game-context', component: ListGameContextComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
   {path: 'game-context/new', component: EditGameContextComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
   {path: 'game-context/:id', component: EditGameContextComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
-  {path: 'offer', component: ListOfferComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
-  {path: 'offer/:id', component: EditOfferComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
+  {path: 'offer', component: ListOfferComponent, canActivate: [AuthGuard], data: {rolesAny: ['SELLER', 'ADMIN']}},
+  {path: 'offer/:id', component: EditOfferComponent, canActivate: [AuthGuard], data: {rolesAny: ['SELLER', 'ADMIN']}},
+  {path: 'become-seller', component: SellerOnboardingComponent, canActivate: [AuthGuard]},
+  {path: 'seller-applications', component: SellerAdminComponent, canActivate: [AuthGuard], data: {roles: ['ADMIN']}},
   {path: 'catalog', component: ListCatalogComponent},
   {path: 'catalog/:id', component: ViewProductComponent},
   {path: 'shopping-cart', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},

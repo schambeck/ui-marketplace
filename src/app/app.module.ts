@@ -32,6 +32,7 @@ import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {TagModule} from 'primeng/tag';
 import {MessageModule} from 'primeng/message';
+import {SellerOnboardingModule} from './feature/seller-onboarding-screen/seller-onboarding.module';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -88,7 +89,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     PaymentScreenModule,
     GameContextScreenModule,
     OfferAdminScreenModule
-    ,ButtonModule, CardModule, TagModule, MessageModule
+    ,ButtonModule, CardModule, TagModule, MessageModule, SellerOnboardingModule
   ],
   providers: [
     {

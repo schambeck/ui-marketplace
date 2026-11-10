@@ -4,6 +4,7 @@ import {Location} from '@angular/common';
 import {BehaviorSubject, Observable, finalize, shareReplay} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {Title} from '@angular/platform-browser';
+import {KeycloakService} from 'keycloak-angular';
 
 import {Offer, OfferAvailabilityStatus, OfferStatus} from '../../../shared/model/offer.entity';
 import {OfferStatusHistory} from '../../../shared/model/offer-status-history.entity';
@@ -28,13 +29,16 @@ export class EditOfferComponent implements OnInit {
               private location: Location,
               private service: OfferService,
               private messageService: MessageService,
-              private titleService: Title) {}
+              private titleService: Title,
+              private keycloak: KeycloakService) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Offer');
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.service.getAdmin(id).subscribe(offer => {
+      const isAdmin = this.keycloak.getUserRoles().some(role => role.toLowerCase() === 'admin');
+      const request = isAdmin ? this.service.getAdmin(id) : this.service.getOwned(id);
+      request.subscribe(offer => {
         this.offerSubject$.next(offer);
         this.loadHistory(offer.id);
       });
