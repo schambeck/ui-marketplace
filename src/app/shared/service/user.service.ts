@@ -16,7 +16,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class UserService implements CustomAutoCompleteService<User> {
-  private url = `${environment.baseUrl}/users`;
+  private url = `${(environment as {baseUrl: string}).baseUrl}/users`;
 
   constructor(private http: HttpClient, private httpUtil: HttpUtil) {
   }

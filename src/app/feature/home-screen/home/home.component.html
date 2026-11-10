@@ -1,3 +1,29 @@
-<app-page-header title="Tudo pronto para sua próxima descoberta" description="Explore ofertas, acompanhe suas compras e encontre novas oportunidades." section="Bem-vindo ao Marketplace"></app-page-header>
-<section class="welcome-card"><span class="eyebrow">Explore o catálogo</span><h2>Seu próximo item está aqui.</h2><p>Encontre produtos e consulte os detalhes de cada oferta antes de comprar.</p><a class="primary-link" routerLink="/catalog">Explorar ofertas <i class="pi pi-arrow-right" aria-hidden="true"></i></a></section>
-<div class="quick-links"><a routerLink="/orders"><i class="pi pi-list" aria-hidden="true"></i><h2>Meus pedidos</h2><p>Acompanhe o status e os detalhes de suas compras.</p><span>Ver pedidos →</span></a><a routerLink="/shopping-cart"><i class="pi pi-shopping-cart" aria-hidden="true"></i><h2>Meu carrinho</h2><p>Revise os itens selecionados e continue sua compra.</p><span>Abrir carrinho →</span></a><a routerLink="/become-seller"><i class="pi pi-briefcase" aria-hidden="true"></i><h2>Comece a vender</h2><p>Envie sua solicitação e apresente sua loja.</p><span>Conhecer o processo →</span></a></div>
+<header class="page-heading">
+  <div><span class="eyebrow">{{profile === 'admin' ? 'Operação do marketplace' : profile === 'seller' ? 'Área do vendedor' : 'Seu marketplace'}}</span><h1>Visão geral</h1><p>{{descriptions[profile]}}</p></div>
+  <button *ngIf="profile !== 'guest'" class="refresh" (click)="refresh()" [disabled]="loading"><i class="pi pi-refresh" aria-hidden="true"></i> {{loading ? 'Atualizando…' : 'Atualizar'}}</button>
+</header>
+<p *ngIf="updatedAt && profile !== 'guest'" class="updated" role="status">Consulta finalizada às {{updatedAt | date:'HH:mm:ss'}} · Horário do seu dispositivo. Totais atuais, sem filtro de período.</p>
+<section *ngIf="metrics.length" class="kpis" aria-label="Indicadores principais" aria-live="polite"><app-dashboard-kpi *ngFor="let metric of metrics" [metric]="metric" [retry]="refresh"></app-dashboard-kpi></section>
+<div *ngIf="profile === 'admin' || profile === 'seller'" class="analysis-grid">
+  <section class="surface"><h2>{{profile === 'seller' ? 'Situação das minhas ofertas' : 'Análises da operação'}}</h2>
+    <app-dashboard-offer-chart *ngIf="profile === 'seller'" [metrics]="offerMetrics"></app-dashboard-offer-chart>
+    <div *ngIf="profile === 'admin'" class="informative"><i class="pi pi-chart-bar" aria-hidden="true"></i><h3>Agregações ainda não disponíveis</h3><p>As APIs atuais não oferecem totais globais de pedidos, distribuição de ofertas ou evolução financeira. Esses indicadores dependem de consultas agregadas no servidor.</p></div>
+  </section>
+  <section class="surface"><h2>Atenção necessária</h2>
+    <ng-container *ngIf="profile === 'admin' && pending as metric">
+      <p *ngIf="metric.state === 'loading'" role="status">Consultando solicitações…</p>
+      <p *ngIf="metric.state === 'error'" role="alert">Não foi possível verificar as pendências. <button class="text-button" (click)="refresh()">Tentar novamente</button></p>
+      <div *ngIf="metric.state === 'success'" class="notice"><i class="pi pi-briefcase" aria-hidden="true"></i><h3>{{metric.value === 0 ? 'Nenhuma solicitação pendente' : 'Solicitações aguardando análise'}}</h3><p *ngIf="metric.value">{{metric.value | number:'1.0-0':'pt-BR'}} solicitações precisam de uma decisão administrativa.</p><a routerLink="/seller-applications">Analisar solicitações →</a></div>
+    </ng-container>
+    <div *ngIf="profile === 'seller'" class="notice"><i class="pi pi-info-circle" aria-hidden="true"></i><h3>Revise suas ofertas</h3><p>Ofertas pausadas podem refletir uma decisão sua. Consulte os detalhes para revisar publicação e disponibilidade.</p><a routerLink="/offer">Gerenciar minhas ofertas →</a></div>
+  </section>
+</div>
+<section *ngIf="profile === 'seller'" class="surface limitation"><h2>Estoque e evolução de vendas</h2><p>As consultas atuais não fornecem um resumo de estoque nem pedidos de venda por vendedor. Publicação de oferta não significa disponibilidade; quantidade de produtos não significa saldo em estoque.</p></section>
+<section *ngIf="profile === 'buyer' || profile === 'admin'" class="surface activity" [attr.aria-busy]="activityState === 'loading'">
+  <div class="section-heading"><div><h2>{{profile === 'admin' ? 'Solicitações aguardando análise' : 'Meus pedidos recentes'}}</h2><p>{{profile === 'admin' ? 'Até 5 solicitações pendentes, das mais antigas para as mais novas.' : 'Até 5 pedidos, dos mais novos para os mais antigos. Valores de pedidos não representam pagamentos confirmados.'}}</p></div><a [routerLink]="profile === 'admin' ? '/seller-applications' : '/orders'">Ver todos →</a></div>
+  <p *ngIf="activityState === 'loading'" class="empty" role="status">Carregando registros…</p>
+  <div *ngIf="activityState === 'error'" class="empty" role="alert">Não foi possível carregar os registros. <button class="text-button" (click)="refresh()">Tentar novamente</button></div>
+  <p *ngIf="activityState === 'success' && !activities.length" class="empty">{{profile === 'admin' ? 'Nenhuma solicitação aguarda análise.' : 'Você ainda não possui pedidos. Explore o catálogo para começar.'}}</p>
+  <ul *ngIf="activityState === 'success' && activities.length" class="records"><li *ngFor="let activity of activities"><div><a [routerLink]="activity.route">{{activity.title}}</a><small *ngIf="activity.date">Enviada em {{submittedDate(activity.date)}} · Horário do servidor (fuso não informado)</small><small *ngIf="!activity.date">Data de criação não disponibilizada pela API.</small></div><span class="status">{{activity.status}}</span><strong *ngIf="activity.amount !== undefined">{{activity.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR'}}</strong></li></ul>
+</section>
+<app-dashboard-actions [actions]="actions"></app-dashboard-actions>
