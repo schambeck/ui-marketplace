@@ -11,6 +11,8 @@ import {TableModule} from 'primeng/table';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {SellerOnboardingComponent} from './seller-onboarding.component';
 import {SellerAdminComponent} from './seller-admin.component';
+import {RouterLink} from "@angular/router";
 
-@NgModule({declarations: [SellerOnboardingComponent, SellerAdminComponent], imports: [CommonModule, FormsModule, PanelModule, CardModule, InputTextModule, InputTextareaModule, CheckboxModule, ButtonModule, TableModule, ProgressSpinnerModule], exports: [SellerOnboardingComponent, SellerAdminComponent]})
+@NgModule({declarations: [SellerOnboardingComponent, SellerAdminComponent],
+    imports: [CommonModule, FormsModule, PanelModule, CardModule, InputTextModule, InputTextareaModule, CheckboxModule, ButtonModule, TableModule, ProgressSpinnerModule, RouterLink], exports: [SellerOnboardingComponent, SellerAdminComponent]})
 export class SellerOnboardingModule {}
