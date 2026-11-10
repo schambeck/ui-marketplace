@@ -1,0 +1,40 @@
+<div class="p-4">
+  <p-panel header="Meus pedidos">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="flex justify-content-end p-3">
+          <p-button label="Atualizar" icon="pi pi-refresh" (onClick)="refresh()" [loading]="loading"></p-button>
+        </div>
+      </ng-template>
+
+      <p-message *ngIf="error" severity="error" text="Não foi possível carregar seus pedidos."></p-message>
+
+      <ng-container *ngIf="page$ | async as page; else loadingTemplate">
+        <p-table [value]="page.content" responsiveLayout="scroll" dataKey="publicId">
+          <ng-template pTemplate="header">
+            <tr><th>Referência</th><th>Status</th><th>Subtotal</th><th>Total</th><th></th></tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-order>
+            <tr (click)="open(order)" class="cursor-pointer">
+              <td>{{order.publicId}}</td>
+              <td><p-tag [value]="order.status" [severity]="getSeverity(order.status)"></p-tag></td>
+              <td>{{order.subtotalAmount | currency}}</td>
+              <td>{{order.totalAmount | currency}}</td>
+              <td><p-button label="Ver detalhes" icon="pi pi-eye" size="small" (onClick)="$event.stopPropagation(); open(order)"></p-button></td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <div *ngIf="page.content.length === 0" class="p-4 text-center">Você ainda não possui pedidos.</div>
+      </ng-container>
+
+      <ng-template #loadingTemplate>
+        <p-table [value]="skeletonRows"><ng-template pTemplate="body" let-row><tr><td colspan="5"><p-skeleton></p-skeleton></td></tr></ng-template></p-table>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <p-paginator [rows]="rows" [totalRecords]="totalElements" (onPageChange)="paginate($event)"
+          [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords}"></p-paginator>
+      </ng-template>
+    </p-card>
+  </p-panel>
+</div>

@@ -12,5 +12,5 @@ export class OrderComponent implements OnInit {
     if (!id) { this.error = true; this.loading = false; return; }
     this.orders.get(id).subscribe({next: order => this.order = order, error: () => this.error = true, complete: () => this.loading = false});
   }
-  back(): void { this.router.navigate(['shopping-cart']); }
+  back(): void { this.router.navigate(['/orders']); }
 }

@@ -8,7 +8,7 @@
       <div class="flex justify-content-between"><span>Total</span><strong>{{ current.totalAmount | currency }}</strong></div>
       <div class="flex justify-content-between mt-2"><span>Referência</span><span>{{ current.publicId }}</span></div>
     </p-card>
-    <p-button label="Voltar ao carrinho" icon="pi pi-arrow-left" class="mt-4" (onClick)="back()"></p-button>
+    <p-button label="Voltar aos meus pedidos" icon="pi pi-arrow-left" class="mt-4" (onClick)="back()"></p-button>
   </ng-container>
 </div>
 <ng-template #loadingTemplate><div class="flex justify-content-center p-6"><p-progressSpinner></p-progressSpinner></div></ng-template>

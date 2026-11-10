@@ -19,6 +19,7 @@ import {EditGameContextComponent} from "./feature/game-context-screen/edit-game-
 import {ListOfferComponent} from "./feature/offer-admin-screen/list-offer/list-offer.component";
 import {EditOfferComponent} from "./feature/offer-admin-screen/edit-offer/edit-offer.component";
 import {OrderComponent} from "./feature/order-screen/order/order.component";
+import {ListOrdersComponent} from "./feature/order-screen/list-orders/list-orders.component";
 import {SellerOnboardingComponent} from './feature/seller-onboarding-screen/seller-onboarding.component';
 import {SellerAdminComponent} from './feature/seller-onboarding-screen/seller-admin.component';
 import {InventoryScreenComponent} from './feature/inventory-screen/inventory-screen/inventory-screen.component';
@@ -46,6 +47,7 @@ const routes: Routes = [
   {path: 'shopping-cart/:id', component: ListShoppingCartItemComponent, canActivate: [AuthGuard]},
   {path: 'checkout/:id', component: CheckoutComponent, canActivate: [AuthGuard]},
   {path: 'payment', component: PaymentComponent},
+  {path: 'orders', component: ListOrdersComponent, canActivate: [AuthGuard]},
   {path: 'orders/:id', component: OrderComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo: '/catalog', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}

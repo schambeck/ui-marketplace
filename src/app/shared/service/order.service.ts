@@ -7,7 +7,7 @@ import {Page} from '../model/page';
 
 @Injectable({providedIn: 'root'})
 export class OrderService {
-  private readonly url = `${environment.baseUrl}/orders`;
+  private readonly url = `${(environment as {baseUrl: string}).baseUrl}/orders`;
   constructor(private http: HttpClient) {}
 
   checkout(idempotencyKey: string, instructions?: string): Observable<Order> {

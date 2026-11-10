@@ -36,6 +36,11 @@ export class SidebarComponent {
             icon: 'pi pi-fw pi-briefcase',
             routerLink: ['/become-seller']
           },
+          {
+            label: 'Meus pedidos',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/orders']
+          },
         ]
       },
       {

@@ -27,13 +27,13 @@ import {environment} from "../environments/environment";
 import {NgrokHttpInterceptorService} from "./shared/service/ngrok-http-interceptor.service";
 import {GameContextScreenModule} from "./feature/game-context-screen/game-context-screen.module";
 import {OfferAdminScreenModule} from "./feature/offer-admin-screen/offer-admin-screen.module";
-import {OrderComponent} from "./feature/order-screen/order/order.component";
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {TagModule} from 'primeng/tag';
 import {MessageModule} from 'primeng/message';
 import {SellerOnboardingModule} from './feature/seller-onboarding-screen/seller-onboarding.module';
 import {InventoryScreenModule} from './feature/inventory-screen/inventory-screen.module';
+import {OrderScreenModule} from './feature/order-screen/order-screen.module';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -64,8 +64,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    OrderComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +89,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     PaymentScreenModule,
     GameContextScreenModule,
     OfferAdminScreenModule
-    ,ButtonModule, CardModule, TagModule, MessageModule, SellerOnboardingModule, InventoryScreenModule
+    ,ButtonModule, CardModule, TagModule, MessageModule, SellerOnboardingModule, InventoryScreenModule, OrderScreenModule
   ],
   providers: [
     {
